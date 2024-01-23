@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib Player.vox-0.mtl
+mtllib Player_Sheep.vox-0.mtl
 usemtl palette
 
 # normals

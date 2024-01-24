@@ -30,6 +30,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PlayerSwitch",
+                    "type": "Button",
+                    "id": "b86430df-e7fe-4e96-af05-df6e289dcf29",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -141,7 +150,7 @@
                 {
                     "name": "",
                     "id": "bbd8ce14-7b23-47fd-bd41-5116f93d793e",
-                    "path": "<Keyboard>/1",
+                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -152,7 +161,7 @@
                 {
                     "name": "",
                     "id": "ef730c48-24de-4490-bfee-2e80c2f420e8",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -163,11 +172,22 @@
                 {
                     "name": "",
                     "id": "7dd03111-b03d-4097-b7bb-50518163caa5",
-                    "path": "<Keyboard>/3",
+                    "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "AnimalThree",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23c535b2-10e3-451e-ba52-19ac56da761e",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerSwitch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

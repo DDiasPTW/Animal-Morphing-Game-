@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Sheep", menuName = "Animals/Sheep")]
-
-
 public class Sheep : Animal
 {
     [SerializeField] private bool shouldBounce = false;
@@ -12,43 +10,45 @@ public class Sheep : Animal
     [SerializeField] private float minBounceForce = 5f;
     [SerializeField] private float maxBounceForce = 20f;
     [SerializeField] private float startFallHeight = 0f;
+    [SerializeField] private float minFallHeightForBounce = 3f;
+
 
 
     public override void Activate(Player_Def player)
     {
-        player.abilityDuration = abilityTimer;
-        shouldBounce = true;
-
-        // Record the height at which the player starts falling
-        startFallHeight = player.transform.position.y;
-
-        player.playerControls.Gameplay.Interact.performed += ctx =>
+        // If the player is in the air, prepare for a potential bounce
+        if (!player.isGrounded)
         {
-            if (!player.isGrounded && player.currentlyActiveAnimal == this)
-            {
-                shouldBounce = true;
-            }
-        };
+            shouldBounce = true;
+            //startFallHeight = player.lastGroundedHeight; // Use the last grounded height
+        }
+        else
+        {
+            shouldBounce = false;
+        }
     }
-
 
     public override void UpdateAbilityState(Player_Def player)
+{
+    if (player.justLanded)
     {
-        if (shouldBounce && player.justLanded)
+        float fallDistance = player.peakJumpHeight - player.transform.position.y;
+        if (fallDistance >= minFallHeightForBounce)
         {
-            float fallDistance = startFallHeight - player.transform.position.y;
             float dynamicBounceForce = CalculateBounceForce(fallDistance);
-
             player.rb.velocity = new Vector3(player.rb.velocity.x, dynamicBounceForce, player.rb.velocity.z);
-            shouldBounce = false;
-            player.isAbilityActive = false;
-            player.currentAbilityTimer = 0;
         }
-        else if (player.isGrounded && player.isAbilityActive)
+        else
         {
-            ResetAbility(player);
+            // If the fall height is not enough for a bounce, reset the flags
+            player.ResetLanding(); // Reset the justLanded flag in Player_Def
         }
+
+        // Reset peak height and shouldBounce flag after landing
+        player.peakJumpHeight = player.transform.position.y;
+        shouldBounce = false;
     }
+}
 
     private float CalculateBounceForce(float fallDistance)
     {
@@ -58,12 +58,13 @@ public class Sheep : Animal
         return force;
     }
 
-
-
     public override void ResetAbility(Player_Def player)
     {
-        shouldBounce = false;
+        //player.fallDistance = 0; // Reset fall distance when the ability is reset
+        // Reset peak height when resetting ability
+        player.peakJumpHeight = player.transform.position.y;
     }
+
 
     public override bool AllowNormalJump()
     {

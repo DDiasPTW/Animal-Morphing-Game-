@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Sheep
   m_EditorClassIdentifier: 
   animalSprite: {fileID: 0}
-  abilityTimer: 10
-  shouldBounce: 0
+  shouldBounce: 1
   bounceForceMultiplier: 2.5
   minBounceForce: 5
-  maxBounceForce: 20
-  startFallHeight: 1.5278802
+  maxBounceForce: 25
+  startFallHeight: 3.8882275
+  minFallHeightForBounce: 4

@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Fox
   m_EditorClassIdentifier: 
   animalSprite: {fileID: 0}
-  abilityTimer: 1.5
-  jumpForce: 15
+  jumpForce: 20

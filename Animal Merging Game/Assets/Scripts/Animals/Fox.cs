@@ -12,7 +12,6 @@ public class Fox : Animal
     {
         playerJumpForce = player.jumpForce;
         player.jumpForce = jumpForce; // Immediately change jump force
-        // No need to set isAbilityActive or currentAbilityTimer
     }
 
     public override void ResetAbility(Player_Def player)

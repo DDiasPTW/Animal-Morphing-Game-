@@ -55,15 +55,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""PlayerSwitch"",
-                    ""type"": ""Button"",
-                    ""id"": ""b86430df-e7fe-4e96-af05-df6e289dcf29"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""AnimalOne"",
                     ""type"": ""Button"",
                     ""id"": ""4d895d42-ca04-496c-ab76-c9ffced08642"",
@@ -76,15 +67,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""name"": ""AnimalTwo"",
                     ""type"": ""Button"",
                     ""id"": ""6efb4dfa-28b0-4e48-be66-60874f281cb7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""AnimalThree"",
-                    ""type"": ""Button"",
-                    ""id"": ""e2d1a916-806f-4eb6-8e9e-928570ea989a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -172,7 +154,29 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bbd8ce14-7b23-47fd-bd41-5116f93d793e"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnimalOne"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1652472d-4071-42e2-a9e4-5264865635c8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnimalOne"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8edd7014-4a51-4beb-a444-abbfcfa21a67"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -183,7 +187,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ef730c48-24de-4490-bfee-2e80c2f420e8"",
-                    ""path"": ""<Keyboard>/3"",
+                    ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -193,23 +197,23 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7dd03111-b03d-4097-b7bb-50518163caa5"",
-                    ""path"": ""<Keyboard>/4"",
+                    ""id"": ""2a11b9f9-8f1e-47f8-8525-0ff88a546ac6"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""AnimalThree"",
+                    ""action"": ""AnimalTwo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""23c535b2-10e3-451e-ba52-19ac56da761e"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""id"": ""c7a52433-202e-4900-bc53-83a6eee9e8d8"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PlayerSwitch"",
+                    ""action"": ""AnimalTwo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -223,10 +227,8 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
-        m_Gameplay_PlayerSwitch = m_Gameplay.FindAction("PlayerSwitch", throwIfNotFound: true);
         m_Gameplay_AnimalOne = m_Gameplay.FindAction("AnimalOne", throwIfNotFound: true);
         m_Gameplay_AnimalTwo = m_Gameplay.FindAction("AnimalTwo", throwIfNotFound: true);
-        m_Gameplay_AnimalThree = m_Gameplay.FindAction("AnimalThree", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -291,10 +293,8 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_Jump;
-    private readonly InputAction m_Gameplay_PlayerSwitch;
     private readonly InputAction m_Gameplay_AnimalOne;
     private readonly InputAction m_Gameplay_AnimalTwo;
-    private readonly InputAction m_Gameplay_AnimalThree;
     public struct GameplayActions
     {
         private @Player m_Wrapper;
@@ -302,10 +302,8 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
-        public InputAction @PlayerSwitch => m_Wrapper.m_Gameplay_PlayerSwitch;
         public InputAction @AnimalOne => m_Wrapper.m_Gameplay_AnimalOne;
         public InputAction @AnimalTwo => m_Wrapper.m_Gameplay_AnimalTwo;
-        public InputAction @AnimalThree => m_Wrapper.m_Gameplay_AnimalThree;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -324,18 +322,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @PlayerSwitch.started += instance.OnPlayerSwitch;
-            @PlayerSwitch.performed += instance.OnPlayerSwitch;
-            @PlayerSwitch.canceled += instance.OnPlayerSwitch;
             @AnimalOne.started += instance.OnAnimalOne;
             @AnimalOne.performed += instance.OnAnimalOne;
             @AnimalOne.canceled += instance.OnAnimalOne;
             @AnimalTwo.started += instance.OnAnimalTwo;
             @AnimalTwo.performed += instance.OnAnimalTwo;
             @AnimalTwo.canceled += instance.OnAnimalTwo;
-            @AnimalThree.started += instance.OnAnimalThree;
-            @AnimalThree.performed += instance.OnAnimalThree;
-            @AnimalThree.canceled += instance.OnAnimalThree;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -349,18 +341,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @PlayerSwitch.started -= instance.OnPlayerSwitch;
-            @PlayerSwitch.performed -= instance.OnPlayerSwitch;
-            @PlayerSwitch.canceled -= instance.OnPlayerSwitch;
             @AnimalOne.started -= instance.OnAnimalOne;
             @AnimalOne.performed -= instance.OnAnimalOne;
             @AnimalOne.canceled -= instance.OnAnimalOne;
             @AnimalTwo.started -= instance.OnAnimalTwo;
             @AnimalTwo.performed -= instance.OnAnimalTwo;
             @AnimalTwo.canceled -= instance.OnAnimalTwo;
-            @AnimalThree.started -= instance.OnAnimalThree;
-            @AnimalThree.performed -= instance.OnAnimalThree;
-            @AnimalThree.canceled -= instance.OnAnimalThree;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -383,9 +369,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnPlayerSwitch(InputAction.CallbackContext context);
         void OnAnimalOne(InputAction.CallbackContext context);
         void OnAnimalTwo(InputAction.CallbackContext context);
-        void OnAnimalThree(InputAction.CallbackContext context);
     }
 }

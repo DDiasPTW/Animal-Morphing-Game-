@@ -6,7 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Level - Gym.unity
+    guid: 9ad938a9f6ee64e10bbe5835a5800dcd
+  - enabled: 1
     path: Assets/Scenes/Level - 0.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Level - 1.unity
+    guid: f66c9fff9eb8646dc9c3547039bc1573
+  - enabled: 1
+    path: Assets/Scenes/Level - 2 - Fox Tut.unity
+    guid: 0ba130c14948b426a950af58a72432c0
+  - enabled: 1
+    path: Assets/Scenes/Level - 4 - Sheep Tut.unity
+    guid: b138aca66b8d545969c730a7c1b6a057
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

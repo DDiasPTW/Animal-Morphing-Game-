@@ -2,82 +2,131 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 
 public class Player_Def : MonoBehaviour
 {
     [Header("Other")]
-    public Player playerControls;
-    public Rigidbody rb;
+    [HideInInspector] public Player playerControls;
+    [HideInInspector] public Rigidbody rb;
     private Transform cameraTransform;
     [SerializeField] private Vector3 groundCheckSize;
     [SerializeField] private Transform groundCheckPosition;
     public LayerMask groundLayer;
-    private Vector3 groundCheckOffset = Vector3.zero;
 
     [Header("Movement")]
     public float moveSpeed = 6f;
-    [SerializeField] private float airControlFactor = 2f;
-    private Vector3 movement;  
-
+    [HideInInspector] public float startMoveSpeed;
+    public float airControlFactor = 6f;
+    private Vector3 movement;
 
     [Header("Jumping")]
     public float jumpForce = 10.0f;
-    
-    //public float lastGroundedHeight;
-    //public float fallDistance;
     public float peakJumpHeight;
-
-
-    public float gravityScale = 1.0f;
     public static float globalGravity = -9.81f;
-    private float coyote_timer;
+    [SerializeField] private float coyote_timer;
     [SerializeField] private float coyote_seconds = 0.1f; //coyote timer to allow the player to jump briefly after leaving a platform
-    private float JumpBuffer_Timer;
+    [SerializeField] private float JumpBuffer_Timer;
     [SerializeField] private float JumpBuffer_Seconds = 0.1f; //jump buffer to allow the player to jump immediately after hitting the ground if they failed the timing while falling
     public bool isGrounded; // To check if player is on the ground
     private bool jumpRequested; // To store jump request
     public bool justLanded = false;
     private bool wasFalling = false;
     private int howManyJumps = 1;
-    private int totalJumps = 0;
+    [SerializeField] private int totalJumps = 0;
+
+    [Header("Variable Jump")]
+    [SerializeField] private float normalGravityScale = 1.0f; // Normal gravity
+    [SerializeField] private float increasedGravityScale = 2.0f; // Gravity when jump is released early
+    private bool endedJumpEarly = false; // Flag to check if jump was released early
+
 
     [Header("Animation")]
     private Animator anim;
-    private string moveAnim = "player_move";
-    private string idleAnim = "player_idle";
-    private string jumpUpAnim = "player_jump_up";
-    private string jumpDownAnim = "player_jump_down";
-    private string landingAnim = "player_jump_land";
+    private int moveAnimHash;
+    private int idleAnimHash;
+    private int jumpUpAnimHash;
+    private int jumpDownAnimHash;
+    private int landingAnimHash;
 
     [Header("Animals")]
     public GameObject playerModel;
-    public Sprite playerSprite;
     public List<GameObject> animalModels = new List<GameObject>();
     private bool isBaseModelActive = true; // To track if the base model is active
     [SerializeField] private List<Animal> animals = new List<Animal>();
     public Animal currentlyActiveAnimal;
-    public bool isAbilityActive = false;
     [SerializeField] private int activeAnimalIndex = 0;
+    public bool isBouncing = false; // Flag to indicate if the player is currently bouncing
+    public List<Image> animalSprites = new List<Image>();
+
+
+    [Header("Visuals")]
+    public GameObject landingParticles;
+    private bool landingParticlesSpawned = false;
+    public GameObject jumpingParticles;
+    private bool jumpingParticlesSpawned = false;
+    public GameObject swapParticles;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+        CacheAnimationHashes();
+
+        SubscribeToInputs();
+        GetUi();
+    }
+
+    private void GetUi()
+    {
+        if (animalSprites.Count > 0)
+        {
+            // Set the rest of the elements to the animal sprites
+            for (int i = 0; i < animals.Count && i + 1 < animalSprites.Count; i++)
+            {
+                animalSprites[i].sprite = animals[i].animalSprite;
+            }
+        }
+    }
+
+
+    private void SubscribeToInputs()
+    {
         playerControls = new Player();
 
-        // Subscribe to input action events
         playerControls.Gameplay.Movement.performed += ctx => movement = ctx.ReadValue<Vector2>();
         playerControls.Gameplay.Movement.canceled += ctx => movement = Vector2.zero;
 
-        playerControls.Gameplay.Jump.performed += ctx => Jump();        
+        playerControls.Gameplay.Jump.performed += ctx => Jump();
+        //playerControls.Gameplay.Jump.canceled += ctx => endedJumpEarly = true;
+
+        playerControls.Gameplay.Jump.canceled += ctx =>
+    {
+        endedJumpEarly = true;
+        if (currentlyActiveAnimal is Spider spider)
+        {
+            spider.HandleJumpRelease();
+        }
+    };
+
+
 
         playerControls.Gameplay.Interact.performed += ctx => TryActivateAbility();
 
-        playerControls.Gameplay.PlayerSwitch.performed += ctx => SwitchToPlayer();
-
         playerControls.Gameplay.AnimalOne.performed += ctx => SwitchActiveAnimal(0);
         playerControls.Gameplay.AnimalTwo.performed += ctx => SwitchActiveAnimal(1);
-        playerControls.Gameplay.AnimalThree.performed += ctx => SwitchActiveAnimal(2);
+    }
+
+    
+
+    private void CacheAnimationHashes()
+    {
+        moveAnimHash = Animator.StringToHash("player_move");
+        idleAnimHash = Animator.StringToHash("player_idle");
+        jumpUpAnimHash = Animator.StringToHash("player_jump_up");
+        jumpDownAnimHash = Animator.StringToHash("player_jump_down");
+        landingAnimHash = Animator.StringToHash("player_jump_land");
     }
 
     private void OnEnable()
@@ -92,18 +141,16 @@ public class Player_Def : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
         rb.useGravity = false;
         cameraTransform = Camera.main.transform; // Get the main camera's transform
         isGrounded = false;
         jumpRequested = false;
+        startMoveSpeed = moveSpeed;
     }
 
     void FixedUpdate()
     {
         Move();
-
         ApplyGravity();
     }
 
@@ -111,13 +158,12 @@ public class Player_Def : MonoBehaviour
     {
         CheckJump();
         CheckJumpPeak();
-
         HandleAnimations();
-
         CheckGroundStatus();
     }
 
-    private void CheckJumpPeak(){
+    private void CheckJumpPeak()
+    {
         if (!isGrounded)
         {
             peakJumpHeight = Mathf.Max(peakJumpHeight, transform.position.y);
@@ -140,12 +186,12 @@ public class Player_Def : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
-        Vector3 moveVector = (forward * movement.y + right * movement.x).normalized; // Direction of movement
-
+        Vector3 moveVector = (forward * movement.y) + (right * movement.x); // Direction of movement
+        Vector3 finalMoveVector = moveVector.normalized;
         if (moveVector != Vector3.zero)
         {
             // Rotate the GameObject to face the movement direction
-            Quaternion targetRotation = Quaternion.LookRotation(moveVector);
+            Quaternion targetRotation = Quaternion.LookRotation(finalMoveVector);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
         }
 
@@ -167,7 +213,8 @@ public class Player_Def : MonoBehaviour
 
     private void ApplyGravity()
     {
-        Vector3 gravity = globalGravity * gravityScale * Vector3.up;
+        float currentGravityScale = (endedJumpEarly && rb.velocity.y > 0 && !isBouncing) ? increasedGravityScale : normalGravityScale;
+        Vector3 gravity = globalGravity * currentGravityScale * Vector3.up;
         rb.AddForce(gravity, ForceMode.Acceleration);
     }
 
@@ -188,7 +235,9 @@ public class Player_Def : MonoBehaviour
                 jumpRequested = false; // Reset jumpRequested after the jump is performed
                 JumpBuffer_Timer = 0; // Reset JumpBuffer_Timer to prevent double jumps
             }
-        }else if(jumpRequested && coyote_timer <= 0){
+        }
+        else if (jumpRequested && coyote_timer <= 0)
+        {
             jumpRequested = false;
             JumpBuffer_Timer = 0;
         }
@@ -202,38 +251,53 @@ public class Player_Def : MonoBehaviour
             return; // If not allowed, exit the method and don't perform a normal jump
         }
 
-        if (isGrounded)
+        if (isGrounded || (coyote_timer > 0 && !jumpRequested))
         {
+            // Player is grounded or within coyote time and hasn't already requested a jump
             PerformJump();
-            justLanded = false;
+            // Reset coyote timer as jump has been made
+            coyote_timer = 0;
         }
-        else
+        else if (!isGrounded)
         {
+            // Player is in the air and not already grappling
+            if (currentlyActiveAnimal is Spider spider && !spider.isGrappling)
+            {
+                spider.HandleJump(this);
+            }
+
+            // Set up jump buffer
             jumpRequested = true;
             JumpBuffer_Timer = JumpBuffer_Seconds;
         }
+
+        // Listen for jump release
+        playerControls.Gameplay.Jump.canceled += ctx => endedJumpEarly = true;
     }
+
 
     private void PerformJump()
     {
-        if(totalJumps < howManyJumps)
+        if (totalJumps < howManyJumps)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-            isGrounded = false; 
             totalJumps++;
+            //isGrounded = false;
+            endedJumpEarly = false;
         }
-        
+
     }
 
     private void CheckGroundStatus()
     {
         bool wasGrounded = isGrounded;
 
-        // Use the player's current rotation for the box check
-        Quaternion groundCheckRotation = transform.rotation;
-        Vector3 groundCheckBoxPosition = groundCheckPosition.position + transform.TransformDirection(groundCheckOffset);
+        Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
+        float castRadius = groundCheckSize.x / 2;
+        float castDistance = groundCheckSize.y + 0.1f; // Small distance below the capsule
 
-        isGrounded = Physics.CheckBox(groundCheckBoxPosition, groundCheckSize, groundCheckRotation, groundLayer);
+        RaycastHit hit;
+        isGrounded = Physics.SphereCast(castOrigin, castRadius, Vector3.down, out hit, castDistance, groundLayer);
 
         // Check if the player is currently falling (moving downwards and not grounded)
         if (rb.velocity.y < 0 && !isGrounded)
@@ -243,17 +307,20 @@ public class Player_Def : MonoBehaviour
 
         if (isGrounded)
         {
+            endedJumpEarly = false;
             if (!wasGrounded && wasFalling)
             {
-                // Player has just landed after falling
                 justLanded = true;
-                wasFalling = false;  // Reset the falling state
                 totalJumps = 0;
+                wasFalling = false;
 
-                //fallDistance = lastGroundedHeight - transform.position.y;
-                currentlyActiveAnimal?.UpdateAbilityState(this);
+                if (currentlyActiveAnimal != null)
+                {
+                    currentlyActiveAnimal?.UpdateAbilityState(this);
+                }
 
                 peakJumpHeight = transform.position.y; // Update last grounded height
+                StartCoroutine(ResetJustLanded());
             }
             coyote_timer = coyote_seconds; // Reset coyote time when grounded
         }
@@ -288,29 +355,51 @@ public class Player_Def : MonoBehaviour
         }
     }
 
-    #endregion
+    IEnumerator ResetJustLanded()
+    {
+        yield return new WaitForSeconds(0.1f); // Short delay
+        justLanded = false;
+    }
 
+    #endregion
 
     #region Animals
 
     private void TryActivateAbility()
     {
         // Check if the player is in an animal form before activating any ability
-        if (!isBaseModelActive && !isAbilityActive && animals.Count > activeAnimalIndex)
+        if (!isBaseModelActive && animals.Count != activeAnimalIndex)
         {
+            Debug.Log("Activated ability");
             animals[activeAnimalIndex].Activate(this);
-            isAbilityActive = true;
         }
     }
 
     public void SwitchActiveAnimal(int index)
     {
+        // Check if the index is within the bounds of the animals list
+        if (index < 0 || index >= animals.Count)
+        {
+            // If the index is out of bounds, do nothing
+            return;
+        }
+
+        // Check if the new animal is the same as the currently active one
+        if (index == activeAnimalIndex && currentlyActiveAnimal != null)
+        {
+            // If the same animal is selected, do nothing
+            return;
+        }
+
+
         // First, reset any currently active ability
         if (currentlyActiveAnimal != null)
         {
+            Debug.Log("Reset ability");
             currentlyActiveAnimal.ResetAbility(this);
         }
-
+        GameObject sP = Instantiate(swapParticles, transform);
+        StartCoroutine(DestroyParticles(sP));
         // Only reset lastGroundedHeight if the player is grounded
         if (isGrounded)
         {
@@ -332,56 +421,60 @@ public class Player_Def : MonoBehaviour
             isBaseModelActive = false;
             activeAnimalIndex = index;
 
-
             currentlyActiveAnimal = animals[index];
             currentlyActiveAnimal.Activate(this);
         }
-        else
-        {
-            SwitchToPlayer();
-        }
     }
 
-
-    public void SwitchToPlayer()
-    {
-        // Reset the current ability if an animal is active
-        if (currentlyActiveAnimal != null)
-        {
-            currentlyActiveAnimal.ResetAbility(this);
-        }
-
-        // Deactivate all animal models and activate player model
-        animalModels.ForEach(animal => animal.SetActive(false));
-        playerModel.SetActive(true);
-        isBaseModelActive = true;
-        currentlyActiveAnimal = null;
-    }
     #endregion
-
 
     #region Visuals
     private void HandleAnimations()
     {
-        
+        //jump up animation
         if (rb.velocity.y > 0 && !isGrounded && !justLanded)
         {
-            anim.Play(jumpUpAnim);
+            anim.Play(jumpUpAnimHash);
+            landingParticlesSpawned = false;
+            if (!jumpingParticlesSpawned)
+            {
+                GameObject pS = Instantiate(jumpingParticles, groundCheckPosition);
+                pS.transform.SetParent(null);
+                StartCoroutine(DestroyParticles(pS));
+                jumpingParticlesSpawned = true;
+            }
+
         }
-        else if(rb.velocity.y < 0 && !isGrounded){
-            anim.Play(jumpDownAnim);
+        //jump down animation
+        else if (rb.velocity.y < 0 && !isGrounded)
+        {
+            anim.Play(jumpDownAnimHash);
+            jumpingParticlesSpawned = false;
+            landingParticlesSpawned = false;
         }
+        //landing animation
         else if (justLanded)
         {
-            anim.Play(landingAnim);
+            jumpingParticlesSpawned = false;
+            if (!landingParticlesSpawned)
+            {
+                GameObject pS = Instantiate(landingParticles, groundCheckPosition);
+                pS.transform.SetParent(null);
+                landingParticlesSpawned = true;
+                StartCoroutine(DestroyParticles(pS));
+            }
+
+            anim.Play(landingAnimHash);
         }
+        //running animation
         else if (movement != Vector3.zero && isGrounded)
         {
-            anim.Play(moveAnim);
+            anim.Play(moveAnimHash);
         }
+        //idle animation
         else
         {
-            anim.Play(idleAnim);
+            anim.Play(idleAnimHash);
         }
     }
 
@@ -390,32 +483,45 @@ public class Player_Def : MonoBehaviour
         if (!jumpRequested)
         {
             justLanded = false;
+            landingParticlesSpawned = false;
         }
+    }
+
+    IEnumerator DestroyParticles(GameObject particles)
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(particles);
+        landingParticlesSpawned = false;
     }
 
 
     void OnDrawGizmos()
     {
-        if(!isGrounded) Gizmos.color = Color.red;
-        else if(isGrounded) Gizmos.color = Color.blue;
+        Gizmos.color = isGrounded ? Color.blue : Color.red;
 
-        // Assuming groundCheckPosition is a Transform representing the center of the ground check box
-        Vector3 boxCenter = groundCheckPosition.position;
+        Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
+        float castRadius = groundCheckSize.x / 2;
+        float castDistance = groundCheckSize.y + 0.1f;
 
-        // Apply the same offset (if any) as used in CheckGroundStatus
-        boxCenter += transform.TransformDirection(groundCheckOffset);
+        // Draw the sphere at the start of the cast
+        Gizmos.DrawWireSphere(castOrigin, castRadius);
 
-        // Create a transformation matrix
-        Matrix4x4 rotationMatrix = Matrix4x4.TRS(boxCenter, transform.rotation, Vector3.one);
+        // Draw the sphere at the end of the cast
+        Gizmos.DrawWireSphere(castOrigin + Vector3.down * castDistance, castRadius);
 
-        // Apply the transformation matrix to the Gizmos
-        Gizmos.matrix = rotationMatrix;
 
-        // Draw the cube
-        Gizmos.DrawCube(Vector3.zero, groundCheckSize);
+        if (currentlyActiveAnimal is Spider spider)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
 
-        // Reset the Gizmos matrix
-        Gizmos.matrix = Matrix4x4.identity;
+            // Draw Raycast direction
+            Vector3 rayDirection = transform.forward * spider.grapplingRange;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + rayDirection);
+        }
+
     }
+
     #endregion
 }

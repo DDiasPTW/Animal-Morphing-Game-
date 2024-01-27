@@ -33,15 +33,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PlayerSwitch",
-                    "type": "Button",
-                    "id": "b86430df-e7fe-4e96-af05-df6e289dcf29",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "AnimalOne",
                     "type": "Button",
                     "id": "4d895d42-ca04-496c-ab76-c9ffced08642",
@@ -54,15 +45,6 @@
                     "name": "AnimalTwo",
                     "type": "Button",
                     "id": "6efb4dfa-28b0-4e48-be66-60874f281cb7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "AnimalThree",
-                    "type": "Button",
-                    "id": "e2d1a916-806f-4eb6-8e9e-928570ea989a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -150,7 +132,29 @@
                 {
                     "name": "",
                     "id": "bbd8ce14-7b23-47fd-bd41-5116f93d793e",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AnimalOne",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1652472d-4071-42e2-a9e4-5264865635c8",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AnimalOne",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8edd7014-4a51-4beb-a444-abbfcfa21a67",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -161,7 +165,7 @@
                 {
                     "name": "",
                     "id": "ef730c48-24de-4490-bfee-2e80c2f420e8",
-                    "path": "<Keyboard>/3",
+                    "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -171,23 +175,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7dd03111-b03d-4097-b7bb-50518163caa5",
-                    "path": "<Keyboard>/4",
+                    "id": "2a11b9f9-8f1e-47f8-8525-0ff88a546ac6",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "AnimalThree",
+                    "action": "AnimalTwo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "23c535b2-10e3-451e-ba52-19ac56da761e",
-                    "path": "<Keyboard>/1",
+                    "id": "c7a52433-202e-4900-bc53-83a6eee9e8d8",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PlayerSwitch",
+                    "action": "AnimalTwo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

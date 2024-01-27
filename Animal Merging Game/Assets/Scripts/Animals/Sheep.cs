@@ -9,7 +9,6 @@ public class Sheep : Animal
     [SerializeField] private float bounceForceMultiplier = 2f;
     [SerializeField] private float minBounceForce = 5f;
     [SerializeField] private float maxBounceForce = 20f;
-    [SerializeField] private float startFallHeight = 0f;
     [SerializeField] private float minFallHeightForBounce = 3f;
 
 
@@ -20,7 +19,6 @@ public class Sheep : Animal
         if (!player.isGrounded)
         {
             shouldBounce = true;
-            //startFallHeight = player.lastGroundedHeight; // Use the last grounded height
         }
         else
         {
@@ -29,26 +27,28 @@ public class Sheep : Animal
     }
 
     public override void UpdateAbilityState(Player_Def player)
-{
-    if (player.justLanded)
     {
-        float fallDistance = player.peakJumpHeight - player.transform.position.y;
-        if (fallDistance >= minFallHeightForBounce)
+        if (player.justLanded)
         {
-            float dynamicBounceForce = CalculateBounceForce(fallDistance);
-            player.rb.velocity = new Vector3(player.rb.velocity.x, dynamicBounceForce, player.rb.velocity.z);
-        }
-        else
-        {
-            // If the fall height is not enough for a bounce, reset the flags
-            player.ResetLanding(); // Reset the justLanded flag in Player_Def
-        }
+            float fallDistance = player.peakJumpHeight - player.transform.position.y;
+            if (fallDistance >= minFallHeightForBounce)
+            {
+                float dynamicBounceForce = CalculateBounceForce(fallDistance);
+                player.isBouncing = true;
+                player.rb.velocity = new Vector3(player.rb.velocity.x, dynamicBounceForce, player.rb.velocity.z);
+            }
+            else
+            {
+                // If the fall height is not enough for a bounce, reset the flags
+                player.isBouncing = false; // Reset the bouncing flag if no bounce occurs
+            }
 
-        // Reset peak height and shouldBounce flag after landing
-        player.peakJumpHeight = player.transform.position.y;
-        shouldBounce = false;
+            
+            // Reset peak height and shouldBounce flag after landing
+            player.peakJumpHeight = player.transform.position.y;
+            shouldBounce = false;
+        }
     }
-}
 
     private float CalculateBounceForce(float fallDistance)
     {
@@ -60,7 +60,6 @@ public class Sheep : Animal
 
     public override void ResetAbility(Player_Def player)
     {
-        //player.fallDistance = 0; // Reset fall distance when the ability is reset
         // Reset peak height when resetting ability
         player.peakJumpHeight = player.transform.position.y;
     }

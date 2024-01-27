@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566d4f6b0a55e431a986d4100d300f1f, type: 3}
   m_Name: Sheep
   m_EditorClassIdentifier: 
-  animalSprite: {fileID: 0}
-  shouldBounce: 1
+  animalSprite: {fileID: 2747690628134850419, guid: 16037dbd798344f57a526d53d48f5ead,
+    type: 3}
+  shouldBounce: 0
   bounceForceMultiplier: 2.5
-  minBounceForce: 5
-  maxBounceForce: 25
-  startFallHeight: 3.8882275
-  minFallHeightForBounce: 4
+  minBounceForce: 15
+  maxBounceForce: 30
+  minFallHeightForBounce: 5

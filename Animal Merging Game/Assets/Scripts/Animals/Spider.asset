@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalSprite: {fileID: 0}
   grapplingRange: 10
-  grapplingSpeed: 50
-  grapplingCooldown: 2
+  grapplingCooldown: 0.5
   isGrappling: 0
   whatIsGrappable:
     serializedVersion: 2
     m_Bits: 128
+  maxDistance: 0.7
+  minDistance: 0.25
+  spring: 10
+  damper: 5
+  massScale: 4.5

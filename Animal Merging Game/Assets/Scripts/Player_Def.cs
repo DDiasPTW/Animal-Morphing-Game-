@@ -37,29 +37,35 @@ public class Player_Def : MonoBehaviour
     [SerializeField] private int totalJumps = 0;
 
     [Header("Variable Jump")]
-    [SerializeField] private float normalGravityScale = 1.0f; // Normal gravity
-    [SerializeField] private float increasedGravityScale = 2.0f; // Gravity when jump is released early
+    public float normalGravityScale = 1.0f; // Normal gravity
+    public float increasedGravityScale = 2.0f; // Gravity when jump is released early
     private bool endedJumpEarly = false; // Flag to check if jump was released early
 
 
     [Header("Animation")]
-    private Animator anim;
-    private int moveAnimHash;
-    private int idleAnimHash;
-    private int jumpUpAnimHash;
-    private int jumpDownAnimHash;
-    private int landingAnimHash;
-
+    [SerializeField] private PlayerState currentState;
+    public PlayerState CurrentState
+    {
+        get { return currentState; }
+        private set { currentState = value; }
+    }
+    public enum PlayerState{
+        Idle,
+        Moving,
+        Jumping,
+        Falling,
+        Landing,
+        Swinging
+    }
+    
     [Header("Animals")]
-    public GameObject playerModel;
-    public List<GameObject> animalModels = new List<GameObject>();
-    private bool isBaseModelActive = true; // To track if the base model is active
+    [SerializeField] private List<GameObject> animalGameObjects = new List<GameObject>();
     [SerializeField] private List<Animal> animals = new List<Animal>();
     public Animal currentlyActiveAnimal;
+    [SerializeField] private GameObject defaultPlayerGameObject;
     [SerializeField] private int activeAnimalIndex = 0;
     public bool isBouncing = false; // Flag to indicate if the player is currently bouncing
     public List<Image> animalSprites = new List<Image>();
-
 
     [Header("Visuals")]
     public GameObject landingParticles;
@@ -71,11 +77,10 @@ public class Player_Def : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
-        CacheAnimationHashes();
-
         SubscribeToInputs();
         GetUi();
+        defaultPlayerGameObject.SetActive(true);
+        defaultPlayerGameObject.GetComponent<AnimationsHandler>().player = this;
     }
 
     private void GetUi()
@@ -90,7 +95,6 @@ public class Player_Def : MonoBehaviour
         }
     }
 
-
     private void SubscribeToInputs()
     {
         playerControls = new Player();
@@ -99,7 +103,6 @@ public class Player_Def : MonoBehaviour
         playerControls.Gameplay.Movement.canceled += ctx => movement = Vector2.zero;
 
         playerControls.Gameplay.Jump.performed += ctx => Jump();
-        //playerControls.Gameplay.Jump.canceled += ctx => endedJumpEarly = true;
 
         playerControls.Gameplay.Jump.canceled += ctx =>
     {
@@ -108,25 +111,15 @@ public class Player_Def : MonoBehaviour
         {
             spider.HandleJumpRelease();
         }
+        
+        if(currentlyActiveAnimal is FlyingSquirrel fSquirrel){
+            fSquirrel.HandleJumpRelease(this);
+        }
     };
-
-
-
         playerControls.Gameplay.Interact.performed += ctx => TryActivateAbility();
 
         playerControls.Gameplay.AnimalOne.performed += ctx => SwitchActiveAnimal(0);
         playerControls.Gameplay.AnimalTwo.performed += ctx => SwitchActiveAnimal(1);
-    }
-
-    
-
-    private void CacheAnimationHashes()
-    {
-        moveAnimHash = Animator.StringToHash("player_move");
-        idleAnimHash = Animator.StringToHash("player_idle");
-        jumpUpAnimHash = Animator.StringToHash("player_jump_up");
-        jumpDownAnimHash = Animator.StringToHash("player_jump_down");
-        landingAnimHash = Animator.StringToHash("player_jump_land");
     }
 
     private void OnEnable()
@@ -160,6 +153,15 @@ public class Player_Def : MonoBehaviour
         CheckJumpPeak();
         HandleAnimations();
         CheckGroundStatus();
+
+        // Handle continuous jump button press for Flying Squirrel gliding
+        if (!isGrounded && playerControls.Gameplay.Jump.ReadValue<float>() > 0 && rb.velocity.y < 0)
+        {
+            if (currentlyActiveAnimal is FlyingSquirrel fSquirrel)
+            {
+                fSquirrel.HandleJump(this);
+            }
+        }
     }
 
     private void CheckJumpPeak()
@@ -196,8 +198,12 @@ public class Player_Def : MonoBehaviour
         }
 
         // Calculate the velocity
-        Vector3 velocity = moveVector * moveSpeed;
+        if(currentlyActiveAnimal is Spider spider && spider.isGrappling)
+        {
+            return;
+        }
 
+        Vector3 velocity = moveVector * moveSpeed;
         if (!isGrounded)
         {
             // In air, smoothly interpolate towards the new velocity
@@ -275,7 +281,6 @@ public class Player_Def : MonoBehaviour
         playerControls.Gameplay.Jump.canceled += ctx => endedJumpEarly = true;
     }
 
-
     private void PerformJump()
     {
         if (totalJumps < howManyJumps)
@@ -314,9 +319,12 @@ public class Player_Def : MonoBehaviour
                 totalJumps = 0;
                 wasFalling = false;
 
-                if (currentlyActiveAnimal != null)
+                if (currentlyActiveAnimal is Sheep sheep)
                 {
-                    currentlyActiveAnimal?.UpdateAbilityState(this);
+                    sheep.UpdateAbilityState(this);
+                }
+                if(currentlyActiveAnimal is FlyingSquirrel fS){
+                    fS.HandleJumpRelease(this);
                 }
 
                 peakJumpHeight = transform.position.y; // Update last grounded height
@@ -360,15 +368,13 @@ public class Player_Def : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // Short delay
         justLanded = false;
     }
-
     #endregion
 
     #region Animals
-
     private void TryActivateAbility()
     {
         // Check if the player is in an animal form before activating any ability
-        if (!isBaseModelActive && animals.Count != activeAnimalIndex)
+        if (animals.Count != activeAnimalIndex)
         {
             Debug.Log("Activated ability");
             animals[activeAnimalIndex].Activate(this);
@@ -378,52 +384,35 @@ public class Player_Def : MonoBehaviour
     public void SwitchActiveAnimal(int index)
     {
         // Check if the index is within the bounds of the animals list
-        if (index < 0 || index >= animals.Count)
-        {
-            // If the index is out of bounds, do nothing
-            return;
-        }
+        if (index < 0 || index >= animals.Count) return;
 
         // Check if the new animal is the same as the currently active one
-        if (index == activeAnimalIndex && currentlyActiveAnimal != null)
-        {
-            // If the same animal is selected, do nothing
-            return;
-        }
-
+        if (index == activeAnimalIndex && currentlyActiveAnimal != null) return;
 
         // First, reset any currently active ability
         if (currentlyActiveAnimal != null)
         {
-            Debug.Log("Reset ability");
             currentlyActiveAnimal.ResetAbility(this);
+            animalGameObjects[activeAnimalIndex].SetActive(false); // Deactivate the current animal GameObject
         }
+
         GameObject sP = Instantiate(swapParticles, transform);
         StartCoroutine(DestroyParticles(sP));
+
         // Only reset lastGroundedHeight if the player is grounded
         if (isGrounded)
         {
             peakJumpHeight = transform.position.y;
         }
 
+        // Activate the new animal GameObject
+        defaultPlayerGameObject.SetActive(false);
+        animalGameObjects[index].SetActive(true);
+        animalGameObjects[index].GetComponent<AnimationsHandler>().player = this;
 
-        if (index >= 0 && index < animalModels.Count)
-        {
-            // Deactivate all animal models first
-            animalModels.ForEach(animal => animal.SetActive(false));
-
-            // Then, activate only the selected animal model
-            animalModels[index].SetActive(true);
-
-            // Deactivate the player model
-            playerModel.SetActive(false);
-
-            isBaseModelActive = false;
-            activeAnimalIndex = index;
-
-            currentlyActiveAnimal = animals[index];
-            currentlyActiveAnimal.Activate(this);
-        }
+        activeAnimalIndex = index;
+        currentlyActiveAnimal = animals[index];
+        currentlyActiveAnimal.Activate(this);
     }
 
     #endregion
@@ -432,9 +421,12 @@ public class Player_Def : MonoBehaviour
     private void HandleAnimations()
     {
         //jump up animation
-        if (rb.velocity.y > 0 && !isGrounded && !justLanded)
+        if(currentlyActiveAnimal is Spider spider && spider.isGrappling){
+            currentState = PlayerState.Swinging;
+        }
+        else if (rb.velocity.y > 0 && !isGrounded && !justLanded)
         {
-            anim.Play(jumpUpAnimHash);
+            currentState = PlayerState.Jumping;
             landingParticlesSpawned = false;
             if (!jumpingParticlesSpawned)
             {
@@ -448,7 +440,7 @@ public class Player_Def : MonoBehaviour
         //jump down animation
         else if (rb.velocity.y < 0 && !isGrounded)
         {
-            anim.Play(jumpDownAnimHash);
+            currentState = PlayerState.Falling;
             jumpingParticlesSpawned = false;
             landingParticlesSpawned = false;
         }
@@ -464,17 +456,17 @@ public class Player_Def : MonoBehaviour
                 StartCoroutine(DestroyParticles(pS));
             }
 
-            anim.Play(landingAnimHash);
+            currentState = PlayerState.Landing;
         }
         //running animation
         else if (movement != Vector3.zero && isGrounded)
         {
-            anim.Play(moveAnimHash);
+            currentState = PlayerState.Moving;
         }
         //idle animation
         else
         {
-            anim.Play(idleAnimHash);
+            currentState = PlayerState.Idle;
         }
     }
 
@@ -493,7 +485,6 @@ public class Player_Def : MonoBehaviour
         Destroy(particles);
         landingParticlesSpawned = false;
     }
-
 
     void OnDrawGizmos()
     {
@@ -514,11 +505,6 @@ public class Player_Def : MonoBehaviour
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
-
-            // Draw Raycast direction
-            Vector3 rayDirection = transform.forward * spider.grapplingRange;
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, transform.position + rayDirection);
         }
 
     }

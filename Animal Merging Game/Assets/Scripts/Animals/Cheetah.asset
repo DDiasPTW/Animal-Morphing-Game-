@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Cheetah
   m_EditorClassIdentifier: 
   animalSprite: {fileID: 0}
-  moveSpeed: 12
+  moveSpeed: 15
   onTransitionDuration: 0.5
   offTransitionDuration: 1

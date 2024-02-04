@@ -109,7 +109,7 @@ public class Player_Def : MonoBehaviour
         endedJumpEarly = true;
         if (currentlyActiveAnimal is Spider spider)
         {
-            spider.HandleJumpRelease();
+            spider.HandleJumpRelease(this);
         }
         
         if(currentlyActiveAnimal is FlyingSquirrel fSquirrel){
@@ -198,7 +198,7 @@ public class Player_Def : MonoBehaviour
         }
 
         // Calculate the velocity
-        if(currentlyActiveAnimal is Spider spider && spider.isGrappling)
+        if(currentlyActiveAnimal is Spider spider && spider.isSwinging)
         {
             return;
         }
@@ -267,7 +267,7 @@ public class Player_Def : MonoBehaviour
         else if (!isGrounded)
         {
             // Player is in the air and not already grappling
-            if (currentlyActiveAnimal is Spider spider && !spider.isGrappling)
+            if (currentlyActiveAnimal is Spider spider && !spider.isSwinging)
             {
                 spider.HandleJump(this);
             }
@@ -420,10 +420,11 @@ public class Player_Def : MonoBehaviour
     #region Visuals
     private void HandleAnimations()
     {
-        //jump up animation
-        if(currentlyActiveAnimal is Spider spider && spider.isGrappling){
+        //swinging animation (spider)
+        if(currentlyActiveAnimal is Spider spider && spider.isSwinging){
             currentState = PlayerState.Swinging;
         }
+        //jump up animation
         else if (rb.velocity.y > 0 && !isGrounded && !justLanded)
         {
             currentState = PlayerState.Jumping;

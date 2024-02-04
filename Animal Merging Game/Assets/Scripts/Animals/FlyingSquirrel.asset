@@ -15,5 +15,5 @@ MonoBehaviour:
   animalSprite: {fileID: 0}
   glideGravityScale: 0.1
   airControl: 6
-  glideForwardSpeed: 11
-  onTransitionDuration: 0.7
+  glideForwardSpeed: 13
+  onTransitionDuration: 2

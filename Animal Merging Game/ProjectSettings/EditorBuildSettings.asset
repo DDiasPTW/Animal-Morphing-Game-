@@ -9,16 +9,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Level - Gym.unity
     guid: 9ad938a9f6ee64e10bbe5835a5800dcd
   - enabled: 1
-    path: Assets/Scenes/Level - 0.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/Scenes/Level - 1.unity
-    guid: f66c9fff9eb8646dc9c3547039bc1573
+    guid: f7ee492d1d8b14d93a58ee3091bf60dc
   - enabled: 1
-    path: Assets/Scenes/Level - 2 - Fox Tut.unity
-    guid: 0ba130c14948b426a950af58a72432c0
+    path: Assets/Scenes/Level - 2.unity
+    guid: dec437d93590e4d8999a9f7bfab5600b
   - enabled: 1
-    path: Assets/Scenes/Level - 4 - Sheep Tut.unity
-    guid: b138aca66b8d545969c730a7c1b6a057
+    path: Assets/Scenes/Level - 5 - Fox Intro.unity
+    guid: 208eaa1092c24474295966f541712397
+  - enabled: 1
+    path: Assets/Scenes/Level - 10 - Cheetah Intro.unity
+    guid: 63fbb3bde2e434979b133ed0af4ba9cc
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

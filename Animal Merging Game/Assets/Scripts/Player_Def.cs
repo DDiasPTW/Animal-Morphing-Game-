@@ -12,6 +12,7 @@ public class Player_Def : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     private Transform cameraTransform;
     [SerializeField] private Vector3 groundCheckSize;
+    [SerializeField] private float castDistance;
     [SerializeField] private Transform groundCheckPosition;
     public LayerMask groundLayer;
 
@@ -299,7 +300,7 @@ public class Player_Def : MonoBehaviour
 
         Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
         float castRadius = groundCheckSize.x / 2;
-        float castDistance = groundCheckSize.y + 0.1f; // Small distance below the capsule
+        float cD = groundCheckSize.y + castDistance; // Small distance below the capsule
 
         RaycastHit hit;
         isGrounded = Physics.SphereCast(castOrigin, castRadius, Vector3.down, out hit, castDistance, groundLayer);
@@ -312,11 +313,12 @@ public class Player_Def : MonoBehaviour
 
         if (isGrounded)
         {
+            totalJumps = 0;
             endedJumpEarly = false;
             if (!wasGrounded && wasFalling)
             {
                 justLanded = true;
-                totalJumps = 0;
+                //totalJumps = 0;
                 wasFalling = false;
 
                 if (currentlyActiveAnimal is Sheep sheep)
@@ -493,13 +495,13 @@ public class Player_Def : MonoBehaviour
 
         Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
         float castRadius = groundCheckSize.x / 2;
-        float castDistance = groundCheckSize.y + 0.1f;
+        float cD = groundCheckSize.y + castDistance;
 
         // Draw the sphere at the start of the cast
         Gizmos.DrawWireSphere(castOrigin, castRadius);
 
         // Draw the sphere at the end of the cast
-        Gizmos.DrawWireSphere(castOrigin + Vector3.down * castDistance, castRadius);
+        Gizmos.DrawWireSphere(castOrigin + Vector3.down * cD, castRadius);
 
 
         if (currentlyActiveAnimal is Spider spider)

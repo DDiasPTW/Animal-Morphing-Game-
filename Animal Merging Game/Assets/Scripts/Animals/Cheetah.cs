@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 [CreateAssetMenu(fileName = "Cheetah", menuName = "Animals/Cheetah")]
 public class Cheetah : Animal
@@ -11,14 +12,14 @@ public class Cheetah : Animal
     private float originalPlayerMoveSpeed;
     private Coroutine speedChangeCoroutine;
 
+
     public override void Activate(Player_Def player)
     {
+        originalPlayerMoveSpeed = player.startMoveSpeed;
         if (speedChangeCoroutine != null)
         {
             player.StopCoroutine(speedChangeCoroutine);
         }
-
-        originalPlayerMoveSpeed = player.startMoveSpeed;
         speedChangeCoroutine = player.StartCoroutine(ChangeSpeed(player, moveSpeed, onTransitionDuration));
     }
 
@@ -47,6 +48,7 @@ public class Cheetah : Animal
 
         player.moveSpeed = targetSpeed; // Ensure exact target speed is set at the end
     }
+
 }
 
 

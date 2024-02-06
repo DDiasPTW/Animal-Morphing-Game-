@@ -89,7 +89,7 @@ public class Player_Def : MonoBehaviour
         if (animalSprites.Count > 0)
         {
             // Set the rest of the elements to the animal sprites
-            for (int i = 0; i < animals.Count && i + 1 < animalSprites.Count; i++)
+            for (int i = 0; i < animals.Count && i < animalSprites.Count; i++)
             {
                 animalSprites[i].sprite = animals[i].animalSprite;
             }

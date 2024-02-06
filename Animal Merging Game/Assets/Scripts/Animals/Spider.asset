@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13cc0e640474a4f5aa72d6aa46edba96, type: 3}
   m_Name: Spider
   m_EditorClassIdentifier: 
-  animalSprite: {fileID: 0}
+  animalSprite: {fileID: 21300000, guid: 80652a9a5b87c4c3f84e2321e36daeca, type: 3}
   grapplingRange: 10
   grapplingCooldown: 0.25
   exitBoostMultiplier: 3

@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Merge
+  - NextLevel
+  - Lava
+  - VCam
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Grapple
   - BOUNDS
   - Player
-  - 
+  - Boulder
   - 
   - 
   - 

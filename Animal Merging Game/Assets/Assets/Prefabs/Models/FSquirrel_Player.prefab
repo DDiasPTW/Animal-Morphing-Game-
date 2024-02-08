@@ -696,6 +696,7 @@ MonoBehaviour:
   jumpAnimName: FSquirrel_Jump
   landAnimName: FSquirrel_Land
   fallAnimName: FSquirrel_Fall
+  footStep: {fileID: 8300000, guid: 5816c5a77e173496bbce26ec0f39ba5c, type: 3}
 --- !u!95 &3890078033334402415
 Animator:
   serializedVersion: 7

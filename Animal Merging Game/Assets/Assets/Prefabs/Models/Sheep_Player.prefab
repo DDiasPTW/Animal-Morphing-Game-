@@ -770,6 +770,7 @@ MonoBehaviour:
   jumpAnimName: Sheep_Jump
   landAnimName: Sheep_Land
   fallAnimName: Sheep_Fall
+  footStep: {fileID: 8300000, guid: 5816c5a77e173496bbce26ec0f39ba5c, type: 3}
 --- !u!95 &5628130539927575233
 Animator:
   serializedVersion: 7

@@ -1,0 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MovingWallManager : MonoBehaviour
+{
+    public GameObject ballPrefab; // Assign the ball prefab with a Rigidbody
+    public Vector3 shootDirection = Vector3.forward; // Direction to shoot the ball
+    public float shootForce = 500f; // Force applied to shoot the ball
+    public float ballLifetime = 5f; // Time before the ball gets destroyed
+    public float spawnFrequency = 2f; // Frequency of shooting balls
+
+    private void Start()
+    {
+        StartCoroutine(ShootBallsAtFrequency());
+    }
+
+    IEnumerator ShootBallsAtFrequency()
+    {
+        while (true) // Infinite loop to keep shooting balls
+        {
+            ShootBall();
+            yield return new WaitForSeconds(spawnFrequency);
+        }
+    }
+
+    void ShootBall()
+    {
+        // Instantiate the ball at the position and rotation of the shooter
+        GameObject ballInstance = Instantiate(ballPrefab, transform.position, transform.rotation);
+        
+        // Apply force to shoot the ball
+        Rigidbody rb = ballInstance.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(shootDirection.normalized * shootForce);
+        }
+
+        // Destroy the ball after a set time
+        Destroy(ballInstance, ballLifetime);
+    }
+}

@@ -11,15 +11,20 @@ public class AnimationsHandler : MonoBehaviour
     private int jumpAnim;
     private int landAnim;
     private int fallAnim;
+
     
     [SerializeField] private string idleAnimName;
     [SerializeField] private string moveAnimName;
     [SerializeField] private string jumpAnimName;
     [SerializeField] private string landAnimName;
     [SerializeField] private string fallAnimName;
+    [Header("Audio")]
+    private AudioSource aS;
+    [SerializeField] private AudioClip footStep;
     void Awake()
     {
         anim = GetComponent<Animator>();
+        aS = GetComponent<AudioSource>();
         CacheAnimationHashes();
     }
 
@@ -55,5 +60,9 @@ public class AnimationsHandler : MonoBehaviour
                 anim.Play(idleAnim);
                 break;
         }
+    }
+
+    public void PlayStepSound(){
+        aS.PlayOneShot(footStep);
     }
 }

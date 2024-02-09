@@ -10,6 +10,7 @@ public class MovingWallManager : MonoBehaviour
     public float ballLifetime = 5f; // Time before the ball gets destroyed
     public float spawnFrequency = 2f; // Frequency of shooting balls
 
+
     private void Start()
     {
         StartCoroutine(ShootBallsAtFrequency());
@@ -38,5 +39,11 @@ public class MovingWallManager : MonoBehaviour
 
         // Destroy the ball after a set time
         Destroy(ballInstance, ballLifetime);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;   
+        Gizmos.DrawLine(transform.position,transform.position + shootDirection * 10);
     }
 }

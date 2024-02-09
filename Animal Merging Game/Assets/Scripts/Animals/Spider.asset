@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalSprite: {fileID: 21300000, guid: 80652a9a5b87c4c3f84e2321e36daeca, type: 3}
   grapplingRange: 10
-  grapplingCooldown: 0.25
+  grapplingCooldown: 0.5
   exitBoostMultiplier: 3
-  verticalLift: 25
-  grapplePoint: {x: 0, y: 31, z: 44}
+  verticalLift: 15
+  grapplePoint: {x: 0, y: 33, z: 98}
   isSwinging: 0
   whatIsGrappable:
     serializedVersion: 2
     m_Bits: 128
-  lastGrapplingTime: 21.215378
+  lastGrapplingTime: 6.7318068
   maxDistance: 0.7
   minDistance: 0.2
   spring: 10

@@ -119,7 +119,7 @@ MonoBehaviour:
   justLanded: 0
   totalJumps: 0
   normalGravityScale: 4
-  increasedGravityScale: 10
+  increasedGravityScale: 8
   currentState: 0
   animalGameObjects: []
   animals: []

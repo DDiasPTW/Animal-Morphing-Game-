@@ -215,8 +215,9 @@ public class Player_Def : MonoBehaviour
 
         // Apply the velocity to the Rigidbody
         rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z); // Maintain existing Y-axis velocity
-
     }
+
+    
 
     private void ApplyGravity()
     {
@@ -509,7 +510,6 @@ public class Player_Def : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
         }
-
     }
 
     #endregion

@@ -16,13 +16,13 @@ MonoBehaviour:
   grapplingRange: 10
   grapplingCooldown: 0.5
   exitBoostMultiplier: 3
-  verticalLift: 15
-  grapplePoint: {x: 0, y: 33, z: 98}
+  verticalLift: 17
+  grapplePoint: {x: 0, y: 0, z: 0}
   isSwinging: 0
   whatIsGrappable:
     serializedVersion: 2
     m_Bits: 128
-  lastGrapplingTime: 6.7318068
+  lastGrapplingTime: 25.238873
   maxDistance: 0.7
   minDistance: 0.2
   spring: 10

@@ -40,6 +40,9 @@ EditorBuildSettings:
     guid: b72e02c6ef65943d09be39f903f2c75d
   - enabled: 1
     path: Assets/Scenes/Level - 15 - Spider Intro.unity
+    guid: ea8cdba04fa6f4a69a438aaef0859662
+  - enabled: 1
+    path: Assets/Scenes/Level - 16.unity
     guid: 7383bb8517c934aed98a1ef61253733b
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

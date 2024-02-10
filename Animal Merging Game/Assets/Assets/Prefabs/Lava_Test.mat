@@ -25,11 +25,12 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _EMISSION
   - _RECEIVE_SHADOWS_OFF
+  - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  - _SPECULARHIGHLIGHTS_OFF
   - _SPECULAR_SETUP
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
@@ -122,18 +123,18 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 0
-    - _Smoothness: 0.5
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _Smoothness: 0.219
+    - _SmoothnessTextureChannel: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _WorkflowMode: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.5615014, b: 0, a: 1}
-    - _Color: {r: 1, g: 0.5615014, b: 0, a: 1}
-    - _EmissionColor: {r: 1.1757383, g: 0.13890268, b: 0, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _BaseColor: {r: 0.8490566, g: 0.46315974, b: 0.108134575, a: 1}
+    - _Color: {r: 0.8490566, g: 0.46315974, b: 0.10813453, a: 1}
+    - _EmissionColor: {r: 2, g: 0.5686705, b: 0, a: 1}
+    - _SpecColor: {r: 0.8117647, g: 0.41960785, b: 0.05882353, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

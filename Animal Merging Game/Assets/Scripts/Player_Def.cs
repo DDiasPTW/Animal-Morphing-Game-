@@ -18,9 +18,11 @@ public class Player_Def : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed = 6f;
+    public float accelerationTime = 1f; // Time it takes to reach full speed
     [HideInInspector] public float startMoveSpeed;
     public float airControlFactor = 6f;
     private Vector3 movement;
+    [SerializeField] private float currentAcceleration = 0f;
 
     [Header("Jumping")]
     public float jumpForce = 10.0f;
@@ -190,34 +192,47 @@ public class Player_Def : MonoBehaviour
         right.Normalize();
 
         Vector3 moveVector = (forward * movement.y) + (right * movement.x); // Direction of movement
-        Vector3 finalMoveVector = moveVector.normalized;
         if (moveVector != Vector3.zero)
         {
             // Rotate the GameObject to face the movement direction
-            Quaternion targetRotation = Quaternion.LookRotation(finalMoveVector);
+            Quaternion targetRotation = Quaternion.LookRotation(moveVector);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
         }
 
-        // Calculate the velocity
-        if(currentlyActiveAnimal is Spider spider && spider.isSwinging)
+        if (currentlyActiveAnimal is Spider spider && spider.isSwinging)
         {
             return;
         }
 
-        Vector3 velocity = moveVector * moveSpeed;
+        // Gradually increase the speed based on acceleration time
+        float targetSpeed = moveVector.magnitude * moveSpeed;
+        if (moveVector.magnitude > 0)
+        {
+            currentAcceleration += Time.deltaTime / accelerationTime;
+        }
+        else
+        {
+            currentAcceleration = 0f;
+        }
+        currentAcceleration = Mathf.Clamp01(currentAcceleration); // Ensure it stays within 0 to 1
+
+        float smoothedSpeed = Mathf.Lerp(0, targetSpeed, currentAcceleration);
+
+        // Apply smoothed speed to the velocity vector
+        Vector3 desiredVelocity = new Vector3(moveVector.x * smoothedSpeed, rb.velocity.y, moveVector.z * smoothedSpeed);
+
         if (!isGrounded)
         {
-            // In air, smoothly interpolate towards the new velocity
-            velocity.x = Mathf.Lerp(rb.velocity.x, velocity.x, Time.fixedDeltaTime * airControlFactor);
-            velocity.z = Mathf.Lerp(rb.velocity.z, velocity.z, Time.fixedDeltaTime * airControlFactor);
+            // Apply air control factor
+            desiredVelocity.x = Mathf.Lerp(rb.velocity.x, moveVector.x * smoothedSpeed, Time.fixedDeltaTime * airControlFactor);
+            desiredVelocity.z = Mathf.Lerp(rb.velocity.z, moveVector.z * smoothedSpeed, Time.fixedDeltaTime * airControlFactor);
         }
 
-
-        // Apply the velocity to the Rigidbody
-        rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z); // Maintain existing Y-axis velocity
+        // Apply the calculated velocity to the Rigidbody
+        rb.velocity = desiredVelocity;
     }
 
-    
+
 
     private void ApplyGravity()
     {
@@ -295,16 +310,88 @@ public class Player_Def : MonoBehaviour
 
     }
 
+    // private void CheckGroundStatus()
+    // {
+    //     bool wasGrounded = isGrounded;
+
+    //     Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
+    //     float castRadius = groundCheckSize.x / 2;
+
+    //     RaycastHit hit;
+    //     isGrounded = Physics.SphereCast(castOrigin, castRadius, Vector3.down, out hit, castDistance, groundLayer);
+
+    //     // Check if the player is currently falling (moving downwards and not grounded)
+    //     if (rb.velocity.y < 0 && !isGrounded)
+    //     {
+    //         wasFalling = true;
+    //     }
+
+    //     if (isGrounded)
+    //     {
+    //         totalJumps = 0;
+    //         endedJumpEarly = false;
+    //         if (!wasGrounded && wasFalling)
+    //         {
+    //             justLanded = true;
+    //             wasFalling = false;
+
+    //             if (currentlyActiveAnimal is Sheep sheep)
+    //             {
+    //                 sheep.UpdateAbilityState(this);
+    //             }
+    //             if(currentlyActiveAnimal is FlyingSquirrel fS){
+    //                 fS.HandleJumpRelease(this);
+    //             }
+
+    //             peakJumpHeight = transform.position.y; // Update last grounded height
+    //             StartCoroutine(ResetJustLanded());
+    //         }
+    //         coyote_timer = coyote_seconds; // Reset coyote time when grounded
+    //     }
+    //     else
+    //     {
+    //         justLanded = false;
+    //         coyote_timer -= Time.deltaTime; // Count down coyote time when in air
+    //     }
+
+    //     // Handle jump buffer
+    //     if (jumpRequested && JumpBuffer_Timer > 0)
+    //     {
+    //         JumpBuffer_Timer -= Time.deltaTime;
+    //         if (isGrounded)
+    //         {
+    //             PerformJump();
+    //             justLanded = false;
+    //             jumpRequested = false; // Reset jumpRequested after the jump is performed
+    //             JumpBuffer_Timer = 0; // Reset JumpBuffer_Timer to prevent double jumps
+    //         }
+    //     }
+    //     else if (jumpRequested && JumpBuffer_Timer <= 0)
+    //     {
+    //         jumpRequested = false; // Reset jump request if buffer timer runs out
+    //         JumpBuffer_Timer = 0;
+    //     }
+
+    //     // Reset the falling state if the player is grounded
+    //     if (isGrounded)
+    //     {
+    //         wasFalling = false;
+    //     }
+    // }
+
     private void CheckGroundStatus()
     {
         bool wasGrounded = isGrounded;
 
-        Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
-        float castRadius = groundCheckSize.x / 2;
-        float cD = groundCheckSize.y + castDistance; // Small distance below the capsule
+        // For BoxCast, we need the center of the box, half its size, direction, and distance
+        Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y / 2; // Adjust the origin for BoxCast
+        Vector3 boxHalfExtents = new Vector3(groundCheckSize.x / 2, groundCheckSize.y / 2, groundCheckSize.z / 2); // Assuming groundCheckSize represents the full size of the box
+        Quaternion castDirection = Quaternion.identity; // No rotation for the box
+        float castDistance = this.castDistance; // This is the distance the BoxCast will travel downward
 
         RaycastHit hit;
-        isGrounded = Physics.SphereCast(castOrigin, castRadius, Vector3.down, out hit, castDistance, groundLayer);
+        // Perform the BoxCast
+        isGrounded = Physics.BoxCast(castOrigin, boxHalfExtents, Vector3.down, out hit, castDirection, castDistance, groundLayer);
 
         // Check if the player is currently falling (moving downwards and not grounded)
         if (rb.velocity.y < 0 && !isGrounded)
@@ -319,14 +406,15 @@ public class Player_Def : MonoBehaviour
             if (!wasGrounded && wasFalling)
             {
                 justLanded = true;
-                //totalJumps = 0;
                 wasFalling = false;
 
+                // Handle ability state updates or jump releases for specific animals
                 if (currentlyActiveAnimal is Sheep sheep)
                 {
                     sheep.UpdateAbilityState(this);
                 }
-                if(currentlyActiveAnimal is FlyingSquirrel fS){
+                if (currentlyActiveAnimal is FlyingSquirrel fS)
+                {
                     fS.HandleJumpRelease(this);
                 }
 
@@ -366,9 +454,11 @@ public class Player_Def : MonoBehaviour
         }
     }
 
+
+
     IEnumerator ResetJustLanded()
     {
-        yield return new WaitForSeconds(0.1f); // Short delay
+        yield return new WaitForSeconds(0.15f); // Short delay
         justLanded = false;
     }
     #endregion
@@ -490,27 +580,57 @@ public class Player_Def : MonoBehaviour
         landingParticlesSpawned = false;
     }
 
+    // void OnDrawGizmos()
+    // {
+    //     Gizmos.color = isGrounded ? Color.blue : Color.red;
+
+    //     Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
+    //     float castRadius = groundCheckSize.x / 2;
+    //     float cD = groundCheckSize.y + castDistance;
+
+    //     // Draw the sphere at the start of the cast
+    //     Gizmos.DrawWireSphere(castOrigin, castRadius);
+
+    //     // Draw the sphere at the end of the cast
+    //     Gizmos.DrawWireSphere(castOrigin + Vector3.down * cD, castRadius);
+
+    //     if (currentlyActiveAnimal is Spider spider)
+    //     {
+    //         Gizmos.color = Color.green;
+    //         Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
+    //     }
+    // }
+
     void OnDrawGizmos()
+{
+    Gizmos.color = isGrounded ? Color.green : Color.red;
+
+    // Adjust the cast origin for BoxCast visualization
+    Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y / 2;
+    Vector3 boxHalfExtents = new Vector3(groundCheckSize.x / 2, groundCheckSize.y / 2, groundCheckSize.z / 2);
+    Quaternion rotation = Quaternion.identity; // Assuming the box is not rotated
+
+    // Calculate the full distance to move the box for visualization
+    Vector3 endPosition = castOrigin + Vector3.down * (castDistance + groundCheckSize.y);
+
+    // Draw the box at the start of the cast
+    Gizmos.matrix = Matrix4x4.TRS(castOrigin, rotation, Vector3.one);
+    Gizmos.DrawWireCube(Vector3.zero, boxHalfExtents * 2); // Gizmos are drawn relative to the Gizmos.matrix
+
+    // Draw the box at the end of the cast
+    Gizmos.matrix = Matrix4x4.TRS(endPosition, rotation, Vector3.one);
+    Gizmos.DrawWireCube(Vector3.zero, boxHalfExtents * 2); // Multiply by 2 to get full size since DrawWireCube expects full size
+
+    // Reset Gizmos.matrix to default
+    Gizmos.matrix = Matrix4x4.identity;
+
+    if (currentlyActiveAnimal is Spider spider)
     {
-        Gizmos.color = isGrounded ? Color.blue : Color.red;
-
-        Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
-        float castRadius = groundCheckSize.x / 2;
-        float cD = groundCheckSize.y + castDistance;
-
-        // Draw the sphere at the start of the cast
-        Gizmos.DrawWireSphere(castOrigin, castRadius);
-
-        // Draw the sphere at the end of the cast
-        Gizmos.DrawWireSphere(castOrigin + Vector3.down * cD, castRadius);
-
-
-        if (currentlyActiveAnimal is Spider spider)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
-        }
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
     }
+}
+
 
     #endregion
 }

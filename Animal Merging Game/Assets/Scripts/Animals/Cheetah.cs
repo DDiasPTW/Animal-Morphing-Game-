@@ -7,19 +7,23 @@ using Cinemachine;
 public class Cheetah : Animal
 {
     [SerializeField] private float moveSpeed = 15f;
+    [SerializeField] private float accelerationTime = 1f;
     [SerializeField] private float onTransitionDuration = 0.5f; // Duration of speed change when activating the animal
     [SerializeField] private float offTransitionDuration = 0.5f; // Duration of speed change when de activating the animal
     private float originalPlayerMoveSpeed;
+    private float originalPlayerAccelerationTime;
     private Coroutine speedChangeCoroutine;
 
 
     public override void Activate(Player_Def player)
     {
         originalPlayerMoveSpeed = player.startMoveSpeed;
+        originalPlayerAccelerationTime = player.accelerationTime;
         if (speedChangeCoroutine != null)
         {
             player.StopCoroutine(speedChangeCoroutine);
         }
+        player.accelerationTime = accelerationTime;
         speedChangeCoroutine = player.StartCoroutine(ChangeSpeed(player, moveSpeed, onTransitionDuration));
     }
 
@@ -31,6 +35,7 @@ public class Cheetah : Animal
         }
 
         speedChangeCoroutine = player.StartCoroutine(ChangeSpeed(player, originalPlayerMoveSpeed, offTransitionDuration));
+        player.accelerationTime = originalPlayerAccelerationTime;
     }
 
     //Gradually change the player speed instead of instantly, allowing for more combo possibilities and less frustration

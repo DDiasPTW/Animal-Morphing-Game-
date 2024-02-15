@@ -310,75 +310,6 @@ public class Player_Def : MonoBehaviour
 
     }
 
-    // private void CheckGroundStatus()
-    // {
-    //     bool wasGrounded = isGrounded;
-
-    //     Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
-    //     float castRadius = groundCheckSize.x / 2;
-
-    //     RaycastHit hit;
-    //     isGrounded = Physics.SphereCast(castOrigin, castRadius, Vector3.down, out hit, castDistance, groundLayer);
-
-    //     // Check if the player is currently falling (moving downwards and not grounded)
-    //     if (rb.velocity.y < 0 && !isGrounded)
-    //     {
-    //         wasFalling = true;
-    //     }
-
-    //     if (isGrounded)
-    //     {
-    //         totalJumps = 0;
-    //         endedJumpEarly = false;
-    //         if (!wasGrounded && wasFalling)
-    //         {
-    //             justLanded = true;
-    //             wasFalling = false;
-
-    //             if (currentlyActiveAnimal is Sheep sheep)
-    //             {
-    //                 sheep.UpdateAbilityState(this);
-    //             }
-    //             if(currentlyActiveAnimal is FlyingSquirrel fS){
-    //                 fS.HandleJumpRelease(this);
-    //             }
-
-    //             peakJumpHeight = transform.position.y; // Update last grounded height
-    //             StartCoroutine(ResetJustLanded());
-    //         }
-    //         coyote_timer = coyote_seconds; // Reset coyote time when grounded
-    //     }
-    //     else
-    //     {
-    //         justLanded = false;
-    //         coyote_timer -= Time.deltaTime; // Count down coyote time when in air
-    //     }
-
-    //     // Handle jump buffer
-    //     if (jumpRequested && JumpBuffer_Timer > 0)
-    //     {
-    //         JumpBuffer_Timer -= Time.deltaTime;
-    //         if (isGrounded)
-    //         {
-    //             PerformJump();
-    //             justLanded = false;
-    //             jumpRequested = false; // Reset jumpRequested after the jump is performed
-    //             JumpBuffer_Timer = 0; // Reset JumpBuffer_Timer to prevent double jumps
-    //         }
-    //     }
-    //     else if (jumpRequested && JumpBuffer_Timer <= 0)
-    //     {
-    //         jumpRequested = false; // Reset jump request if buffer timer runs out
-    //         JumpBuffer_Timer = 0;
-    //     }
-
-    //     // Reset the falling state if the player is grounded
-    //     if (isGrounded)
-    //     {
-    //         wasFalling = false;
-    //     }
-    // }
-
     private void CheckGroundStatus()
     {
         bool wasGrounded = isGrounded;
@@ -405,7 +336,10 @@ public class Player_Def : MonoBehaviour
             endedJumpEarly = false;
             if (!wasGrounded && wasFalling)
             {
-                justLanded = true;
+                if(movement == Vector3.zero){
+                    justLanded = true;
+                }
+                SpawnLandingParticles();
                 wasFalling = false;
 
                 // Handle ability state updates or jump releases for specific animals
@@ -521,14 +455,7 @@ public class Player_Def : MonoBehaviour
         else if (rb.velocity.y > 0 && !isGrounded && !justLanded)
         {
             currentState = PlayerState.Jumping;
-            landingParticlesSpawned = false;
-            if (!jumpingParticlesSpawned)
-            {
-                GameObject pS = Instantiate(jumpingParticles, groundCheckPosition);
-                pS.transform.SetParent(null);
-                StartCoroutine(DestroyParticles(pS));
-                jumpingParticlesSpawned = true;
-            }
+            SpawnJumpingParticles();
 
         }
         //jump down animation
@@ -541,15 +468,7 @@ public class Player_Def : MonoBehaviour
         //landing animation
         else if (justLanded)
         {
-            jumpingParticlesSpawned = false;
-            if (!landingParticlesSpawned)
-            {
-                GameObject pS = Instantiate(landingParticles, groundCheckPosition);
-                pS.transform.SetParent(null);
-                landingParticlesSpawned = true;
-                StartCoroutine(DestroyParticles(pS));
-            }
-
+            SpawnLandingParticles();
             currentState = PlayerState.Landing;
         }
         //running animation
@@ -564,6 +483,27 @@ public class Player_Def : MonoBehaviour
         }
     }
 
+    private void SpawnJumpingParticles(){
+        landingParticlesSpawned = false;
+            if (!jumpingParticlesSpawned)
+            {
+                GameObject pS = Instantiate(jumpingParticles, groundCheckPosition);
+                pS.transform.SetParent(null);
+                StartCoroutine(DestroyParticles(pS));
+                jumpingParticlesSpawned = true;
+            }
+    }
+
+    private void SpawnLandingParticles(){
+        jumpingParticlesSpawned = false;
+            if (!landingParticlesSpawned)
+            {
+                GameObject pS = Instantiate(landingParticles, groundCheckPosition);
+                pS.transform.SetParent(null);
+                landingParticlesSpawned = true;
+                StartCoroutine(DestroyParticles(pS));
+            }
+    }
     public void ResetLanding()
     {
         if (!jumpRequested)
@@ -579,27 +519,6 @@ public class Player_Def : MonoBehaviour
         Destroy(particles);
         landingParticlesSpawned = false;
     }
-
-    // void OnDrawGizmos()
-    // {
-    //     Gizmos.color = isGrounded ? Color.blue : Color.red;
-
-    //     Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y;
-    //     float castRadius = groundCheckSize.x / 2;
-    //     float cD = groundCheckSize.y + castDistance;
-
-    //     // Draw the sphere at the start of the cast
-    //     Gizmos.DrawWireSphere(castOrigin, castRadius);
-
-    //     // Draw the sphere at the end of the cast
-    //     Gizmos.DrawWireSphere(castOrigin + Vector3.down * cD, castRadius);
-
-    //     if (currentlyActiveAnimal is Spider spider)
-    //     {
-    //         Gizmos.color = Color.green;
-    //         Gizmos.DrawWireSphere(transform.position, spider.grapplingRange);
-    //     }
-    // }
 
     void OnDrawGizmos()
 {

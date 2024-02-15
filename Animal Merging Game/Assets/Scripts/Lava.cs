@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Lava : MonoBehaviour
 {
-    void OnTriggerEnter(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {

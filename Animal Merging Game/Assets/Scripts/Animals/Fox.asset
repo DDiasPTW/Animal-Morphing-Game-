@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cdb5442ef65b40e5980b92f766c347b, type: 3}
   m_Name: Fox
   m_EditorClassIdentifier: 
-  animalSprite: {fileID: 21300000, guid: cc0194e8503d44f45b12cbce851b587c, type: 3}
+  animalSprite: {fileID: 21300000, guid: ad0c0f56f3ab14174b21752764b1d9df, type: 3}
   jumpForce: 21

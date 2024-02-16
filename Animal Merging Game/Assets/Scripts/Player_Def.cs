@@ -21,7 +21,7 @@ public class Player_Def : MonoBehaviour
     public float accelerationTime = 1f; // Time it takes to reach full speed
     [HideInInspector] public float startMoveSpeed;
     public float airControlFactor = 6f;
-    private Vector3 movement;
+    public Vector3 movement;
     [SerializeField] private float currentAcceleration = 0f;
 
     [Header("Jumping")]

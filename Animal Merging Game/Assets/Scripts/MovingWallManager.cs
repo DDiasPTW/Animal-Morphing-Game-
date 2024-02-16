@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingWallManager : MonoBehaviour
@@ -29,7 +28,7 @@ public class MovingWallManager : MonoBehaviour
     {
         // Instantiate the ball at the position and rotation of the shooter
         GameObject ballInstance = Instantiate(ballPrefab, transform.position, transform.rotation);
-        
+
         // Apply force to shoot the ball
         Rigidbody rb = ballInstance.GetComponent<Rigidbody>();
         if (rb != null)
@@ -47,3 +46,4 @@ public class MovingWallManager : MonoBehaviour
         Gizmos.DrawLine(transform.position,transform.position + shootDirection * 10);
     }
 }
+

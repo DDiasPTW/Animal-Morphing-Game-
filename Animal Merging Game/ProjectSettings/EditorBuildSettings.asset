@@ -40,18 +40,27 @@ EditorBuildSettings:
     guid: ef2c2498855714951b24ca2f61bd2943
   - enabled: 1
     path: Assets/Scenes/Level - 12.unity
-    guid: b72e02c6ef65943d09be39f903f2c75d
-  - enabled: 1
-    path: Assets/Scenes/Level - 13.unity
     guid: 2fded0759f5454bd8b3be4b4611a7867
   - enabled: 1
-    path: Assets/Scenes/Level - 14.unity
+    path: Assets/Scenes/Level - 13.unity
     guid: 502f3737667644cf999144dd6c600b7c
+  - enabled: 1
+    path: Assets/Scenes/Level - 14.unity
+    guid: b72e02c6ef65943d09be39f903f2c75d
   - enabled: 1
     path: Assets/Scenes/Level - 15 - Spider Intro.unity
     guid: ea8cdba04fa6f4a69a438aaef0859662
   - enabled: 1
     path: Assets/Scenes/Level - 16.unity
     guid: 7383bb8517c934aed98a1ef61253733b
+  - enabled: 1
+    path: Assets/Scenes/Level - 17.unity
+    guid: 34a5a91c864684a3684e317f4bbd0094
+  - enabled: 1
+    path: Assets/Scenes/Level - 18.unity
+    guid: 91c75de922a324bd5b110b8aa0866216
+  - enabled: 1
+    path: Assets/Scenes/Level - 20 - Swap Intro.unity
+    guid: f21eec2beb8934e34bb0828d2230250d
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

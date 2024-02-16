@@ -11,17 +11,37 @@ namespace PathCreation.Examples
         public float speed = 5;
         float distanceTravelled;
 
+
+        private bool canMove = false;
+        [SerializeField] private float timeTillMove = 0.5f; //time in seconds before it starts chasing the path
+
+        void Awake()
+        {
+            canMove = false;
+            transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+        }
+
+
         void Start() {
             if (pathCreator != null)
             {
-                // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
             }
         }
 
         void Update()
         {
-            if (pathCreator != null)
+            if(!canMove)
+            {
+                timeTillMove -= Time.deltaTime;
+                if(timeTillMove <= 0){
+                    canMove = true;
+                }
+            }
+
+
+
+            if (pathCreator != null && canMove)
             {
                 distanceTravelled += speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);

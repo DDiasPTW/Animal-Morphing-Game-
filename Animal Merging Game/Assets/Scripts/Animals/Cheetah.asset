@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8253fb8ddb0724feda64398cb454872e, type: 3}
   m_Name: Cheetah
   m_EditorClassIdentifier: 
-  animalSprite: {fileID: 21300000, guid: 3eb0d0df8a70c4031836e8fe2e4ff58d, type: 3}
+  animalSprite: {fileID: 21300000, guid: 8fc131fa7c13f468abe0cfed2b240f5d, type: 3}
   moveSpeed: 18
   accelerationTime: 0.3
   onTransitionDuration: 0.5

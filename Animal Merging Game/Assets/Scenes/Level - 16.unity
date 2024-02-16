@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17757851, g: 0.22232173, b: 0.3045177, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276788, g: 0.21589147, b: 0.29782534, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -329,7 +329,7 @@ Transform:
   m_GameObject: {fileID: 31420618}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 14, z: 24}
+  m_LocalPosition: {x: 0, y: 29.5, z: 24}
   m_LocalScale: {x: 20, y: 1, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -978,6 +978,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5986973376378508544, guid: 10620141d023f4d7ca2e5c4aba51f1ef,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 330585545}
     - target: {fileID: 8319312266485034857, guid: 10620141d023f4d7ca2e5c4aba51f1ef,
         type: 3}
       propertyPath: m_IsActive
@@ -1081,6 +1086,11 @@ PrefabInstance:
     - target: {fileID: 8444207528552398668, guid: 10620141d023f4d7ca2e5c4aba51f1ef,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173810217864524505, guid: 10620141d023f4d7ca2e5c4aba51f1ef,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1442,8 +1452,8 @@ Transform:
   m_GameObject: {fileID: 623222905}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -12.5, y: 7.75, z: 0}
-  m_LocalScale: {x: 9.499599, y: 1, z: 19.0001}
+  m_LocalPosition: {x: -6.5, y: 7.75, z: 1.75}
+  m_LocalScale: {x: 9.499599, y: 4.5, z: 6.9996367}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1637605648}
@@ -1734,8 +1744,8 @@ Transform:
   m_GameObject: {fileID: 755310328}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000008940694, y: 13.25, z: 27.5}
-  m_LocalScale: {x: 20, y: 23.498999, z: 16.000145}
+  m_LocalPosition: {x: 0.00000008940694, y: 18.75, z: 27.5}
+  m_LocalScale: {x: 20, y: 12.499117, z: 16.000145}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 681152118}
@@ -2115,8 +2125,8 @@ Transform:
   m_GameObject: {fileID: 1230062181}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00000011920923, y: 26, z: 138.75}
-  m_LocalScale: {x: 20, y: 7.4998, z: 7.497307}
+  m_LocalPosition: {x: -0.00000011920923, y: 23.5, z: 138.75}
+  m_LocalScale: {x: 20, y: 12.499917, z: 7.497307}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 681152118}
@@ -2961,7 +2971,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 0.6666667, g: 0.9372549, b: 1, a: 1}
-  m_Intensity: 0.65
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3038,7 +3048,7 @@ Transform:
   m_GameObject: {fileID: 1539038308}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 75.5, z: 89.5}
+  m_LocalPosition: {x: 0, y: 70, z: 89.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3299,8 +3309,8 @@ Transform:
   m_GameObject: {fileID: 1757975534}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 12.5, y: 7.75, z: 0}
-  m_LocalScale: {x: 9.499599, y: 1, z: 18.99873}
+  m_LocalPosition: {x: 6.499996, y: 7.75, z: 1.75}
+  m_LocalScale: {x: 9.499599, y: 4.5, z: 6.9986286}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1637605648}
@@ -3870,7 +3880,7 @@ PrefabInstance:
     - target: {fileID: 7984007438118276378, guid: f69792ce664d24cd9919a73c5aa64197,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.999998
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7984007438118276378, guid: f69792ce664d24cd9919a73c5aa64197,
         type: 3}

@@ -26,7 +26,7 @@ public class ChangeLevels : MonoBehaviour
         {
             if (gM.canEndLevel)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                StartCoroutine(NextLevel());
             }
         }
 
@@ -35,5 +35,10 @@ public class ChangeLevels : MonoBehaviour
             Debug.Log("Catch");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    IEnumerator NextLevel(){
+        yield return new WaitForSeconds(.2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

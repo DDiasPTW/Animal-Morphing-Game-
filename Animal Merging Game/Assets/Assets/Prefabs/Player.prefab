@@ -102,6 +102,8 @@ MonoBehaviour:
   groundCheckSize: {x: 0.4, y: 0.07, z: 0.4}
   castDistance: 0.05
   groundCheckPosition: {fileID: 6036832489349793685}
+  groundCheckDelayAfterJump: 0.05
+  groundCheckTimer: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -111,19 +113,20 @@ MonoBehaviour:
   airControlFactor: 6
   movement: {x: 0, y: 0, z: 0}
   currentAcceleration: 0
+  totalJumps: 0
   jumpForce: 15
   peakJumpHeight: 0
   coyote_timer: 0
-  coyote_seconds: 0.3
+  coyote_seconds: 0.2
   JumpBuffer_Timer: 0
-  JumpBuffer_Seconds: 0.3
+  JumpBuffer_Seconds: 0.2
   isGrounded: 0
+  jumpRequested: 0
   justLanded: 0
-  totalJumps: 0
   normalGravityScale: 4
   increasedGravityScale: 8
   currentState: 0
-  switchCooldown: 0.2
+  switchCooldown: 0.15
   animalGameObjects: []
   animals: []
   currentlyActiveAnimal: {fileID: 0}

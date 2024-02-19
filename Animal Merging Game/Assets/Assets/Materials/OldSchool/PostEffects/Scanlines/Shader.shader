@@ -53,13 +53,6 @@
 
 				col = uv.rgb + clamp(_Noise, 0.0, 1.0) * (col - uv.rgb);
 
-
-				// col = uv.rgb + randomNoise(half2(img.uv.y, _Noise)) * (col - uv.rgb);
-
-				// if(_Grayscale){
-				// 	col = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
-				// }
-
 				if(_Grayscale > 0){
 					float gray = col.r * 0.3 + col.g * 0.59 + col.b * 0.11;
 					col = half3(gray, gray, gray);

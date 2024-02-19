@@ -37,15 +37,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Interact"",
-                    ""type"": ""Button"",
-                    ""id"": ""fa134530-a7d3-4efd-a5db-647d8994fe72"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""020ea5b9-3165-4cca-8385-09564730ff7c"",
@@ -131,12 +122,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""213b6c23-123e-456f-812d-6c1f00bc40c4"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""96ce65aa-de54-48d6-b1ca-8efc8f1773c5"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interact"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -153,23 +144,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bbd8ce14-7b23-47fd-bd41-5116f93d793e"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""id"": ""a8e78a74-ed2d-4cfa-9471-85e27f0b2834"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""AnimalOne"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1652472d-4071-42e2-a9e4-5264865635c8"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AnimalOne"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -186,23 +166,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ef730c48-24de-4490-bfee-2e80c2f420e8"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""id"": ""babedee4-35d2-4d8f-ae37-2bb1070b82bb"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""AnimalTwo"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2a11b9f9-8f1e-47f8-8525-0ff88a546ac6"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AnimalTwo"",
+                    ""action"": ""AnimalOne"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -210,6 +179,17 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""c7a52433-202e-4900-bc53-83a6eee9e8d8"",
                     ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnimalTwo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f00fbb2-10d1-4b10-a2c0-7b52360f9dc8"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -225,7 +205,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
-        m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_AnimalOne = m_Gameplay.FindAction("AnimalOne", throwIfNotFound: true);
         m_Gameplay_AnimalTwo = m_Gameplay.FindAction("AnimalTwo", throwIfNotFound: true);
@@ -291,7 +270,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_Movement;
-    private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_AnimalOne;
     private readonly InputAction m_Gameplay_AnimalTwo;
@@ -300,7 +278,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
         private @Player m_Wrapper;
         public GameplayActions(@Player wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
-        public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @AnimalOne => m_Wrapper.m_Gameplay_AnimalOne;
         public InputAction @AnimalTwo => m_Wrapper.m_Gameplay_AnimalTwo;
@@ -316,9 +293,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
@@ -335,9 +309,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
@@ -367,7 +338,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAnimalOne(InputAction.CallbackContext context);
         void OnAnimalTwo(InputAction.CallbackContext context);

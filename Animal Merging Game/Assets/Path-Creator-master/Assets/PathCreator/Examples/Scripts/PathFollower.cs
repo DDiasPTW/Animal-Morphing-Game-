@@ -12,8 +12,8 @@ namespace PathCreation.Examples
         float distanceTravelled;
 
 
-        private bool canMove = false;
-        [SerializeField] private float timeTillMove = 0.5f; //time in seconds before it starts chasing the path
+        public bool canMove = false;
+        //[SerializeField] private float timeTillMove = 0.5f; //time in seconds before it starts chasing the path
 
         void Awake()
         {
@@ -31,16 +31,13 @@ namespace PathCreation.Examples
 
         void Update()
         {
-            if(!canMove)
-            {
-                timeTillMove -= Time.deltaTime;
-                if(timeTillMove <= 0){
-                    canMove = true;
-                }
-            }
-
-
-
+            // if(!canMove)
+            // {
+            //     timeTillMove -= Time.deltaTime;
+            //     if(timeTillMove <= 0){
+            //         canMove = true;
+            //     }
+            // }
             if (pathCreator != null && canMove)
             {
                 distanceTravelled += speed * Time.deltaTime;

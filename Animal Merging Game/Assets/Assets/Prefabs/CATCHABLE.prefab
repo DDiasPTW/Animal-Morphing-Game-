@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.079197526, g: 1, b: 0, a: 1}
-  outlineWidth: 5
+  outlineWidth: 3
   precomputeOutline: 1
   bakeKeys:
   - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
@@ -710,6 +710,7 @@ MonoBehaviour:
   pathCreator: {fileID: 0}
   endOfPathInstruction: 2
   speed: 16
+  timeTillMove: 0.5
 --- !u!114 &1753365110684867636
 MonoBehaviour:
   m_ObjectHideFlags: 0

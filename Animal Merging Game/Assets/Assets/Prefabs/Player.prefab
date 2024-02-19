@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3117321220222088462}
-  - component: {fileID: 1976795283782121417}
+  - component: {fileID: 3775059209034725575}
   - component: {fileID: 8603852728365562399}
   - component: {fileID: 5396977312704082607}
   - component: {fileID: 6666792894783603739}
@@ -38,8 +38,8 @@ Transform:
   - {fileID: 9191103111985207886}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1976795283782121417
-CapsuleCollider:
+--- !u!65 &3775059209034725575
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -56,10 +56,8 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 1
-  m_Direction: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4, y: 1, z: 0.4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8603852728365562399
 Rigidbody:
@@ -101,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  groundCheckSize: {x: 0.1, y: 0.05, z: 0.1}
-  castDistance: 0.03
+  groundCheckSize: {x: 0.4, y: 0.07, z: 0.4}
+  castDistance: 0.05
   groundCheckPosition: {fileID: 6036832489349793685}
   groundLayer:
     serializedVersion: 2
@@ -111,6 +109,7 @@ MonoBehaviour:
   accelerationTime: 0.2
   startMoveSpeed: 0
   airControlFactor: 6
+  movement: {x: 0, y: 0, z: 0}
   currentAcceleration: 0
   jumpForce: 15
   peakJumpHeight: 0
@@ -124,6 +123,7 @@ MonoBehaviour:
   normalGravityScale: 4
   increasedGravityScale: 8
   currentState: 0
+  switchCooldown: 0.2
   animalGameObjects: []
   animals: []
   currentlyActiveAnimal: {fileID: 0}

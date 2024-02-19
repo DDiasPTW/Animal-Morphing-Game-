@@ -158,3 +158,4 @@ MonoBehaviour:
   shootForce: 7000
   ballLifetime: 7
   spawnFrequency: 4
+  maxBallDelay: 2

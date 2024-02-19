@@ -62,6 +62,8 @@ public class Player_Def : MonoBehaviour
     }
     
     [Header("Animals")]
+    [SerializeField] private float switchCooldown = 1.0f; // Cooldown duration in seconds
+    private float lastSwitchTime = -1.0f; // Timestamp of the last switch
     [SerializeField] private List<GameObject> animalGameObjects = new List<GameObject>();
     [SerializeField] private List<Animal> animals = new List<Animal>();
     public Animal currentlyActiveAnimal;
@@ -119,7 +121,6 @@ public class Player_Def : MonoBehaviour
             fSquirrel.HandleJumpRelease(this);
         }
     };
-        playerControls.Gameplay.Interact.performed += ctx => TryActivateAbility();
 
         playerControls.Gameplay.AnimalOne.performed += ctx => SwitchActiveAnimal(0);
         playerControls.Gameplay.AnimalTwo.performed += ctx => SwitchActiveAnimal(1);
@@ -231,8 +232,6 @@ public class Player_Def : MonoBehaviour
         // Apply the calculated velocity to the Rigidbody
         rb.velocity = desiredVelocity;
     }
-
-
 
     private void ApplyGravity()
     {
@@ -388,28 +387,21 @@ public class Player_Def : MonoBehaviour
         }
     }
 
-
-
     IEnumerator ResetJustLanded()
     {
-        yield return new WaitForSeconds(0.15f); // Short delay
+        yield return new WaitForSeconds(0.25f); // Short delay with the duration of the landing animation
         justLanded = false;
     }
     #endregion
 
     #region Animals
-    private void TryActivateAbility()
-    {
-        // Check if the player is in an animal form before activating any ability
-        if (animals.Count != activeAnimalIndex)
-        {
-            Debug.Log("Activated ability");
-            animals[activeAnimalIndex].Activate(this);
-        }
-    }
-
     public void SwitchActiveAnimal(int index)
     {
+        // Check if we are within the cooldown period
+        float currentTime = Time.time;
+        if (currentTime - lastSwitchTime < switchCooldown) return;
+
+
         // Check if the index is within the bounds of the animals list
         if (index < 0 || index >= animals.Count) return;
 
@@ -435,13 +427,16 @@ public class Player_Def : MonoBehaviour
         // Activate the new animal GameObject
         defaultPlayerGameObject.SetActive(false);
         animalGameObjects[index].SetActive(true);
+
         animalGameObjects[index].GetComponent<AnimationsHandler>().player = this;
+        animalGameObjects[index].GetComponent<AnimationsHandler>().NotifyFormSwapped();
 
         activeAnimalIndex = index;
         currentlyActiveAnimal = animals[index];
         currentlyActiveAnimal.Activate(this);
-    }
 
+        lastSwitchTime = currentTime; // Update the timestamp of the last switch
+    }
     #endregion
 
     #region Visuals
@@ -503,14 +498,6 @@ public class Player_Def : MonoBehaviour
                 landingParticlesSpawned = true;
                 StartCoroutine(DestroyParticles(pS));
             }
-    }
-    public void ResetLanding()
-    {
-        if (!jumpRequested)
-        {
-            justLanded = false;
-            landingParticlesSpawned = false;
-        }
     }
 
     IEnumerator DestroyParticles(GameObject particles)

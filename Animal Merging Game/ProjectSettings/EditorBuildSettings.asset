@@ -60,7 +60,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Level - 18.unity
     guid: 91c75de922a324bd5b110b8aa0866216
   - enabled: 1
+    path: Assets/Scenes/Level - 19.unity
+    guid: 3997192bf80484cdeaa99afeb6e858d7
+  - enabled: 1
     path: Assets/Scenes/Level - 20 - Swap Intro.unity
     guid: f21eec2beb8934e34bb0828d2230250d
+  - enabled: 1
+    path: Assets/Scenes/Level - 21.unity
+    guid: 7e9483ba0c4ea489589d6b39a7f24dcf
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

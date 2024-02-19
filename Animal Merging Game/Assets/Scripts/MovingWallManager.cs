@@ -8,21 +8,26 @@ public class MovingWallManager : MonoBehaviour
     public float shootForce = 500f; // Force applied to shoot the ball
     public float ballLifetime = 5f; // Time before the ball gets destroyed
     public float spawnFrequency = 2f; // Frequency of shooting balls
+    public float maxBallDelay = 1f;
+    public bool canSpawn = true;
 
 
     private void Start()
     {
-        StartCoroutine(ShootBallsAtFrequency());
+        float initialDelay = Random.Range(0f, maxBallDelay); // Staggering spawns
+        StartCoroutine(ShootBallsAtFrequency(initialDelay));
     }
 
-    IEnumerator ShootBallsAtFrequency()
+    IEnumerator ShootBallsAtFrequency(float initialDelay)
+{
+    yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
+
+    while (canSpawn)
     {
-        while (true) // Infinite loop to keep shooting balls
-        {
-            ShootBall();
-            yield return new WaitForSeconds(spawnFrequency);
-        }
+        ShootBall();
+        yield return new WaitForSeconds(spawnFrequency);
     }
+}
 
     void ShootBall()
     {

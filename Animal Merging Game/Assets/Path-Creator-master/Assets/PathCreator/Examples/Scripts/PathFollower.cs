@@ -31,13 +31,6 @@ namespace PathCreation.Examples
 
         void Update()
         {
-            // if(!canMove)
-            // {
-            //     timeTillMove -= Time.deltaTime;
-            //     if(timeTillMove <= 0){
-            //         canMove = true;
-            //     }
-            // }
             if (pathCreator != null && canMove)
             {
                 distanceTravelled += speed * Time.deltaTime;

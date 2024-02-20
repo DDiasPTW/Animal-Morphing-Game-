@@ -298,6 +298,12 @@ public class Player_Def : MonoBehaviour
                 // Reset jumpRequested if the jump buffer timer has expired without fulfilling jump conditions
                 jumpRequested = false;
             }
+            
+            // Player is in the air and not already grappling
+            if (currentlyActiveAnimal is Spider spider && !spider.isSwinging)
+            {
+                spider.HandleJump(this);
+            }
         }
 
     }

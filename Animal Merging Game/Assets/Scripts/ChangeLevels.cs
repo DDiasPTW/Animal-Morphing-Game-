@@ -32,13 +32,17 @@ public class ChangeLevels : MonoBehaviour
 
         else if (other.CompareTag("Catch"))
         { //restart the level
-            Debug.Log("Catch");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(RestartLevel());
         }
     }
 
     IEnumerator NextLevel(){
         yield return new WaitForSeconds(.2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    IEnumerator RestartLevel(){
+        yield return new WaitForSeconds(.2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

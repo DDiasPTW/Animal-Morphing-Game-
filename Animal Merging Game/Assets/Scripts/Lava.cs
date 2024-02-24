@@ -5,19 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class Lava : MonoBehaviour
 {
-    void OnTriggerExit(Collider other)
+
+    private GameManager gM;
+    void Awake()
+    {
+        gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
+    }
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(RestartLevel());
         }
     }
 
+    //Killable
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            gM.ResetLevel();;
         }
+    }
+
+    IEnumerator RestartLevel(){
+        yield return new WaitForSeconds(.2f);
+        gM.ResetLevel();
     }
 }

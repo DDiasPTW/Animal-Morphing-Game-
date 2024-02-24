@@ -14,20 +14,19 @@ public class MovingWallManager : MonoBehaviour
 
     private void Start()
     {
-        float initialDelay = Random.Range(0f, maxBallDelay); // Staggering spawns
-        StartCoroutine(ShootBallsAtFrequency(initialDelay));
+        StartCoroutine(ShootBallsAtFrequency(1f));
     }
 
     IEnumerator ShootBallsAtFrequency(float initialDelay)
-{
-    yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
-
-    while (canSpawn)
     {
-        ShootBall();
-        yield return new WaitForSeconds(spawnFrequency);
+        yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
+
+        while (canSpawn)
+        {
+            ShootBall();
+            yield return new WaitForSeconds(spawnFrequency);
+        }
     }
-}
 
     void ShootBall()
     {

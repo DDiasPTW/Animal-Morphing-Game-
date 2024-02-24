@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class Player_Def : MonoBehaviour
 {
     [Header("Other")]
-    [HideInInspector] public Player playerControls;
+    public Player playerControls;
     [HideInInspector] public Rigidbody rb;
     private Transform cameraTransform;
     [SerializeField] private Vector3 groundCheckSize;
     [SerializeField] private float castDistance;
     [SerializeField] private Transform groundCheckPosition;
-    [SerializeField] private float groundCheckDelayAfterJump = 0.2f; // 200ms delay before allowing ground check
+    [SerializeField] private float groundCheckDelayAfterJump = 0.05f; // 50ms delay before allowing ground check
     private float groundCheckTimer = 0f;
     public LayerMask groundLayer;
 
@@ -24,23 +24,23 @@ public class Player_Def : MonoBehaviour
     [HideInInspector] public float startMoveSpeed;
     public float airControlFactor = 6f;
     public Vector3 movement;
-    [SerializeField] private float currentAcceleration = 0f;
+    private float currentAcceleration = 0f;
     private int howManyJumps = 1;
-    [SerializeField] private int totalJumps = 0;
+    private int totalJumps = 0;
 
 
     [Header("Jumping")]
     public float jumpForce = 10.0f;
     [HideInInspector] public float peakJumpHeight;
     public static float globalGravity = -9.81f;
-    [SerializeField] private float coyote_timer;
+    [SerializeField]private float coyote_timer;
     [SerializeField] private float coyote_seconds = 0.1f; //coyote timer to allow the player to jump briefly after leaving a platform
-    [SerializeField] private float JumpBuffer_Timer;
+    private float JumpBuffer_Timer;
     [SerializeField] private float JumpBuffer_Seconds = 0.1f; //jump buffer to allow the player to jump immediately after hitting the ground if they failed the timing while falling
     public bool isGrounded; // To check if player is on the ground
-    [SerializeField] private bool jumpRequested; // To store jump request
+    private bool jumpRequested; // To store jump request
     public bool justLanded = false;
-    [SerializeField] private bool wasFalling = false;
+    private bool wasFalling = false;
 
     [Header("Variable Jump")]
     public float normalGravityScale = 1.0f; // Normal gravity
@@ -115,7 +115,7 @@ public class Player_Def : MonoBehaviour
         playerControls.Gameplay.Jump.performed += ctx => Jump();
 
         playerControls.Gameplay.Jump.canceled += ctx =>
-    {
+        {
         endedJumpEarly = true;
         if (currentlyActiveAnimal is Spider spider)
         {
@@ -253,15 +253,12 @@ public class Player_Def : MonoBehaviour
         Vector3 boxHalfExtents = groundCheckSize * 0.5f;
         isGrounded = Physics.BoxCast(castOrigin, boxHalfExtents, Vector3.down, out _, Quaternion.identity, castDistance + groundCheckSize.y / 2, groundLayer) && groundCheckTimer <= 0;
 
-        //Falling logic
-        //wasFalling = rb.velocity.y < 0 && !isGrounded;
 
         // Check if the player is currently falling (moving downwards and not grounded)
         if (rb.velocity.y < 0 && !isGrounded)
         {
             wasFalling = true;
         }
-
         
         if (isGrounded)
         {   
@@ -322,10 +319,9 @@ public class Player_Def : MonoBehaviour
     {
         rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
         totalJumps++;
-        coyote_timer = 0; // Reset coyote timer on jump
         endedJumpEarly = false;
         groundCheckTimer = groundCheckDelayAfterJump;
-
+       
         //Debug.Log($"Jump performed. isGrounded= {isGrounded}, totalJumps= {totalJumps}, coyoteTimer= {coyote_timer}, jumpBufferTimer= {JumpBuffer_Timer}, playerState= {currentState}");
     }
 
@@ -341,10 +337,9 @@ public class Player_Def : MonoBehaviour
     private void HandleLanding()
     {
         // Handle landing logic, including landing particles and animal-specific actions
-        SpawnLandingParticles();
         currentlyActiveAnimal?.UpdateAbilityState(this);
-        StartCoroutine(ResetJustLanded());
         justLanded = true;
+        StartCoroutine(ResetJustLanded());
         wasFalling = false;
 
     }
@@ -353,6 +348,7 @@ public class Player_Def : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f); // Short delay with the duration of the landing animation
         justLanded = false;
+        landingParticlesSpawned = false;
     }
     #endregion
 
@@ -435,13 +431,12 @@ public class Player_Def : MonoBehaviour
         {
             currentState = PlayerState.Falling;
             jumpingParticlesSpawned = false;
-            landingParticlesSpawned = false;
         }
         //landing animation
         else if (justLanded)
         {
-            SpawnLandingParticles();
             currentState = PlayerState.Landing;
+            SpawnLandingParticles();
         }
         //running animation
         else if (movement != Vector3.zero && isGrounded)
@@ -457,24 +452,23 @@ public class Player_Def : MonoBehaviour
 
     private void SpawnJumpingParticles()
     {
-        landingParticlesSpawned = false;
         if (!jumpingParticlesSpawned)
         {
+            jumpingParticlesSpawned = true;
             GameObject pS = Instantiate(jumpingParticles, groundCheckPosition);
             pS.transform.SetParent(null);
             StartCoroutine(DestroyParticles(pS));
-            jumpingParticlesSpawned = true;
         }
     }
 
     private void SpawnLandingParticles()
     {
-        jumpingParticlesSpawned = false;
         if (!landingParticlesSpawned)
         {
+            //Debug.Log("Spawned landing particles");
+            landingParticlesSpawned = true;
             GameObject pS = Instantiate(landingParticles, groundCheckPosition);
             pS.transform.SetParent(null);
-            landingParticlesSpawned = true;
             StartCoroutine(DestroyParticles(pS));
         }
     }
@@ -483,7 +477,6 @@ public class Player_Def : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         Destroy(particles);
-        landingParticlesSpawned = false;
     }
 
     void OnDrawGizmos()

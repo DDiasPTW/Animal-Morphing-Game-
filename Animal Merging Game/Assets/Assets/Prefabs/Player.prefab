@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  groundCheckSize: {x: 0.4, y: 0.07, z: 0.4}
-  castDistance: 0.05
+  groundCheckSize: {x: 0.4, y: 0.05, z: 0.4}
+  castDistance: 0.02
   groundCheckPosition: {fileID: 6036832489349793685}
   groundCheckDelayAfterJump: 0.05
   groundLayer:

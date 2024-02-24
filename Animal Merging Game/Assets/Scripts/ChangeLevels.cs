@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ChangeLevels : MonoBehaviour
 {
@@ -18,15 +17,14 @@ public class ChangeLevels : MonoBehaviour
             gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
         }
     }
-    //NEED TO CHANGE THIS TO A NICER BEHAVIOUR
-    //!Need to some some sort a transition between levels
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             if (gM.canEndLevel)
             {
-                StartCoroutine(NextLevel());
+                gM.levelFinished = true;
             }
         }
 
@@ -36,13 +34,9 @@ public class ChangeLevels : MonoBehaviour
         }
     }
 
-    IEnumerator NextLevel(){
-        yield return new WaitForSeconds(.2f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
 
     IEnumerator RestartLevel(){
         yield return new WaitForSeconds(.2f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        gM.ResetLevel();
     }
 }

@@ -10,6 +10,10 @@ TagManager:
   - VCam
   - Catch
   - GM
+  - Timer
+  - Trans
+  - FinalTime
+  - Grade
   layers:
   - Default
   - TransparentFX

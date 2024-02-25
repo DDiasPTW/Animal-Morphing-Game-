@@ -8,7 +8,6 @@ public class MovingWallManager : MonoBehaviour
     public float shootForce = 500f; // Force applied to shoot the ball
     public float ballLifetime = 5f; // Time before the ball gets destroyed
     public float spawnFrequency = 2f; // Frequency of shooting balls
-    public float maxBallDelay = 1f;
     public bool canSpawn = true;
 
 

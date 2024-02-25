@@ -31,6 +31,11 @@ public class Lava : MonoBehaviour
 
     IEnumerator RestartLevel(){
         yield return new WaitForSeconds(.2f);
-        gM.ResetLevel();
+        if(!gM.levelFinished)
+        {
+            gM.ResetLevel();
+        }
+        
     }
+
 }

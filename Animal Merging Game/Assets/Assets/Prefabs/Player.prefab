@@ -111,18 +111,14 @@ MonoBehaviour:
   startMoveSpeed: 0
   airControlFactor: 6
   movement: {x: 0, y: 0, z: 0}
-  currentAcceleration: 0
-  totalJumps: 0
   jumpForce: 15
+  momentumMultiplier: 1.5
   peakJumpHeight: 0
   coyote_timer: 0
-  coyote_seconds: 0.2
-  JumpBuffer_Timer: 0
+  coyote_seconds: 0.125
   JumpBuffer_Seconds: 0.2
   isGrounded: 0
-  jumpRequested: 0
   justLanded: 0
-  wasFalling: 0
   normalGravityScale: 4
   increasedGravityScale: 8
   currentState: 0

@@ -31,11 +31,12 @@ public class Player_Def : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce = 10.0f;
+    public float momentumMultiplier = 2.0f;
     [HideInInspector] public float peakJumpHeight;
     public static float globalGravity = -9.81f;
     [SerializeField]private float coyote_timer;
     [SerializeField] private float coyote_seconds = 0.1f; //coyote timer to allow the player to jump briefly after leaving a platform
-    private float JumpBuffer_Timer;
+    [SerializeField] private float JumpBuffer_Timer;
     [SerializeField] private float JumpBuffer_Seconds = 0.1f; //jump buffer to allow the player to jump immediately after hitting the ground if they failed the timing while falling
     public bool isGrounded; // To check if player is on the ground
     private bool jumpRequested; // To store jump request
@@ -45,7 +46,7 @@ public class Player_Def : MonoBehaviour
     [Header("Variable Jump")]
     public float normalGravityScale = 1.0f; // Normal gravity
     public float increasedGravityScale = 2.0f; // Gravity when jump is released early
-    private bool endedJumpEarly = false; // Flag to check if jump was released early
+    [SerializeField] private bool endedJumpEarly = false; // Flag to check if jump was released early
 
 
     [Header("Animation")]
@@ -247,8 +248,6 @@ public class Player_Def : MonoBehaviour
     private void CheckGroundStatus()
     {
         bool wasGrounded = isGrounded;
-
-        // CheckGroundStatus logic remains largely unchanged but streamlined for clarity
         Vector3 castOrigin = groundCheckPosition.position + Vector3.up * groundCheckSize.y / 2;
         Vector3 boxHalfExtents = groundCheckSize * 0.5f;
         isGrounded = Physics.BoxCast(castOrigin, boxHalfExtents, Vector3.down, out _, Quaternion.identity, castDistance + groundCheckSize.y / 2, groundLayer) && groundCheckTimer <= 0;
@@ -261,20 +260,34 @@ public class Player_Def : MonoBehaviour
         }
         
         if (isGrounded)
-        {   
-            ResetJumpState();
+        {
+            if(!wasGrounded)
+            {
+                // Maintain horizontal momentum upon landing
+                Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                float preservedSpeedFactor = CalculatePreservedSpeedFactor();
+                rb.velocity = horizontalVelocity * preservedSpeedFactor;
+                //Debug.Log("Ground: " + rb.velocity);
+            }
             if(!wasGrounded && wasFalling)
             {
                 HandleLanding();
             }
-            
+            ResetJumpState();
         }
-        else
+        else if(!isGrounded)
         {
             justLanded = false;
             coyote_timer -= Time.deltaTime;
         }
+    }
 
+    // Example method to calculate how much of the speed should be preserved
+    // This can be a constant or based on the player's state, current speed, etc.
+    private float CalculatePreservedSpeedFactor()
+    {
+        // ex: Return a value between 0 and 1, where 1 would mean full speed is preserved
+        return momentumMultiplier;
     }
 
     private void HandleJumpInput()
@@ -311,19 +324,19 @@ public class Player_Def : MonoBehaviour
         if (currentlyActiveAnimal == null || currentlyActiveAnimal.AllowNormalJump())
         {
             jumpRequested = true;
+            endedJumpEarly = false;
             JumpBuffer_Timer = JumpBuffer_Seconds;
         }
     }
 
     private void PerformJump()
     {
-        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+        Vector3 jumpVelocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+        rb.velocity = jumpVelocity;
         totalJumps++;
-        endedJumpEarly = false;
         groundCheckTimer = groundCheckDelayAfterJump;
-       
-        //Debug.Log($"Jump performed. isGrounded= {isGrounded}, totalJumps= {totalJumps}, coyoteTimer= {coyote_timer}, jumpBufferTimer= {JumpBuffer_Timer}, playerState= {currentState}");
     }
+
 
     private void ResetJumpState()
     {
@@ -408,8 +421,6 @@ public class Player_Def : MonoBehaviour
             currentlyActiveAnimal?.UpdateAbilityState(this);
         }
     }
-
-
     #endregion
 
     #region Visuals
@@ -435,8 +446,8 @@ public class Player_Def : MonoBehaviour
         //landing animation
         else if (justLanded)
         {
-            currentState = PlayerState.Landing;
             SpawnLandingParticles();
+            currentState = PlayerState.Landing;
         }
         //running animation
         else if (movement != Vector3.zero && isGrounded)

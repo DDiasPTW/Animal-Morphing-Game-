@@ -101,8 +101,7 @@ public class Spider : Animal
         springJoint.massScale = massScale;
 
         swingStartHeight = player.transform.position.y;
-        isSwinging = true;
-        lastGrapplingTime = Time.time;
+        isSwinging = true; 
     }
 
     private void StopSwing(Player_Def player)
@@ -123,6 +122,7 @@ public class Spider : Animal
             Destroy(springJoint);
             springJoint = null;
         }
+        lastGrapplingTime = Time.time;
         isSwinging = false;
     }
 

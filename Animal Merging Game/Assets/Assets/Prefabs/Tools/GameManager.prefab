@@ -46,8 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canEndLevel: 0
   levelFinished: 0
-  gradeText: {fileID: 0}
-  finalTimeText: {fileID: 0}
   gradeTimes:
   - 15
   - 25
@@ -56,3 +54,10 @@ MonoBehaviour:
   - 70
   finalTime: 0
   time: 0
+  stars:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

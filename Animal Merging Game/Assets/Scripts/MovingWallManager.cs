@@ -9,11 +9,12 @@ public class MovingWallManager : MonoBehaviour
     public float ballLifetime = 5f; // Time before the ball gets destroyed
     public float spawnFrequency = 2f; // Frequency of shooting balls
     public bool canSpawn = true;
+    public float initialSpawnDelay = 1f;
 
 
     private void Start()
     {
-        StartCoroutine(ShootBallsAtFrequency(1f));
+        StartCoroutine(ShootBallsAtFrequency(initialSpawnDelay));
     }
 
     IEnumerator ShootBallsAtFrequency(float initialDelay)

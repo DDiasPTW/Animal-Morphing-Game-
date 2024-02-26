@@ -85,7 +85,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &5396977312704082607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,11 +116,13 @@ MonoBehaviour:
   peakJumpHeight: 0
   coyote_timer: 0
   coyote_seconds: 0.125
+  JumpBuffer_Timer: 0
   JumpBuffer_Seconds: 0.2
   isGrounded: 0
   justLanded: 0
   normalGravityScale: 4
   increasedGravityScale: 8
+  endedJumpEarly: 0
   currentState: 0
   switchCooldown: 0.15
   animalGameObjects: []

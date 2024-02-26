@@ -964,18 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &541203611 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 436650272484477167, guid: 10620141d023f4d7ca2e5c4aba51f1ef,
-    type: 3}
-  m_PrefabInstance: {fileID: 355209658}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &718272712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,7 +1284,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gradeText
       value: 
-      objectReference: {fileID: 541203611}
+      objectReference: {fileID: 0}
     - target: {fileID: 1961709936643712180, guid: 83dcd07f50e614d4fb1c820436ce008d,
         type: 3}
       propertyPath: canEndLevel
@@ -1315,7 +1303,7 @@ PrefabInstance:
     - target: {fileID: 1961709936643712180, guid: 83dcd07f50e614d4fb1c820436ce008d,
         type: 3}
       propertyPath: 'gradeTimes.Array.data[0]'
-      value: 7.597
+      value: 7.02
       objectReference: {fileID: 0}
     - target: {fileID: 1961709936643712180, guid: 83dcd07f50e614d4fb1c820436ce008d,
         type: 3}

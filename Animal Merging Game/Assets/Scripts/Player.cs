@@ -62,6 +62,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""9c51054e-99de-40c8-84ca-e599042447de"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,28 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""AnimalTwo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""125cd0ca-1963-4000-9cbf-b202d66c9e43"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35baeeac-da1e-415c-bc8c-f045f6c51e54"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +239,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_AnimalOne = m_Gameplay.FindAction("AnimalOne", throwIfNotFound: true);
         m_Gameplay_AnimalTwo = m_Gameplay.FindAction("AnimalTwo", throwIfNotFound: true);
+        m_Gameplay_Reset = m_Gameplay.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +305,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_AnimalOne;
     private readonly InputAction m_Gameplay_AnimalTwo;
+    private readonly InputAction m_Gameplay_Reset;
     public struct GameplayActions
     {
         private @Player m_Wrapper;
@@ -281,6 +314,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @AnimalOne => m_Wrapper.m_Gameplay_AnimalOne;
         public InputAction @AnimalTwo => m_Wrapper.m_Gameplay_AnimalTwo;
+        public InputAction @Reset => m_Wrapper.m_Gameplay_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -302,6 +336,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @AnimalTwo.started += instance.OnAnimalTwo;
             @AnimalTwo.performed += instance.OnAnimalTwo;
             @AnimalTwo.canceled += instance.OnAnimalTwo;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -318,6 +355,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @AnimalTwo.started -= instance.OnAnimalTwo;
             @AnimalTwo.performed -= instance.OnAnimalTwo;
             @AnimalTwo.canceled -= instance.OnAnimalTwo;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -341,5 +381,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAnimalOne(InputAction.CallbackContext context);
         void OnAnimalTwo(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }

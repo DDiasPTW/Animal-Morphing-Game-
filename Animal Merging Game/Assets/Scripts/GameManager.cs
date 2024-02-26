@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class GameManager : MonoBehaviour
     [Header("Visuals")]
     private bool readyForNextLevel = false;
     private TMP_Text timerText;
-    private TMP_Text gradeText;
     private TMP_Text finalTimeText;
     private bool timerRunning = true;
     [SerializeField] private List<float> gradeTimes = new List<float>();
@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private GameObject nextLevelTransition;
     private string inTransition = "Scene_In";
     private string outTransition = "Scene_Out";
+    [SerializeField] private GameObject[] stars;
+
 
     void Awake()
     {
@@ -39,11 +41,11 @@ public class GameManager : MonoBehaviour
         //timer reference
         timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         levelFinished = false;
-        gradeText = GameObject.FindGameObjectWithTag("Grade").GetComponent<TMP_Text>();
         finalTimeText = GameObject.FindGameObjectWithTag("FinalTime").GetComponent<TMP_Text>();
 
         //next level transition
         nextLevelTransition = GameObject.FindGameObjectWithTag("Trans");
+        GetStars();
 
         //
         playerControls = new Player();
@@ -54,6 +56,28 @@ public class GameManager : MonoBehaviour
                 LoadNextLevel();
             }
         };
+        playerControls.Gameplay.Reset.performed += ctx => ResetLevel();
+    }
+
+    private void GetStars()
+    {
+        // Find the StarsContainer by tag or name
+        GameObject starsContainer = GameObject.FindGameObjectWithTag("Stars");
+        if (starsContainer != null)
+        {
+            // Get all children and sort them by name to ensure correct order
+            stars = starsContainer.transform.Cast<Transform>().Select(tr => tr.gameObject).OrderBy(go => go.name).ToArray();
+        }
+
+        DisableStar();
+    }
+
+    private void DisableStar()
+    {
+        foreach (var star in stars)
+        {
+            star.SetActive(false);
+        }
     }
 
     private void OnEnable()
@@ -75,10 +99,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //----REMOVE IN FINAL BUILD----------------------
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetLevel();
-        }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             levelFinished = true;
@@ -133,33 +153,25 @@ public class GameManager : MonoBehaviour
     {
         // Round finalTime to 1 decimal place to align with player's view
         double roundedFinalTime = Math.Round(finalTime, 3, MidpointRounding.AwayFromZero);
+        // Use string formatting to ensure three decimal places are always shown
+        finalTimeText.text = finalTime.ToString("F3") + " s";
 
+        // Initially disable all stars
+        DisableStar();
 
-        finalTimeText.text = roundedFinalTime.ToString() + " s";
+        // Determine the number of stars to activate based on the grade
+        int starsToActivate = 0;
+        if (roundedFinalTime <= gradeTimes[0]) starsToActivate = 6;
+        else if (roundedFinalTime <= gradeTimes[1]) starsToActivate = 5;
+        else if (roundedFinalTime <= gradeTimes[2]) starsToActivate = 4;
+        else if (roundedFinalTime <= gradeTimes[3]) starsToActivate = 3;
+        else if (roundedFinalTime <= gradeTimes[4]) starsToActivate = 2;
+        else if (roundedFinalTime <= gradeTimes[5]) starsToActivate = 1;
 
-        if(roundedFinalTime <= gradeTimes[0]){
-            gradeText.text = "6 stars"; //NEED TO CHANGE THIS
-        }   
-        else if (roundedFinalTime <= gradeTimes[1])
+        // Activate the appropriate number of stars
+        for (int i = 0; i < starsToActivate; i++)
         {
-            gradeText.text = "5 stars"; //NEED TO CHANGE THIS
-
-        }
-        else if (roundedFinalTime <= gradeTimes[2])
-        {
-            gradeText.text = "4 stars"; //NEED TO CHANGE THIS
-        }
-        else if (roundedFinalTime <= gradeTimes[3])
-        {
-            gradeText.text = "3 stars"; //NEED TO CHANGE THIS
-        }
-        else if (roundedFinalTime <= gradeTimes[4])
-        {
-            gradeText.text = "2 stars"; //NEED TO CHANGE THIS
-        }
-        else if (roundedFinalTime <= gradeTimes[5])
-        {
-            gradeText.text = "1 star"; //NEED TO CHANGE THIS
+            stars[i].SetActive(true);
         }
     }
 

@@ -17,6 +17,7 @@ public class Player_Def : MonoBehaviour
     [SerializeField] private float groundCheckDelayAfterJump = 0.05f; // 50ms delay before allowing ground check
     private float groundCheckTimer = 0f;
     public LayerMask groundLayer;
+    private GameManager gM;
 
     [Header("Movement")]
     public float moveSpeed = 6f;
@@ -92,6 +93,7 @@ public class Player_Def : MonoBehaviour
         GetUi();
         defaultPlayerGameObject.SetActive(true);
         defaultPlayerGameObject.GetComponent<AnimationsHandler>().player = this;
+        gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
     }
 
     private void GetUi()
@@ -117,16 +119,16 @@ public class Player_Def : MonoBehaviour
 
         playerControls.Gameplay.Jump.canceled += ctx =>
         {
-        endedJumpEarly = true;
+            endedJumpEarly = true;
+
         if (currentlyActiveAnimal is Spider spider)
         {
             spider.HandleJumpRelease(this);
         }
-
-        if (currentlyActiveAnimal is FlyingSquirrel fSquirrel)
-        {
-            fSquirrel.HandleJumpRelease(this);
-        }
+        // if (currentlyActiveAnimal is FlyingSquirrel fSquirrel)
+        // {
+        //     fSquirrel.HandleJumpRelease(this);
+        // }
     };
 
         playerControls.Gameplay.AnimalOne.performed += ctx => SwitchActiveAnimal(0);
@@ -154,31 +156,41 @@ public class Player_Def : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
+        if(!gM.levelFinished){
+            Move();
         ApplyGravity();
+        }
+        
     }
 
 
     void Update()
     {
-        if (groundCheckTimer > 0)
+        if (gM.levelFinished)
         {
-            groundCheckTimer -= Time.deltaTime;
+            transform.position = Vector3.zero;
         }
-
-        CheckGroundStatus(); // Only check ground status if the timer has elapsed
-
-        HandleJumpInput();
-        HandleAnimations();
-
-        //------- ANIMALS -------//
-        CheckJumpPeak();
-        // Handle continuous jump button press for Flying Squirrel gliding
-        if (!isGrounded && playerControls.Gameplay.Jump.ReadValue<float>() > 0 && rb.velocity.y < 0)
+        else
         {
-            if (currentlyActiveAnimal is FlyingSquirrel fSquirrel)
+            if (groundCheckTimer > 0)
             {
-                fSquirrel.HandleJump(this);
+                groundCheckTimer -= Time.deltaTime;
+            }
+
+            CheckGroundStatus(); // Only check ground status if the timer has elapsed
+
+            HandleJumpInput();
+            HandleAnimations();
+
+            //------- ANIMALS -------//
+            CheckJumpPeak();
+            // Handle continuous jump button press for Flying Squirrel gliding
+            if (!isGrounded && playerControls.Gameplay.Jump.ReadValue<float>() > 0 && rb.velocity.y < 0)
+            {
+                if (currentlyActiveAnimal is FlyingSquirrel fSquirrel)
+                {
+                    fSquirrel.HandleJump(this);
+                }
             }
         }
     }

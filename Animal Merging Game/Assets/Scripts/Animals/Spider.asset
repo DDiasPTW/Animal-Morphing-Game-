@@ -13,18 +13,17 @@ MonoBehaviour:
   m_Name: Spider
   m_EditorClassIdentifier: 
   animalSprite: {fileID: 21300000, guid: 084695ee15c404cd2aa1fcf731f42791, type: 3}
-  grapplingRange: 9
+  grapplingRange: 9.5
   grapplingCooldown: 0.5
   exitBoostMultiplier: 3
-  verticalLift: 5
-  grapplePoint: {x: 0, y: 0, z: 0}
+  grapplePoint: {x: 0, y: 24, z: 230.06117}
   isSwinging: 0
   whatIsGrappable:
     serializedVersion: 2
     m_Bits: 128
-  lastGrapplingTime: 22.430815
+  lastGrapplingTime: -Infinity
   maxDistance: 0.7
   minDistance: 0.2
   spring: 10
-  damper: 1
+  damper: 10
   massScale: 7

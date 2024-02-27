@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276788, g: 0.21589147, b: 0.29782534, a: 1}
+  m_IndirectSpecularColor: {r: 0.17878291, g: 0.23823515, b: 0.32701272, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1355,7 +1355,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.07058824, g: 0.43137255, b: 0.49019608, a: 1}
   m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
@@ -2554,6 +2554,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
+    - target: {fileID: 949717818351029156, guid: e153b5411374d4d368eee173ca119fd7,
+        type: 3}
+      propertyPath: priority
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4353339321481620731, guid: e153b5411374d4d368eee173ca119fd7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2692,11 +2697,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9107335650859641751, guid: f69792ce664d24cd9919a73c5aa64197,
+        type: 3}
+      propertyPath: _target
+      value: 
+      objectReference: {fileID: 9036909608977375984}
+    - target: {fileID: 9107335650859641751, guid: f69792ce664d24cd9919a73c5aa64197,
+        type: 3}
+      propertyPath: _clipPlaneOffset
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f69792ce664d24cd9919a73c5aa64197, type: 3}
+--- !u!1 &9036909608977375984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3431163910969831484, guid: f69792ce664d24cd9919a73c5aa64197,
+    type: 3}
+  m_PrefabInstance: {fileID: 9036909608977375983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

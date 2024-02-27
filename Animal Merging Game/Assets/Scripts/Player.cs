@@ -71,6 +71,24 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""73d54195-4714-4645-a6c5-32c999641138"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PreviousLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""b8239bbc-c718-4a5b-ac49-6a513f6cdb8b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +245,50 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9f4e3ff-072c-46e1-95a5-44a0f97cbbd9"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26c9236d-0308-4699-ba6a-ddb5e2ea0253"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbe1b625-f225-4610-b736-e985596fe8b5"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreviousLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99f40f42-c46f-4b0f-bfbc-0ce84c14c70c"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreviousLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -240,6 +302,8 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_Gameplay_AnimalOne = m_Gameplay.FindAction("AnimalOne", throwIfNotFound: true);
         m_Gameplay_AnimalTwo = m_Gameplay.FindAction("AnimalTwo", throwIfNotFound: true);
         m_Gameplay_Reset = m_Gameplay.FindAction("Reset", throwIfNotFound: true);
+        m_Gameplay_NextLevel = m_Gameplay.FindAction("NextLevel", throwIfNotFound: true);
+        m_Gameplay_PreviousLevel = m_Gameplay.FindAction("PreviousLevel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +370,8 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_AnimalOne;
     private readonly InputAction m_Gameplay_AnimalTwo;
     private readonly InputAction m_Gameplay_Reset;
+    private readonly InputAction m_Gameplay_NextLevel;
+    private readonly InputAction m_Gameplay_PreviousLevel;
     public struct GameplayActions
     {
         private @Player m_Wrapper;
@@ -315,6 +381,8 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @AnimalOne => m_Wrapper.m_Gameplay_AnimalOne;
         public InputAction @AnimalTwo => m_Wrapper.m_Gameplay_AnimalTwo;
         public InputAction @Reset => m_Wrapper.m_Gameplay_Reset;
+        public InputAction @NextLevel => m_Wrapper.m_Gameplay_NextLevel;
+        public InputAction @PreviousLevel => m_Wrapper.m_Gameplay_PreviousLevel;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -339,6 +407,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Reset.started += instance.OnReset;
             @Reset.performed += instance.OnReset;
             @Reset.canceled += instance.OnReset;
+            @NextLevel.started += instance.OnNextLevel;
+            @NextLevel.performed += instance.OnNextLevel;
+            @NextLevel.canceled += instance.OnNextLevel;
+            @PreviousLevel.started += instance.OnPreviousLevel;
+            @PreviousLevel.performed += instance.OnPreviousLevel;
+            @PreviousLevel.canceled += instance.OnPreviousLevel;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -358,6 +432,12 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Reset.started -= instance.OnReset;
             @Reset.performed -= instance.OnReset;
             @Reset.canceled -= instance.OnReset;
+            @NextLevel.started -= instance.OnNextLevel;
+            @NextLevel.performed -= instance.OnNextLevel;
+            @NextLevel.canceled -= instance.OnNextLevel;
+            @PreviousLevel.started -= instance.OnPreviousLevel;
+            @PreviousLevel.performed -= instance.OnPreviousLevel;
+            @PreviousLevel.canceled -= instance.OnPreviousLevel;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -382,5 +462,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnAnimalOne(InputAction.CallbackContext context);
         void OnAnimalTwo(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnNextLevel(InputAction.CallbackContext context);
+        void OnPreviousLevel(InputAction.CallbackContext context);
     }
 }

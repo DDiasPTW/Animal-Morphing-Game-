@@ -11,21 +11,79 @@ public class MovingWallManager : MonoBehaviour
     public bool canSpawn = true;
     public float initialSpawnDelay = 1f;
 
+    //---Visuals
+    [SerializeField] private GameObject shootParticles;
+    [SerializeField] private GameObject readyParticles;
+    [SerializeField] private bool spawnedReadyParticles = false;
+
 
     private void Start()
     {
         StartCoroutine(ShootBallsAtFrequency(initialSpawnDelay));
     }
 
-    IEnumerator ShootBallsAtFrequency(float initialDelay)
-    {
-        yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
 
-        while (canSpawn)
+    // IEnumerator ShootBallsAtFrequency(float initialDelay)
+    // {
+    //     yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
+
+    //     while (canSpawn)
+    //     {
+    //         ShootBall();
+    //         SpawnShootParticles();
+    //         yield return new WaitForSeconds(spawnFrequency);
+    //     }
+    // }
+
+    IEnumerator ShootBallsAtFrequency(float initialDelay)
+{
+    yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
+
+    while (canSpawn)
+    {
+        float timeUntilNextSpawn = spawnFrequency; // Reset the timer every loop
+
+        ShootBall();
+        SpawnShootParticles();
+
+        while (timeUntilNextSpawn > 0)
         {
-            ShootBall();
-            yield return new WaitForSeconds(spawnFrequency);
+            timeUntilNextSpawn -= Time.deltaTime; // Decrement the timer
+
+            // Check if it's time to spawn ready particles and if they haven't been spawned yet
+            if (timeUntilNextSpawn <= 1f && !spawnedReadyParticles)
+            {
+                SpawnReadyParticles();
+            }
+
+            yield return null; // Wait until the next frame to continue the loop
         }
+
+        
+    }
+}
+
+
+
+    private void SpawnShootParticles(){
+        GameObject pS = Instantiate(shootParticles, transform);
+            pS.transform.SetParent(null);
+            StartCoroutine(DestroyParticles(pS));
+    }
+
+    private void SpawnReadyParticles()
+    {
+        spawnedReadyParticles = true;
+        GameObject pS = Instantiate(readyParticles, transform);
+        pS.transform.SetParent(null);
+        StartCoroutine(DestroyParticles(pS));
+    }
+
+    IEnumerator DestroyParticles(GameObject particles)
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(particles);
+        spawnedReadyParticles = false;
     }
 
     void ShootBall()
@@ -39,7 +97,6 @@ public class MovingWallManager : MonoBehaviour
         {
             rb.AddForce(shootDirection.normalized * shootForce);
         }
-
         // Destroy the ball after a set time
         Destroy(ballInstance, ballLifetime);
     }

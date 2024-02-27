@@ -8,6 +8,10 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Data")]
+    public float currentPB = Mathf.Infinity;
+    private CloudSaving cS;
+
     [Header("Other")]
     public bool canEndLevel = false;
     public bool levelFinished = false;
@@ -33,7 +37,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         time = 0f;
-
+        cS = GetComponent<CloudSaving>();
         //get the player reference
         player = GameObject.FindGameObjectWithTag("Player");
         playerStartPosition = player.transform.position;
@@ -47,7 +51,11 @@ public class GameManager : MonoBehaviour
         nextLevelTransition = GameObject.FindGameObjectWithTag("Trans");
         GetStars();
 
-        //
+        //--
+        GetControls();
+    }
+
+    private void GetControls(){
         playerControls = new Player();
         playerControls.Gameplay.Jump.performed += ctx =>
         {
@@ -57,6 +65,8 @@ public class GameManager : MonoBehaviour
             }
         };
         playerControls.Gameplay.Reset.performed += ctx => ResetLevel();
+        playerControls.Gameplay.NextLevel.performed += ctx => NextLevel();
+        playerControls.Gameplay.PreviousLevel.performed += ctx => PreviousLevel();
     }
 
     private void GetStars()
@@ -93,24 +103,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         nextLevelTransition.GetComponent<Animator>().Play(inTransition);
+        cS.LoadData();
     }
-
 
     void Update()
     {
-        //----REMOVE IN FINAL BUILD----------------------
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            levelFinished = true;
-            LoadNextLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        }
-        //----------------------------------------------------------
-
-
         UpdateTimerDisplay();
 
         if (!levelFinished)
@@ -122,6 +119,16 @@ public class GameManager : MonoBehaviour
         {
             FinalizeLevel();
         }
+    }
+
+
+//----REMOVE IN FINAL BUILD----------------------
+    private void NextLevel(){
+        levelFinished = true;
+            LoadNextLevel();
+    }
+    private void PreviousLevel(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     void UpdateTimerDisplay()
@@ -142,6 +149,11 @@ public class GameManager : MonoBehaviour
     {
         timerRunning = false; // Stop the timer
         finalTime = time;
+        if(finalTime < currentPB) 
+        {
+            currentPB = finalTime;
+            cS.SaveData();
+        }
         GetGrade();
 
         // Indicate the game is ready for a next level jump action
@@ -149,6 +161,9 @@ public class GameManager : MonoBehaviour
 
         nextLevelTransition.GetComponent<Animator>().Play(outTransition);
     }
+
+
+
     private void GetGrade()
     {
         // Round finalTime to 1 decimal place to align with player's view
@@ -184,3 +199,6 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
+
+

@@ -1,2 +1,19 @@
 fileFormatVersion: 2
 guid: cc6c532e596dd4159ad096a5fc08f02b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player: {instanceID: 0}
+  - footStep: {fileID: 8300000, guid: 5816c5a77e173496bbce26ec0f39ba5c, type: 3}
+  - landing: {fileID: 8300000, guid: 0f1de496550c44a8cad3d93d8388ba30, type: 3}
+  - jumping: {fileID: 8300000, guid: 0c7c8100075314f1b84222106bedbccf, type: 3}
+  - landingParticles: {fileID: 2686284159744970060, guid: ce9a985fb9b8b4be990049bbf266061d,
+      type: 3}
+  - jumpParticles: {fileID: 4402596137305749141, guid: 9f5f9fdff49744a5a9b53eb5f87ff903,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

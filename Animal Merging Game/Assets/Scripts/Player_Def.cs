@@ -13,7 +13,7 @@ public class Player_Def : MonoBehaviour
     private Transform cameraTransform;
     [SerializeField] private Vector3 groundCheckSize;
     [SerializeField] private float castDistance;
-    [SerializeField] private Transform groundCheckPosition;
+    public Transform groundCheckPosition;
     [SerializeField] private float groundCheckDelayAfterJump = 0.05f; // 50ms delay before allowing ground check
     private float groundCheckTimer = 0f;
     public LayerMask groundLayer;
@@ -27,7 +27,7 @@ public class Player_Def : MonoBehaviour
     public Vector3 movement;
     private float currentAcceleration = 0f;
     private int howManyJumps = 1;
-    private int totalJumps = 0;
+    [SerializeField] private int totalJumps = 0;
 
 
     [Header("Jumping")]
@@ -40,7 +40,7 @@ public class Player_Def : MonoBehaviour
     [SerializeField] private float JumpBuffer_Timer;
     [SerializeField] private float JumpBuffer_Seconds = 0.1f; //jump buffer to allow the player to jump immediately after hitting the ground if they failed the timing while falling
     public bool isGrounded; // To check if player is on the ground
-    private bool jumpRequested; // To store jump request
+    [SerializeField] private bool jumpRequested; // To store jump request
     public bool justLanded = false;
     private bool wasFalling = false;
 
@@ -70,19 +70,20 @@ public class Player_Def : MonoBehaviour
     [Header("Animals")]
     [SerializeField] private float switchCooldown = 1.0f; // Cooldown duration in seconds
     private float lastSwitchTime = -1.0f; // Timestamp of the last switch
-    [SerializeField] private List<GameObject> animalGameObjects = new List<GameObject>();
-    [SerializeField] private List<Animal> animals = new List<Animal>();
+    public List<GameObject> animalGameObjects = new List<GameObject>();
+    public List<Animal> animals = new List<Animal>();
     public Animal currentlyActiveAnimal;
     [SerializeField] private GameObject defaultPlayerGameObject;
-    [SerializeField] private int activeAnimalIndex = 0;
+    public int activeAnimalIndex = 0;
     public bool isBouncing = false; // Flag to indicate if the player is currently bouncing
     public List<Image> animalSprites = new List<Image>();
+    public bool forceSwapped = false;
 
     [Header("Visuals")]
-    public GameObject landingParticles;
-    private bool landingParticlesSpawned = false;
-    public GameObject jumpingParticles;
-    private bool jumpingParticlesSpawned = false;
+    //public GameObject landingParticles;
+    //private bool landingParticlesSpawned = false;
+    //public GameObject jumpingParticles;
+    //private bool jumpingParticlesSpawned = false;
     public GameObject swapParticles;
 
     #region Normal methods
@@ -281,7 +282,7 @@ public class Player_Def : MonoBehaviour
                 rb.velocity = horizontalVelocity * preservedSpeedFactor;
                 //Debug.Log("Ground: " + rb.velocity);
             }
-            if(!wasGrounded && wasFalling)
+            if(!wasGrounded && wasFalling && !jumpRequested)
             {
                 HandleLanding();
             }
@@ -373,7 +374,6 @@ public class Player_Def : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f); // Short delay with the duration of the landing animation
         justLanded = false;
-        landingParticlesSpawned = false;
     }
     #endregion
 
@@ -384,12 +384,11 @@ public class Player_Def : MonoBehaviour
         float currentTime = Time.time;
         if (currentTime - lastSwitchTime < switchCooldown) return;
 
-
         // Check if the index is within the bounds of the animals list
         if (index < 0 || index >= animals.Count) return;
 
         // Check if the new animal is the same as the currently active one
-        if (index == activeAnimalIndex && currentlyActiveAnimal != null) return;
+        if (index == activeAnimalIndex && currentlyActiveAnimal != null && !forceSwapped) return;
 
         // First, reset any currently active ability
         if (currentlyActiveAnimal != null)
@@ -417,7 +416,7 @@ public class Player_Def : MonoBehaviour
         activeAnimalIndex = index;
         currentlyActiveAnimal = animals[index];
         currentlyActiveAnimal.Activate(this);
-
+        forceSwapped = false;
         lastSwitchTime = currentTime; // Update the timestamp of the last switch
     }
 
@@ -443,24 +442,21 @@ public class Player_Def : MonoBehaviour
         {
             currentState = PlayerState.Swinging;
         }
-        //jump up animation
-        else if (rb.velocity.y > 0 && !isGrounded && !justLanded)
-        {
-            currentState = PlayerState.Jumping;
-            SpawnJumpingParticles();
-        }
-        //jump down animation
-        else if (rb.velocity.y < 0 && !isGrounded)
-        {
-            currentState = PlayerState.Falling;
-            jumpingParticlesSpawned = false;
-        }
         //landing animation
         else if (justLanded)
         {
-            SpawnLandingParticles();
             currentState = PlayerState.Landing;
         }
+        //fall animation
+        else if (rb.velocity.y < 0 && !isGrounded)
+        {
+            currentState = PlayerState.Falling;
+        }
+        //jump up animation
+        else if (totalJumps == 1 && !isGrounded && !justLanded && rb.velocity.y > 0)
+        {
+            currentState = PlayerState.Jumping;
+        }        
         //running animation
         else if (movement != Vector3.zero && isGrounded)
         {
@@ -473,34 +469,12 @@ public class Player_Def : MonoBehaviour
         }
     }
 
-    private void SpawnJumpingParticles()
-    {
-        if (!jumpingParticlesSpawned)
-        {
-            jumpingParticlesSpawned = true;
-            GameObject pS = Instantiate(jumpingParticles, groundCheckPosition);
-            pS.transform.SetParent(null);
-            StartCoroutine(DestroyParticles(pS));
-        }
-    }
-
-    private void SpawnLandingParticles()
-    {
-        if (!landingParticlesSpawned)
-        {
-            //Debug.Log("Spawned landing particles");
-            landingParticlesSpawned = true;
-            GameObject pS = Instantiate(landingParticles, groundCheckPosition);
-            pS.transform.SetParent(null);
-            StartCoroutine(DestroyParticles(pS));
-        }
-    }
-
     IEnumerator DestroyParticles(GameObject particles)
     {
         yield return new WaitForSeconds(1f);
         Destroy(particles);
     }
+    
 
     void OnDrawGizmos()
     {

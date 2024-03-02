@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  groundCheckSize: {x: 0.4, y: 0.05, z: 0.4}
-  castDistance: 0.02
+  groundCheckSize: {x: 0.39, y: 0.05, z: 0.39}
+  castDistance: 0.04
   groundCheckPosition: {fileID: 6036832489349793685}
   groundCheckDelayAfterJump: 0.05
   groundLayer:
@@ -111,14 +111,16 @@ MonoBehaviour:
   startMoveSpeed: 0
   airControlFactor: 6
   movement: {x: 0, y: 0, z: 0}
+  totalJumps: 0
   jumpForce: 15
   momentumMultiplier: 1.5
   peakJumpHeight: 0
   coyote_timer: 0
-  coyote_seconds: 0.125
+  coyote_seconds: 0.2
   JumpBuffer_Timer: 0
   JumpBuffer_Seconds: 0.2
   isGrounded: 0
+  jumpRequested: 0
   justLanded: 0
   normalGravityScale: 4
   increasedGravityScale: 8
@@ -132,10 +134,7 @@ MonoBehaviour:
   activeAnimalIndex: 0
   isBouncing: 0
   animalSprites: []
-  landingParticles: {fileID: 2686284159744970060, guid: ce9a985fb9b8b4be990049bbf266061d,
-    type: 3}
-  jumpingParticles: {fileID: 4402596137305749141, guid: 9f5f9fdff49744a5a9b53eb5f87ff903,
-    type: 3}
+  forceSwapped: 0
   swapParticles: {fileID: 7419297494415955700, guid: 747c20d6db5ef4032b544a908a27cee3,
     type: 3}
 --- !u!114 &6666792894783603739

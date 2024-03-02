@@ -16,7 +16,8 @@ MonoBehaviour:
   grapplingRange: 9.5
   grapplingCooldown: 0.5
   exitBoostMultiplier: 3
-  grapplePoint: {x: 0, y: 24, z: 230.06117}
+  maxVelocity: 60
+  grapplePoint: {x: 0, y: 21, z: 267.5}
   isSwinging: 0
   whatIsGrappable:
     serializedVersion: 2

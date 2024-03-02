@@ -17,14 +17,25 @@ using System;
 
 public class CloudSaving : MonoBehaviour
 {
+    public static CloudSaving Instance { get; private set; }
     private GameManager gM;
     private bool isSigningIn = false;
     private Task signInTask = null;
 
     void Awake()
     {
-        signInTask = SetUpAndSignIn();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Keep the instance alive across scenes
+            signInTask = SetUpAndSignIn();
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
     }
+
 
     void Start()
     {
@@ -105,7 +116,16 @@ public class CloudSaving : MonoBehaviour
         try
         {
             var loadedData = await CloudSaveService.Instance.Data.Player.LoadAsync(keysToLoad);
-            Debug.Log($"Loaded time. Current best time for {SceneManager.GetActiveScene().name} is : {loadedData[SceneManager.GetActiveScene().name]}");
+            if (loadedData.ContainsKey(SceneManager.GetActiveScene().name + "_bestTime"))
+            {
+                // Successfully loaded data
+                Debug.Log($"Loaded time. Current best time for {SceneManager.GetActiveScene().name} is : {loadedData[SceneManager.GetActiveScene().name + "_bestTime"].Value}");
+            }
+            else
+            {
+                // Handle scenario where data does not exist
+                Debug.Log("No data exists for the current level.");
+            }
         }
         catch (Exception ex)
         {

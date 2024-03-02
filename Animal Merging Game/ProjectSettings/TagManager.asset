@@ -15,6 +15,7 @@ TagManager:
   - FinalTime
   - Grade
   - Stars
+  - Pb_Time
   layers:
   - Default
   - TransparentFX

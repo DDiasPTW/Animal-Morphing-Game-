@@ -16,4 +16,4 @@ MonoBehaviour:
   moveSpeed: 18
   accelerationTime: 0.3
   onTransitionDuration: 0.5
-  offTransitionDuration: 1
+  offTransitionDuration: 1.5

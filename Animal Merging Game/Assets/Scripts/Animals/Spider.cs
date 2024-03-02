@@ -10,6 +10,7 @@ public class Spider : Animal
     public float grapplingRange = 10f;
     [SerializeField] private float grapplingCooldown = 2f; // Cooldown time in seconds
     [SerializeField] private float exitBoostMultiplier = 1.2f;
+    [SerializeField] private float maxVelocity = 70f;
     //[SerializeField] private float verticalLift = 1.2f;
     [HideInInspector] public Vector3 grapplePoint;
     public bool isSwinging = false;
@@ -81,7 +82,6 @@ public class Spider : Animal
         if (isSwinging)
         {
             StopSwing(player);
-            Debug.Log("Stopped swinging");
         }
     }
 
@@ -113,10 +113,11 @@ public class Spider : Animal
 
             // Add a boost to the swing's exit velocity to simulate a more dynamic release
             swingVelocity *= exitBoostMultiplier;
-            //swingVelocity += Vector3.up * verticalLift;
-            //Debug.Log(swingVelocity);
+            swingVelocity = Vector3.ClampMagnitude(swingVelocity,maxVelocity);
             // Apply the calculated velocity to the player's Rigidbody to maintain momentum after the swing
             player.rb.velocity = swingVelocity;
+            
+            Debug.Log(swingVelocity.magnitude);
 
             // Clean up the SpringJoint component
             Destroy(springJoint);

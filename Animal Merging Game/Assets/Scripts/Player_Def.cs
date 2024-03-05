@@ -80,10 +80,6 @@ public class Player_Def : MonoBehaviour
     public bool forceSwapped = false;
 
     [Header("Visuals")]
-    //public GameObject landingParticles;
-    //private bool landingParticlesSpawned = false;
-    //public GameObject jumpingParticles;
-    //private bool jumpingParticlesSpawned = false;
     public GameObject swapParticles;
 
     #region Normal methods

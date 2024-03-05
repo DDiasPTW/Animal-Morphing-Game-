@@ -10,12 +10,11 @@ public class GameManager : MonoBehaviour
 {
     [Header("Data")]
     public float currentPB = Mathf.Infinity;
-    //private CloudSaving cS;
 
     [Header("Other")]
-    public bool canEndLevel = false;
+    public bool canEndLevel = true;
     public bool levelFinished = false;
-
+    public bool canStartTimer = false;
 
     [Header("Visuals")]
     private bool readyForNextLevel = false;
@@ -30,16 +29,15 @@ public class GameManager : MonoBehaviour
     public Player playerControls;
     private GameObject nextLevelTransition;
     private string inTransition = "Scene_In";
-    private string outTransition = "Scene_Out";
+    private string outTransition = "Scene_Out_v2";
     [SerializeField] private GameObject[] stars;
+    [SerializeField] private TMP_Text[] recordTexts;
     public int starsToActivate = 0;
 
     void Awake()
     {
         time = 0f;
         
-        //cS = GetComponent<CloudSaving>();
-
         //timer reference
         timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         levelFinished = false;
@@ -49,7 +47,7 @@ public class GameManager : MonoBehaviour
         //next level transition
         nextLevelTransition = GameObject.FindGameObjectWithTag("Trans");
         GetStars();
-
+        GetTexts();
         //--
         GetControls();
     }
@@ -68,6 +66,23 @@ public class GameManager : MonoBehaviour
         playerControls.Gameplay.NextLevel.performed += ctx => NextLevel();
         playerControls.Gameplay.PreviousLevel.performed += ctx => PreviousLevel();
     }
+
+    private void GetTexts()
+    {
+        // Get the length of the gradeTimes list
+        int gradeCount = gradeTimes.Count;
+
+        // Loop through the recordTexts array in reverse order
+        for (int i = recordTexts.Length - 1; i >= 0; i--)
+        {
+            // Calculate the index for accessing gradeTimes in reverse
+            int gradeIndex = gradeCount - 1 - i;
+
+            // Set the text of each recordText to the corresponding element of gradeTimes
+            recordTexts[i].text = gradeTimes[gradeIndex].ToString() + "s";
+        }
+    }
+
 
 
     private void GetStars()
@@ -112,7 +127,7 @@ public class GameManager : MonoBehaviour
     {
         //UpdateTimerDisplay();
 
-        if (!levelFinished)
+        if (!levelFinished && canStartTimer)
         {
             UpdateTimerDisplay();
         }

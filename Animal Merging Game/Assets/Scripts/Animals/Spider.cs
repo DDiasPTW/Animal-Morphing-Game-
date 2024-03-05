@@ -31,7 +31,6 @@ public class Spider : Animal
 
     [Tooltip("This multiplies the mass of the object for the spring calculation, affecting how the spring's force acts on the player"),
     SerializeField] private float massScale = 4.5f;
-    private float swingStartHeight;
 
     public override void Activate(Player_Def player)
     {
@@ -100,7 +99,6 @@ public class Spider : Animal
         springJoint.damper = damper;
         springJoint.massScale = massScale;
 
-        swingStartHeight = player.transform.position.y;
         isSwinging = true; 
     }
 

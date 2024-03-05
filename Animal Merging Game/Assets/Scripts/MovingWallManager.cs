@@ -23,52 +23,42 @@ public class MovingWallManager : MonoBehaviour
     }
 
 
-    // IEnumerator ShootBallsAtFrequency(float initialDelay)
-    // {
-    //     yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
-
-    //     while (canSpawn)
-    //     {
-    //         ShootBall();
-    //         SpawnShootParticles();
-    //         yield return new WaitForSeconds(spawnFrequency);
-    //     }
-    // }
 
     IEnumerator ShootBallsAtFrequency(float initialDelay)
-{
-    yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
-
-    while (canSpawn)
     {
-        float timeUntilNextSpawn = spawnFrequency; // Reset the timer every loop
+        yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop
 
-        ShootBall();
-        SpawnShootParticles();
-
-        while (timeUntilNextSpawn > 0)
+        while (canSpawn)
         {
-            timeUntilNextSpawn -= Time.deltaTime; // Decrement the timer
+            float timeUntilNextSpawn = spawnFrequency; // Reset the timer every loop
 
-            // Check if it's time to spawn ready particles and if they haven't been spawned yet
-            if (timeUntilNextSpawn <= 1f && !spawnedReadyParticles)
+            ShootBall();
+            SpawnShootParticles();
+
+            while (timeUntilNextSpawn > 0)
             {
-                SpawnReadyParticles();
+                timeUntilNextSpawn -= Time.deltaTime; // Decrement the timer
+
+                // Check if it's time to spawn ready particles and if they haven't been spawned yet
+                if (timeUntilNextSpawn <= 1f && !spawnedReadyParticles)
+                {
+                    SpawnReadyParticles();
+                }
+
+                yield return null; // Wait until the next frame to continue the loop
             }
 
-            yield return null; // Wait until the next frame to continue the loop
+
         }
-
-        
     }
-}
 
 
 
-    private void SpawnShootParticles(){
+    private void SpawnShootParticles()
+    {
         GameObject pS = Instantiate(shootParticles, transform);
-            pS.transform.SetParent(null);
-            StartCoroutine(DestroyParticles(pS));
+        pS.transform.SetParent(null);
+        StartCoroutine(DestroyParticles(pS));
     }
 
     private void SpawnReadyParticles()
@@ -103,8 +93,8 @@ public class MovingWallManager : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;   
-        Gizmos.DrawLine(transform.position,transform.position + shootDirection * 10);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + shootDirection * 10);
     }
 }
 

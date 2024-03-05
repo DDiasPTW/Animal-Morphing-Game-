@@ -10,7 +10,7 @@ namespace PathCreation.Examples
         public EndOfPathInstruction endOfPathInstruction;
         public float speed = 5;
         float distanceTravelled;
-
+        [SerializeField] private GameObject movingParticles;
 
         public bool canMove = false;
         //[SerializeField] private float timeTillMove = 0.5f; //time in seconds before it starts chasing the path
@@ -18,6 +18,7 @@ namespace PathCreation.Examples
         void Awake()
         {
             canMove = false;
+            movingParticles.SetActive(false);
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
         }
 
@@ -34,6 +35,7 @@ namespace PathCreation.Examples
             if (pathCreator != null && canMove)
             {
                 distanceTravelled += speed * Time.deltaTime;
+                movingParticles.SetActive(true);
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
                 transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
             }

@@ -250,3 +250,5 @@ MonoBehaviour:
     type: 3}
   readyParticles: {fileID: 5705559886886906494, guid: 3b4e4e9ce8d334c0cb285f45f59f1e0d,
     type: 3}
+  spawnedReadyParticles: 0
+  shootSound: {fileID: 8300000, guid: 51c98cd0fa40b49168242b9dcd5e83d5, type: 3}

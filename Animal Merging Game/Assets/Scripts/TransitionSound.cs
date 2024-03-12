@@ -60,4 +60,8 @@ public class TransitionSound : MonoBehaviour
         aS.pitch = 1f;
         aS.PlayOneShot(appearSecondAudio);
     }
+
+    public void GoNext(){
+        gM.LoadNextLevel();
+    }
 }

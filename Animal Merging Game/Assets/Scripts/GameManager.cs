@@ -10,11 +10,16 @@ public class GameManager : MonoBehaviour
 {
     [Header("Data")]
     public float currentPB = Mathf.Infinity;
+    private int bestStars = 0;
+    private const string _bestTime = "_bestTime";
+    private const string _bestStars = "_bestStars";
+    private const string _nextLevelUnlocked = "_nextLevelUnlocked";
 
     [Header("Other")]
     public bool canEndLevel = true;
     public bool levelFinished = false;
     public bool canStartTimer = false;
+    [SerializeField] private bool isTut = false;
 
     [Header("Visuals")]
     private bool readyForNextLevel = false;
@@ -22,7 +27,7 @@ public class GameManager : MonoBehaviour
     private TMP_Text finalTimeText;
     private TMP_Text pbTimeText;
     private bool timerRunning = true;
-    
+
     public List<float> gradeTimes = new List<float>();
     [SerializeField] private float finalTime;
     [SerializeField] private float time;
@@ -30,14 +35,18 @@ public class GameManager : MonoBehaviour
     private GameObject nextLevelTransition;
     private string inTransition = "Scene_In";
     private string outTransition = "Scene_Out_v2";
+    private string outZeroTransition = "Scene_Out_0";
     [SerializeField] private GameObject[] stars;
     [SerializeField] private TMP_Text[] recordTexts;
     public int starsToActivate = 0;
 
+    [Header("Pause Menu")]
+    [SerializeField] private GameObject PauseMenu;
+
     void Awake()
     {
         time = 0f;
-        
+
         //timer reference
         timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         levelFinished = false;
@@ -50,9 +59,12 @@ public class GameManager : MonoBehaviour
         GetTexts();
         //--
         GetControls();
+        //
+        PauseMenu.SetActive(false);
     }
 
-    private void GetControls(){
+    private void GetControls()
+    {
         playerControls = new Player();
 
         playerControls.Gameplay.Jump.performed += ctx =>
@@ -65,6 +77,7 @@ public class GameManager : MonoBehaviour
         playerControls.Gameplay.Reset.performed += ctx => ResetLevel();
         playerControls.Gameplay.NextLevel.performed += ctx => NextLevel();
         playerControls.Gameplay.PreviousLevel.performed += ctx => PreviousLevel();
+        playerControls.Gameplay.Pause.performed += ctx => PauseGame();
     }
 
     private void GetTexts()
@@ -82,9 +95,6 @@ public class GameManager : MonoBehaviour
             recordTexts[i].text = gradeTimes[gradeIndex].ToString() + "s";
         }
     }
-
-
-
     private void GetStars()
     {
         // Find the StarsContainer by tag or name
@@ -120,13 +130,11 @@ public class GameManager : MonoBehaviour
     {
         nextLevelTransition.GetComponent<Animator>().Play(inTransition);
         LoadBestTime();
-        //cS.LoadData();
+        LoadBestStars();
     }
 
     void Update()
     {
-        //UpdateTimerDisplay();
-
         if (!levelFinished && canStartTimer)
         {
             UpdateTimerDisplay();
@@ -142,12 +150,12 @@ public class GameManager : MonoBehaviour
         // }
     }
 
-
-//----REMOVE IN FINAL BUILD----------------------
-    private void NextLevel(){
+    private void NextLevel()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-    private void PreviousLevel(){
+    private void PreviousLevel()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
@@ -169,32 +177,63 @@ public class GameManager : MonoBehaviour
     {
         timerRunning = false; // Stop the timer
         finalTime = time;
-        if(finalTime < currentPB) 
+        if (finalTime < currentPB)
         {
             currentPB = finalTime;
             SaveBestTime();
         }
         GetGrade();
 
+
+        UnlockNextLevel();
+
+
+
         // Indicate the game is ready for a next level jump action
         readyForNextLevel = true;
 
-        nextLevelTransition.GetComponent<Animator>().Play(outTransition);
+        if (!isTut)
+        {
+            nextLevelTransition.GetComponent<Animator>().Play(outTransition);
+        }
+        else nextLevelTransition.GetComponent<Animator>().Play(outZeroTransition);
+
     }
 
-    public void SaveBestTime()
+    public void UnlockNextLevel()
+    {
+        int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextBuildIndex = currentBuildIndex + 1;
+
+        if (nextBuildIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            string nextLevelName = SceneUtility.GetScenePathByBuildIndex(nextBuildIndex);
+            nextLevelName = System.IO.Path.GetFileNameWithoutExtension(nextLevelName);
+
+            string key = nextLevelName + _nextLevelUnlocked;
+            PlayerPrefs.SetInt(key, 1); // 1 = true, 0 = false
+            Debug.Log(nextLevelName + " unlocked");
+        }
+        else
+        {
+            Debug.LogWarning("No next level available to unlock.");
+        }
+    }
+
+
+    #region Save system
+    private void SaveBestTime()
     {
         // Construct a unique key for the current level's best time
         double roundedFinalPB = Math.Round(currentPB, 3, MidpointRounding.AwayFromZero);
-        string key = SceneManager.GetActiveScene().name + "_bestTime";
+        string key = SceneManager.GetActiveScene().name + _bestTime;
         PlayerPrefs.SetFloat(key, (float)roundedFinalPB);
         PlayerPrefs.Save();
     }
 
-    public void LoadBestTime()
+    private void LoadBestTime()
     {
-        // Construct the key similar to how you save it
-        string key = SceneManager.GetActiveScene().name + "_bestTime";
+        string key = SceneManager.GetActiveScene().name + _bestTime;
         if (PlayerPrefs.HasKey(key))
         {
             // If a best time is saved, load it. Otherwise, keep currentPB at its default value.
@@ -202,6 +241,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SaveStars(int starsToSave)
+    {
+        string key = SceneManager.GetActiveScene().name + _bestStars;
+        PlayerPrefs.SetInt(key, starsToSave);
+        PlayerPrefs.Save();
+    }
+    private void LoadBestStars()
+    {
+        string key = SceneManager.GetActiveScene().name + _bestStars;
+        if (PlayerPrefs.HasKey(key))
+        {
+            // If a best star is saved, load it.
+            bestStars = PlayerPrefs.GetInt(key);
+        }
+    }
 
     private void GetGrade()
     {
@@ -214,13 +268,15 @@ public class GameManager : MonoBehaviour
         DisableStar();
 
         // Determine the number of stars to activate based on the grade
-        //int starsToActivate = 0;
         if (roundedFinalTime <= gradeTimes[0]) starsToActivate = 6;
         else if (roundedFinalTime <= gradeTimes[1]) starsToActivate = 5;
         else if (roundedFinalTime <= gradeTimes[2]) starsToActivate = 4;
         else if (roundedFinalTime <= gradeTimes[3]) starsToActivate = 3;
         else if (roundedFinalTime <= gradeTimes[4]) starsToActivate = 2;
         else if (roundedFinalTime <= gradeTimes[5]) starsToActivate = 1;
+
+        if (starsToActivate > bestStars) SaveStars(starsToActivate);
+
 
         // Activate the appropriate number of stars
         for (int i = 0; i < starsToActivate; i++)
@@ -237,7 +293,13 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
+
+    #endregion
+
+    private void PauseGame()
+    {
+        //Need to actually pause the game, for now just open the UI
+        PauseMenu.SetActive(true);
+    }
+
 }
-
-
-

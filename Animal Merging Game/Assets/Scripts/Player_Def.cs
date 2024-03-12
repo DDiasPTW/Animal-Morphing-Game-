@@ -26,7 +26,7 @@ public class Player_Def : MonoBehaviour
     public float airControlFactor = 6f;
     public Vector3 movement;
     private float currentAcceleration = 0f;
-    private int howManyJumps = 1;
+    [SerializeField] private int howManyJumps = 1;
     [SerializeField] private int totalJumps = 0;
 
 

@@ -17,7 +17,7 @@ public class ActivateCatchable : MonoBehaviour
         catchable = GameObject.FindGameObjectWithTag("Catch");
         
         gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
-        gM.canStartTimer = false; Debug.Log(gM.canStartTimer);
+        gM.canStartTimer = false;   
 
         aS = GetComponent<AudioSource>();
     }

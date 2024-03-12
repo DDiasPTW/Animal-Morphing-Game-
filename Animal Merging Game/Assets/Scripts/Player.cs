@@ -89,6 +89,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb350296-baa0-4d74-b8f3-5e8f2409c0fe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,6 +298,28 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""PreviousLevel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d36e966a-199f-4d00-9626-f308bc480525"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91c0c111-01b1-464c-9079-414f089d34cb"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -304,6 +335,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_Gameplay_Reset = m_Gameplay.FindAction("Reset", throwIfNotFound: true);
         m_Gameplay_NextLevel = m_Gameplay.FindAction("NextLevel", throwIfNotFound: true);
         m_Gameplay_PreviousLevel = m_Gameplay.FindAction("PreviousLevel", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -372,6 +404,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Reset;
     private readonly InputAction m_Gameplay_NextLevel;
     private readonly InputAction m_Gameplay_PreviousLevel;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @Player m_Wrapper;
@@ -383,6 +416,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Reset => m_Wrapper.m_Gameplay_Reset;
         public InputAction @NextLevel => m_Wrapper.m_Gameplay_NextLevel;
         public InputAction @PreviousLevel => m_Wrapper.m_Gameplay_PreviousLevel;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -413,6 +447,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @PreviousLevel.started += instance.OnPreviousLevel;
             @PreviousLevel.performed += instance.OnPreviousLevel;
             @PreviousLevel.canceled += instance.OnPreviousLevel;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -438,6 +475,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @PreviousLevel.started -= instance.OnPreviousLevel;
             @PreviousLevel.performed -= instance.OnPreviousLevel;
             @PreviousLevel.canceled -= instance.OnPreviousLevel;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -464,5 +504,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnReset(InputAction.CallbackContext context);
         void OnNextLevel(InputAction.CallbackContext context);
         void OnPreviousLevel(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

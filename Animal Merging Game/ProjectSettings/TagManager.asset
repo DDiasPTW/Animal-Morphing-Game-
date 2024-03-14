@@ -17,6 +17,7 @@ TagManager:
   - Stars
   - Pb_Time
   - Info
+  - PlayerFollow
   layers:
   - Default
   - TransparentFX

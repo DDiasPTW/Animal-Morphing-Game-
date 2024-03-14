@@ -270,6 +270,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level21_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -495,6 +500,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level13_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -1086,6 +1096,11 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.05882353
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -1234,6 +1249,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level11_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -1439,6 +1459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level10_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -1829,6 +1854,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level3_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -2044,10 +2074,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 89.5
   m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 150
   m_fontStyle: 0
@@ -2114,6 +2144,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level15_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -2521,7 +2556,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.5, y: -230}
-  m_SizeDelta: {x: 683.5, y: 150}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &799021042
 MonoBehaviour:
@@ -2536,7 +2571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2629,6 +2664,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level14_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -2922,6 +2962,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level24_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -3066,6 +3111,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level19_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -3209,6 +3259,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level18_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -4070,6 +4125,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level4_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -4364,8 +4424,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 150
+  m_fontSizeBase: 150
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4565,6 +4625,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level16_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -4744,6 +4809,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level5_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -4983,7 +5053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1517480541
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5192,11 +5262,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ambientSound: {fileID: 1517480542}
   birdSound: {fileID: 1517480541}
-  ambientSounds:
-  - {fileID: 8300000, guid: 6c7db3b58cb7a4fa38849928f48c1c53, type: 3}
-  birdSounds:
-  - {fileID: 8300000, guid: b4d889b6226464df293f6cfe0dd1854a, type: 3}
-  - {fileID: 8300000, guid: 9c588f0a7e7b0488ca4a79fdc5c6caf1, type: 3}
+  ambientSounds: []
+  birdSounds: []
   MainMenuScene: Main Menu
 --- !u!4 &1517480544
 Transform:
@@ -5225,6 +5292,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level9_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -5369,6 +5441,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level22_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -5922,6 +5999,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level17_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -6065,6 +6147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level23_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -6210,6 +6297,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level7_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -6353,6 +6445,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level8_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -6930,6 +7027,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level20_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -7262,6 +7364,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5987382375148402552, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: m_IsActive
@@ -7411,6 +7518,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level6_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -7555,6 +7667,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level12_Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
       propertyPath: forceUnlock
@@ -7698,6 +7815,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level2_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5052657606072101057, guid: b524fd1c7c1e0484a848ccff3380f722,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6005078786233280372, guid: b524fd1c7c1e0484a848ccff3380f722,
         type: 3}
@@ -7964,7 +8086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}

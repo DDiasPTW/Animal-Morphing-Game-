@@ -155,7 +155,7 @@ public class Player_Def : MonoBehaviour
     {
         if(!gM.levelFinished){
             Move();
-        ApplyGravity();
+            ApplyGravity();
         }
         
     }
@@ -165,7 +165,7 @@ public class Player_Def : MonoBehaviour
     {
         if (gM.levelFinished)
         {
-            transform.position = Vector3.zero;
+            return;
         }
         else
         {

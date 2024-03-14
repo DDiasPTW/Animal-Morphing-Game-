@@ -22,8 +22,6 @@ public class MovingWallManager : MonoBehaviour
         StartCoroutine(ShootBallsAtFrequency(initialSpawnDelay));
     }
 
-
-
     IEnumerator ShootBallsAtFrequency(float initialDelay)
     {
         yield return new WaitForSeconds(initialDelay); // Initial delay before starting the loop

@@ -42,11 +42,14 @@ public class GameManager : MonoBehaviour
 
     [Header("Pause Menu")]
     [SerializeField] private GameObject PauseMenu;
+    public static bool isGamePause = false; //allow other scripts to check this
+    [SerializeField] private bool canPause = true;
+    [SerializeField] private string mainMenuScene;
 
     void Awake()
     {
         time = 0f;
-
+        canPause = true;
         //timer reference
         timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         levelFinished = false;
@@ -145,9 +148,11 @@ public class GameManager : MonoBehaviour
             FinalizeLevel();
         }
 
-        // if(Input.GetKeyDown(KeyCode.L)){
-        //     PlayerPrefs.DeleteAll();
-        // }
+        if(Input.GetKeyDown(KeyCode.L)){
+            //PlayerPrefs.DeleteAll();
+            string key = SceneManager.GetActiveScene().name + _bestTime;
+            PlayerPrefs.DeleteKey(key);
+        }
     }
 
     private void NextLevel()
@@ -187,14 +192,13 @@ public class GameManager : MonoBehaviour
 
         UnlockNextLevel();
 
-
-
         // Indicate the game is ready for a next level jump action
         readyForNextLevel = true;
 
         if (!isTut)
         {
             nextLevelTransition.GetComponent<Animator>().Play(outTransition);
+            canPause = false;
         }
         else nextLevelTransition.GetComponent<Animator>().Play(outZeroTransition);
 
@@ -212,7 +216,7 @@ public class GameManager : MonoBehaviour
 
             string key = nextLevelName + _nextLevelUnlocked;
             PlayerPrefs.SetInt(key, 1); // 1 = true, 0 = false
-            Debug.Log(nextLevelName + " unlocked");
+            //Debug.Log(nextLevelName + " unlocked");
         }
         else
         {
@@ -298,8 +302,37 @@ public class GameManager : MonoBehaviour
 
     private void PauseGame()
     {
-        //Need to actually pause the game, for now just open the UI
-        PauseMenu.SetActive(true);
+        if (!isGamePause && canPause)
+        {
+            //Need to actually pause the game, for now just open the UI
+            PauseMenu.SetActive(true);
+            isGamePause = true;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            isGamePause = false;
+            PauseMenu.SetActive(false);
+            Time.timeScale = 1f;
+        }
+
+    }
+
+    //vv - For the Pause Menu UI - vv
+    public void Continue()
+    {
+        Time.timeScale = 1f;
+        PauseMenu.SetActive(false);
+    }
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(mainMenuScene);
+    }
+
+    public void Quit(){
+        Application.Quit();
     }
 
 }

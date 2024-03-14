@@ -25,7 +25,12 @@ public class Catch : MonoBehaviour
     {
         if(other.CompareTag("Player") && !gM.canEndLevel)
         {
-            //allow the player to end the level
+            Caught();
+        }
+    }
+
+    public void Caught(){
+        //allow the player to end the level
             gM.canEndLevel = true;
             
             //disable the model
@@ -40,7 +45,6 @@ public class Catch : MonoBehaviour
 
             //destroy the gameObject
             StartCoroutine(DestroySelf());
-        }
     }
 
     IEnumerator DestroyParticles(GameObject particles)

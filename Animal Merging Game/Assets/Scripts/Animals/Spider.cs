@@ -115,7 +115,7 @@ public class Spider : Animal
             // Apply the calculated velocity to the player's Rigidbody to maintain momentum after the swing
             player.rb.velocity = swingVelocity;
             
-            Debug.Log(swingVelocity.magnitude);
+            //Debug.Log(swingVelocity.magnitude);
 
             // Clean up the SpringJoint component
             Destroy(springJoint);

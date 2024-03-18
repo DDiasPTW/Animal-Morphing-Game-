@@ -25,7 +25,7 @@ public class ChangeLevels : MonoBehaviour
             if (gM.canEndLevel)
             {
                 gM.levelFinished = true;
-            }
+            }else StartCoroutine(RestartLevel());
         }
 
         else if (other.CompareTag("Catch"))

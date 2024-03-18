@@ -8,10 +8,19 @@ public class DeactivateBSpawners : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player")){
+        if (other.CompareTag("Player"))
+        {
             for (int i = 0; i < spawnersToDeactivate.Count; i++)
-            {   
-                spawnersToDeactivate[i].GetComponent<MovingWallManager>().canSpawn = false;
+            {
+                if (spawnersToDeactivate[i].GetComponent<MovingWallManager>())
+                {
+                    spawnersToDeactivate[i].GetComponent<MovingWallManager>().canSpawn = false;
+                }
+                else if (spawnersToDeactivate[i].GetComponent<LaserSpawner>())
+                {
+
+                    spawnersToDeactivate[i].GetComponent<LaserSpawner>().canAttack = false;
+                }
             }
         }
     }

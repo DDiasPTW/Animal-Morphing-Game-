@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4162992720461833846}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2432090755550338912, guid: eb49ea729e0c24ff7a66d518753889bf, type: 3}
 --- !u!23 &8452414322327670922
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -104,9 +104,18 @@ MonoBehaviour:
   orbitMaxRadius: 7
   orbitMinHeight: 4.5
   orbitMaxHeight: 5.5
-  orbitFrequency: 4
-  orbitAngleRange: 50
-  orbitChangeSpeed: 120
+  orbitFrequency: 2.3
+  orbitMinRange: 30
+  orbitMaxRange: 60
+  orbitChangeSpeed: 500
+  NeutralMesh: {fileID: -2432090755550338912, guid: eb49ea729e0c24ff7a66d518753889bf,
+    type: 3}
+  HappyMesh: {fileID: -2432090755550338912, guid: 3dfd91c1337ef4799a27db7d21523c9b,
+    type: 3}
+  SadMesh: {fileID: -2432090755550338912, guid: 56d548a0902b345e9909554a03e1bf68,
+    type: 3}
+  AngryMesh: {fileID: -2432090755550338912, guid: 03919d57896634b1791e66d203009a5b,
+    type: 3}
 --- !u!1 &4407510687285993265
 GameObject:
   m_ObjectHideFlags: 0

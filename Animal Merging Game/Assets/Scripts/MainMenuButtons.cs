@@ -7,11 +7,6 @@ public class MainMenuButtons : MonoBehaviour
     [SerializeField] private List<GameObject> sectionsToEnable = new List<GameObject>();
     [SerializeField] private GameObject sectionToDisable;
 
-    void Awake()
-    {
-        //sectionToEnable.SetActive(false);
-    }
-
     void Start()
     {
         for (int i = 0; i < sectionsToEnable.Count; i++)
@@ -21,6 +16,7 @@ public class MainMenuButtons : MonoBehaviour
     }
 
     public void PlayButton(){
+        UISoundManager.Instance.PlayAudio();
         sectionsToEnable[0].SetActive(true);
         sectionToDisable.SetActive(false);
     }

@@ -11,12 +11,12 @@ namespace PathCreation.Examples
         public float speed = 5;
         float distanceTravelled;
         [SerializeField] private GameObject movingParticles;
-
+        [SerializeField] private AudioClip moveAudio;
         public bool canMove = false;
-        //[SerializeField] private float timeTillMove = 0.5f; //time in seconds before it starts chasing the path
 
         void Awake()
         {
+
             canMove = false;
             movingParticles.SetActive(false);
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);

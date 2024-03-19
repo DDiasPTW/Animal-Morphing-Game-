@@ -56,6 +56,14 @@ public class Level_Button : MonoBehaviour
 
     public void LoadScene()
     {
+        UISoundManager.Instance.PlayAudio();
+        StartCoroutine(LoadLevel());
+        
+    }
+
+    IEnumerator LoadLevel()
+    {
+        yield return new WaitForSeconds(.3f);
         SceneManager.LoadScene(sceneToLoad);
     }
 }

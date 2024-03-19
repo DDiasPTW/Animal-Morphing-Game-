@@ -12,8 +12,12 @@ public class AnimalSwapper : MonoBehaviour
     private Canvas canvas;
     [SerializeField] private Image[] infoImage;
 
+    private AudioSource aS;
+    [SerializeField] private AudioClip swapSound;
+
     void Awake()
     {
+        aS = GetComponent<AudioSource>();
         canvas = GetComponentInChildren<Canvas>();
         canvas.worldCamera = Camera.main;
     }
@@ -44,6 +48,8 @@ public class AnimalSwapper : MonoBehaviour
                 
                 playerScript.forceSwapped = true;
 
+                aS.PlayOneShot(swapSound);
+
                 // Update animals and their GameObjects
                 for (int i = 0; i < newAnimals.Count && i < newAnimalGO.Count; i++)
                 {
@@ -62,7 +68,6 @@ public class AnimalSwapper : MonoBehaviour
                     playerScript.animalSprites[i].sprite = playerScript.animals[i].animalSprite;
                 }
                 canSwap = false;
-                gameObject.SetActive(false);
             }
         }
 

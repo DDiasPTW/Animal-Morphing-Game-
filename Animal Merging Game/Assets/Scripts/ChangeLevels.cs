@@ -5,9 +5,12 @@ using UnityEngine;
 public class ChangeLevels : MonoBehaviour
 {
     private GameManager gM;
+    [SerializeField] private AudioClip enterSound;
+    private AudioSource aS;
     void Awake()
     {
         gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
+        aS = GetComponent<AudioSource>();
     }
 
     void LateUpdate()
@@ -25,6 +28,7 @@ public class ChangeLevels : MonoBehaviour
             if (gM.canEndLevel)
             {
                 gM.levelFinished = true;
+                aS.PlayOneShot(enterSound);
             }else StartCoroutine(RestartLevel());
         }
 

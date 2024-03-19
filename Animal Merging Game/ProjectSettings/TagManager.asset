@@ -18,6 +18,7 @@ TagManager:
   - Pb_Time
   - Info
   - PlayerFollow
+  - UISound
   layers:
   - Default
   - TransparentFX

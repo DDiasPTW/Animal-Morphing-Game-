@@ -10,14 +10,26 @@ public class PauseMenu : MonoBehaviour
     public void Continue()
     {
         gameObject.SetActive(false);
+        UISoundManager.Instance.PlayAudio();
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(mainMenuScene);
+        UISoundManager.Instance.PlayAudio();
+        StartCoroutine(LoadMainMenu());
     }
 
     public void Quit(){
+        UISoundManager.Instance.PlayAudio();
+        StartCoroutine(QuitGame());
+    }
+
+    IEnumerator LoadMainMenu(){
+        yield return new WaitForSeconds(.3f);
+        SceneManager.LoadScene(mainMenuScene);
+    }
+    IEnumerator QuitGame(){
+        yield return new WaitForSeconds(.3f);
         Application.Quit();
     }
 }

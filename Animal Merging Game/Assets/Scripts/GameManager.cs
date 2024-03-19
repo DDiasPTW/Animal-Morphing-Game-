@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1f;
         time = 0f;
         canPause = true;
         //timer reference
@@ -153,15 +154,6 @@ public class GameManager : MonoBehaviour
             string key = SceneManager.GetActiveScene().name + _bestTime;
             PlayerPrefs.DeleteKey(key);
         }
-    }
-
-    private void NextLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-    private void PreviousLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     void UpdateTimerDisplay()
@@ -304,7 +296,6 @@ public class GameManager : MonoBehaviour
     {
         if (!isGamePause && canPause)
         {
-            //Need to actually pause the game, for now just open the UI
             PauseMenu.SetActive(true);
             isGamePause = true;
             Time.timeScale = 0f;
@@ -321,14 +312,48 @@ public class GameManager : MonoBehaviour
     //vv - For the Pause Menu UI - vv
     public void Continue()
     {
-        Time.timeScale = 1f;
-        PauseMenu.SetActive(false);
+        PauseGame();
+        if(UISoundManager.Instance != null){
+             UISoundManager.Instance.PlayAudio();
+        }
     }
 
     public void MainMenu()
     {
+        if(UISoundManager.Instance != null){
+             UISoundManager.Instance.PlayAudio();
+        }
+        StartCoroutine(LoadMainMenu());
+    }
+
+    IEnumerator LoadMainMenu(){
         Time.timeScale = 1f;
         SceneManager.LoadScene(mainMenuScene);
+        yield return new WaitForSeconds(.3f);
+    }
+
+    public void NextLevel()
+    {
+        if(UISoundManager.Instance != null){
+             UISoundManager.Instance.PlayAudio();
+        }
+        StartCoroutine(LoadNext());
+    }
+    public void PreviousLevel()
+    {
+        if(UISoundManager.Instance != null){
+             UISoundManager.Instance.PlayAudio();
+        }
+        StartCoroutine(LoadPrevious());
+    }
+
+    IEnumerator LoadNext(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        yield return new WaitForSeconds(.3f);
+    }
+    IEnumerator LoadPrevious(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        yield return new WaitForSeconds(.3f);
     }
 
     public void Quit(){

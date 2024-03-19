@@ -8,6 +8,7 @@ public class SectionButton : MonoBehaviour
     [SerializeField] private GameObject sectionToEnable;
 
     public void ChangeSection(){
+        UISoundManager.Instance.PlayAudio();
         sectionToEnable.SetActive(true);
         sectionToDisable.SetActive(false);
     }

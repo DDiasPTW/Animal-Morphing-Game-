@@ -119,6 +119,8 @@ public class LaserSpawner : MonoBehaviour
         StartCoroutine(DestroyChargingParticles(particles));
     }
 
+
+
     private IEnumerator SpawnLaser()
     {
         while (canAttack && !gM.levelFinished)
@@ -132,7 +134,6 @@ public class LaserSpawner : MonoBehaviour
             //Play the shooting Sound Effect
             aS.volume = shootingVolume;
             aS.PlayOneShot(shootingAudio);
-
             // Enable LineRenderer
             lineRenderer.startWidth = laserWidth;
             lineRenderer.endWidth = laserWidth;

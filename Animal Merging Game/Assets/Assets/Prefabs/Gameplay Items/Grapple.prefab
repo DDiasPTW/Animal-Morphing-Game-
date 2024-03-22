@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spider: {fileID: 11400000, guid: 5e69d06cce9694dc3932ca94929f81c8, type: 2}
+  normalMat: {fileID: 2100000, guid: dcdeccc892b99432cbec543a0621b096, type: 2}
+  inRangeMat: {fileID: 2100000, guid: e9ffe3b6db69545eca40e2e8502db238, type: 2}

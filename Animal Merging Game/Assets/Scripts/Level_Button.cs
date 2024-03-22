@@ -36,21 +36,17 @@ public class Level_Button : MonoBehaviour
         }
 
 
-        if (pbText != null && !forceUnlock)
+        if (pbText != null)
         {
             string key = sceneToLoad + _bestTime;
             if (PlayerPrefs.HasKey(key)) // Check if the key exists
             {
-                pbText.text = PlayerPrefs.GetFloat(key).ToString() + "s";
+                pbText.text = PlayerPrefs.GetFloat(key).ToString("F3") + "s";
                 pbText.gameObject.SetActive(true);
             }else
             {
                 pbText.text = "";
             }
-        }
-        else if (forceUnlock)
-        {
-            pbText.text = "";
         }
     }
 

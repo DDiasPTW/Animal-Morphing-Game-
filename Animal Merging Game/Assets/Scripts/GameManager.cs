@@ -35,14 +35,12 @@ public class GameManager : MonoBehaviour
     private GameObject nextLevelTransition;
     private string inTransition = "Scene_In";
     private string outTransition = "Scene_Out_v2";
-    private string outZeroTransition = "Scene_Out_0";
     [SerializeField] private GameObject[] stars;
-    [SerializeField] private TMP_Text[] recordTexts;
     public int starsToActivate = 0;
 
     [Header("Pause Menu")]
     [SerializeField] private GameObject PauseMenu;
-    public static bool isGamePause = false; //allow other scripts to check this
+    public bool isGamePause = false; //allow other scripts to check this
     [SerializeField] private bool canPause = true;
     [SerializeField] private string mainMenuScene;
 
@@ -60,7 +58,7 @@ public class GameManager : MonoBehaviour
         //next level transition
         nextLevelTransition = GameObject.FindGameObjectWithTag("Trans");
         GetStars();
-        GetTexts();
+        //GetTexts();
         //--
         GetControls();
         //
@@ -84,21 +82,6 @@ public class GameManager : MonoBehaviour
         playerControls.Gameplay.Pause.performed += ctx => PauseGame();
     }
 
-    private void GetTexts()
-    {
-        // Get the length of the gradeTimes list
-        int gradeCount = gradeTimes.Count;
-
-        // Loop through the recordTexts array in reverse order
-        for (int i = recordTexts.Length - 1; i >= 0; i--)
-        {
-            // Calculate the index for accessing gradeTimes in reverse
-            int gradeIndex = gradeCount - 1 - i;
-
-            // Set the text of each recordText to the corresponding element of gradeTimes
-            recordTexts[i].text = gradeTimes[gradeIndex].ToString() + "s";
-        }
-    }
     private void GetStars()
     {
         // Find the StarsContainer by tag or name
@@ -149,11 +132,11 @@ public class GameManager : MonoBehaviour
             FinalizeLevel();
         }
 
-        if(Input.GetKeyDown(KeyCode.L)){
-            //PlayerPrefs.DeleteAll();
-            string key = SceneManager.GetActiveScene().name + _bestTime;
-            PlayerPrefs.DeleteKey(key);
-        }
+        // if(Input.GetKeyDown(KeyCode.L)){
+        //     //PlayerPrefs.DeleteAll();
+        //     string key = SceneManager.GetActiveScene().name + _bestTime;
+        //     PlayerPrefs.DeleteKey(key);
+        // }
     }
 
     void UpdateTimerDisplay()
@@ -187,13 +170,8 @@ public class GameManager : MonoBehaviour
         // Indicate the game is ready for a next level jump action
         readyForNextLevel = true;
 
-        if (!isTut)
-        {
-            nextLevelTransition.GetComponent<Animator>().Play(outTransition);
-            canPause = false;
-        }
-        else nextLevelTransition.GetComponent<Animator>().Play(outZeroTransition);
-
+        nextLevelTransition.GetComponent<Animator>().Play(outTransition);
+        canPause = false;
     }
 
     public void UnlockNextLevel()
@@ -208,7 +186,6 @@ public class GameManager : MonoBehaviour
 
             string key = nextLevelName + _nextLevelUnlocked;
             PlayerPrefs.SetInt(key, 1); // 1 = true, 0 = false
-            //Debug.Log(nextLevelName + " unlocked");
         }
         else
         {
@@ -258,8 +235,8 @@ public class GameManager : MonoBehaviour
         // Round finalTime to 1 decimal place to align with player's view
         double roundedFinalTime = Math.Round(finalTime, 3, MidpointRounding.AwayFromZero);
         // Use string formatting to ensure three decimal places are always shown
-        finalTimeText.text = finalTime.ToString("F3") + "s";
-        pbTimeText.text = "PB: " + currentPB.ToString("F3") + "s";
+        finalTimeText.text = finalTime.ToString("F3");
+        pbTimeText.text = "PB: " + currentPB.ToString("F3");
         // Initially disable all stars
         DisableStar();
 
@@ -291,7 +268,9 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+    //vv - For the Pause Menu UI - vv
 
+    #region Pause
     private void PauseGame()
     {
         if (!isGamePause && canPause)
@@ -309,7 +288,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    //vv - For the Pause Menu UI - vv
+    
     public void Continue()
     {
         PauseGame();
@@ -359,5 +338,7 @@ public class GameManager : MonoBehaviour
     public void Quit(){
         Application.Quit();
     }
+
+    #endregion
 
 }

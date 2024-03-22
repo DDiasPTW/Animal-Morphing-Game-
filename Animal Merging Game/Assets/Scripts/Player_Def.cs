@@ -153,17 +153,17 @@ public class Player_Def : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!gM.levelFinished){
+        if(!gM.levelFinished && !gM.isGamePause)
+        {
             Move();
             ApplyGravity();
-        }
-        
+        } else rb.velocity *= 0;
     }
 
 
     void Update()
     {
-        if (gM.levelFinished)
+        if (gM.levelFinished || gM.isGamePause)
         {
             return;
         }

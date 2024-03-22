@@ -51,13 +51,12 @@ MonoBehaviour:
   shootDirection: {x: 1, y: 0, z: 0}
   maxDistance: 19.1
   spawnInterval: 1.5
+  startDelay: 0
   lineDuration: 1
   chargingDuration: 1
   chargingParticles: {fileID: 2297907187189948644, guid: 7c66e0983ec2e42bda2e473ee772013d,
     type: 3}
   hitParticles: {fileID: 1475627007417905481, guid: 8c7563e2294724d40b642fb0e33069dc,
-    type: 3}
-  shootParticles: {fileID: 5413430691710014980, guid: 69d0ff8ab9e74485799ab5f2f12e0b9c,
     type: 3}
   cameraShakeIntensity: 10
   chargingAudio: {fileID: 8300000, guid: 3beadf1f988de4c5cb8b51ff50b73c1e, type: 3}

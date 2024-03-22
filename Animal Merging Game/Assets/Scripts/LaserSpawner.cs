@@ -8,6 +8,7 @@ public class LaserSpawner : MonoBehaviour
     public Vector3 shootDirection = Vector3.forward;
     public float maxDistance = 5f;
     public float spawnInterval = 3f;
+    [SerializeField] private float startDelay = 0f;
     public float lineDuration = 1f;
     public float chargingDuration = 1f;
     private LineRenderer lineRenderer;
@@ -48,7 +49,7 @@ public class LaserSpawner : MonoBehaviour
 
     private void SetCollider()
     {
-        col.size = new Vector3(laserWidth, laserWidth, maxDistance);
+        col.size = new Vector3(laserWidth / 1.5f, laserWidth / 1.5f, maxDistance);
         if (shootDirection.z != 0) //(0,0,1) or (0,0,-1)
         {
             col.center = new Vector3(0, 0, shootDirection.z * (maxDistance / 2));
@@ -79,8 +80,16 @@ public class LaserSpawner : MonoBehaviour
         }
         CameraShake.Instance.ShakeCamera(0, 0);
         // Start the coroutine to spawn lines at intervals
-        StartCoroutine(SpawnLaser());
+        StartCoroutine(DelayedStartCoroutine(startDelay));
+
     }
+
+    IEnumerator DelayedStartCoroutine(float delayTime)
+{
+    yield return new WaitForSeconds(delayTime);
+    // Start the coroutine to spawn lines at intervals
+    StartCoroutine(SpawnLaser());
+}
 
     private void SpawnChargingParticles()
     {
@@ -142,7 +151,6 @@ public class LaserSpawner : MonoBehaviour
             // Draw first point
             lineRenderer.SetPosition(0, transform.position);
 
-
             RaycastHit hit;
             if (Physics.Raycast(transform.position, shootDirection, out hit, maxDistance, ~playerLayer))
             {
@@ -167,14 +175,13 @@ public class LaserSpawner : MonoBehaviour
             col.enabled = true;
             yield return null; // Wait for the next frame before performing the next raycast check
 
-
-
             // Wait for line duration
             yield return new WaitForSeconds(lineDuration);
 
+            //Disable the collider
+            col.enabled = false;
             // Disable LineRenderer
             lineRenderer.enabled = false;
-            col.enabled = false;
 
             // Fade out the audio gradually
             float fadeDuration = 0.3f;

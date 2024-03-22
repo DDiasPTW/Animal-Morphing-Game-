@@ -21,13 +21,13 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.361
+    m_Value: 0.4
   smoothness:
     m_OverrideState: 1
     m_Value: 0.174
   rounded:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &-7982918820329798917
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -57,7 +57,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 65472
   tint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1, g: 0.8592531, b: 0.72156864, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
@@ -93,6 +93,7 @@ MonoBehaviour:
   - {fileID: -8047254470971662126}
   - {fileID: 2046450098434823493}
   - {fileID: -7982918820329798917}
+  - {fileID: 4898027552848690353}
 --- !u!114 &849379129802519247
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -151,12 +152,12 @@ MonoBehaviour:
     m_Value: 2
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 175
-  gaussianEnd:
-    m_OverrideState: 0
     m_Value: 0
+  gaussianEnd:
+    m_OverrideState: 1
+    m_Value: 175
   gaussianMaxRadius:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   highQualitySampling:
     m_OverrideState: 0
@@ -179,6 +180,25 @@ MonoBehaviour:
   bladeRotation:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &4898027552848690353
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb60a22f311433c4c962b888d1393f88, type: 3}
+  m_Name: PaniniProjection
+  m_EditorClassIdentifier: 
+  active: 1
+  distance:
+    m_OverrideState: 1
+    m_Value: 0.1
+  cropToFit:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &5443214441147875296
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -200,10 +220,10 @@ MonoBehaviour:
     m_Value: 25
   colorFilter:
     m_OverrideState: 0
-    m_Value: {r: 0.9374093, g: 1, b: 0.9292453, a: 1}
+    m_Value: {r: 0.92941177, g: 0.9859194, b: 1, a: 1}
   hueShift:
     m_OverrideState: 0
     m_Value: 0
   saturation:
     m_OverrideState: 0
-    m_Value: 50
+    m_Value: 100

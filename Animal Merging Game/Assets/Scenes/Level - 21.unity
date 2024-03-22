@@ -887,7 +887,7 @@ PrefabInstance:
     - target: {fileID: 250808971432595771, guid: 990f60cb6f98c4bb9b6b77d14baa0801,
         type: 3}
       propertyPath: spawnInterval
-      value: 1.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 250808971432595771, guid: 990f60cb6f98c4bb9b6b77d14baa0801,
         type: 3}
@@ -1875,6 +1875,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 250808971432595771, guid: 990f60cb6f98c4bb9b6b77d14baa0801,
         type: 3}
+      propertyPath: startDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 250808971432595771, guid: 990f60cb6f98c4bb9b6b77d14baa0801,
+        type: 3}
       propertyPath: maxDistance
       value: 88
       objectReference: {fileID: 0}
@@ -1886,7 +1891,7 @@ PrefabInstance:
     - target: {fileID: 250808971432595771, guid: 990f60cb6f98c4bb9b6b77d14baa0801,
         type: 3}
       propertyPath: spawnInterval
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 250808971432595771, guid: 990f60cb6f98c4bb9b6b77d14baa0801,
         type: 3}
@@ -4582,6 +4587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BoundingVolume
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2831201410920042962, guid: b881cbf18e8d14f309845a819f5d067d,
+        type: 3}
+      propertyPath: m_AmplitudeGain
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3525255205974266088, guid: b881cbf18e8d14f309845a819f5d067d,
         type: 3}

@@ -14,23 +14,25 @@ public class Lava : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !gM.levelFinished)
         {
-            StartCoroutine(RestartLevel());
+            Narrator.Instance.TriggerLavaLines();
+            StartCoroutine(RestartLevel(.2f));
         }
     }
 
     //Killable
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !gM.levelFinished)
         {
-            gM.ResetLevel();;
+            Narrator.Instance.TriggerDyingLines();
+            StartCoroutine(RestartLevel(0f));
         }
     }
 
-    IEnumerator RestartLevel(){
-        yield return new WaitForSeconds(.2f);
+    IEnumerator RestartLevel(float delay){
+        yield return new WaitForSeconds(delay);
         if(!gM.levelFinished)
         {
             gM.ResetLevel();

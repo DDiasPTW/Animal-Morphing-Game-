@@ -7,6 +7,7 @@ public class ChangeLevels : MonoBehaviour
     private GameManager gM;
     [SerializeField] private AudioClip enterSound;
     private AudioSource aS;
+    private bool triggered = false;
     void Awake()
     {
         gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
@@ -34,6 +35,11 @@ public class ChangeLevels : MonoBehaviour
 
         else if (other.CompareTag("Catch"))
         { //restart the level
+            if(!triggered){
+                Narrator.Instance.TriggerEndCatchable();
+                triggered = true;
+            }
+            
             StartCoroutine(RestartLevel());
         }
     }

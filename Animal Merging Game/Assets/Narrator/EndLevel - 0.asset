@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a16aba714c174409ad43e9553834e01, type: 3}
+  m_Name: EndLevel - 0
+  m_EditorClassIdentifier: 
+  lines:
+  - That's quite embarrassing, this data will be no good
+  - Nice one. Did you do it with your eyes closed?
+  - Oh wow, you actually finished. I was starting to give up on you, not gonna lie.
+  - I didn't even know this was possible.
+  - I know you shouldn't worry about the timer too much, but really?
+  - Well, you certainly set the bar low.
+  - Did you get lost?
+  - I'm not even mad, I'm just disappointed
+  - Zero? Really? Did I give you the capivara genes by accident?
+  - Don't worry, there's always room for improvement. In your case, a lot of room.
+  - I'm not sure whether to laugh or cry. Oh wait I do. HAHAHAHAHA
+  - 625 test subjects came before you, and you still manage to be the worst. That's
+    just... wow.
+  chanceOfSaying: 100

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a16aba714c174409ad43e9553834e01, type: 3}
+  m_Name: EndLevel - 3
+  m_EditorClassIdentifier: 
+  lines:
+  - I mean it's alright.
+  - Oh wow, you really are just bang average huh.
+  - Oh, so you finally made it. Took you long enough.
+  - Well, well, well, look who managed to stumble their way through.
+  - You made it... eventually. Slow and steady wins the race, I suppose.
+  - Well, you didn't completely embarrass yourself this time. Progress, I guess.
+  - Oh, you actually did it. I mean, it's not like I had any doubts... okay, maybe
+    a few.
+  chanceOfSaying: 100

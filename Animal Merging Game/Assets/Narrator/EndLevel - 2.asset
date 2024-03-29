@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a16aba714c174409ad43e9553834e01, type: 3}
+  m_Name: EndLevel - 2
+  m_EditorClassIdentifier: 
+  lines:
+  - That was definitely something...
+  - I guess it could be worse
+  - I'd say 'better luck next time,' but let's be real, luck had nothing to do with
+    it.
+  - You're like a dimly shining star in a sky full of bright ones.
+  - I'd say 'keep up the good work,' but let's face it, you're not really working
+    that hard.
+  - ' Look at you, setting the bar... not exactly high, but you''re setting it somewhere.'
+  chanceOfSaying: 100

@@ -11,6 +11,7 @@ public class UISoundManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        Time.timeScale = 1f;
         aS = GetComponent<AudioSource>();
         DontDestroyOnLoad(gameObject);
     }

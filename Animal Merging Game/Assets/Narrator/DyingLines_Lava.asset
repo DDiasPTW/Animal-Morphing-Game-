@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a16aba714c174409ad43e9553834e01, type: 3}
+  m_Name: DyingLines_Lava
+  m_EditorClassIdentifier: 
+  lines:
+  - Hahahha, don't trip
+  - You actually fell for that?
+  - Oops, looks like someone forgot how gravity works.
+  - I've seen penguins with better balance.
+  - Well, that was an award-winning nosedive!
+  - They say practice makes perfect, but in your case, it just makes me sad.
+  - 'Gravity: 1, You: 0. Better luck next time!'
+  - Well, that was a spectacular display of 'how not to jump.
+  - Looks like someone's aiming for the 'Most Ground Kisses' record.
+  - I've heard of a 'rough landing,' but that was more like a 'crash and burn.
+  - I bet even the floor is surprised at how often it sees you.
+  - And there goes another graceful swan dive into the abyss.
+  - 'Quick question: Is ''falling'' your signature move?'
+  - I'm starting to think you and gravity have a love-hate relationship. Mostly hate.
+  - And the crowd goes wild for the latest contestant in the 'World's Worst Jumper'
+    competition!
+  chanceOfSaying: 100

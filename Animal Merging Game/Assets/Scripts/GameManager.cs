@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public bool canEndLevel = true;
     public bool levelFinished = false;
     public bool canStartTimer = false;
-    [SerializeField] private bool isTut = false;
+    public bool forceReset = false;
 
     [Header("Visuals")]
     private bool readyForNextLevel = false;
@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     public bool isGamePause = false; //allow other scripts to check this
     [SerializeField] private bool canPause = true;
     [SerializeField] private string mainMenuScene;
+    [SerializeField] private GameObject nextLevelButton;
+    [SerializeField] private TMP_Text previousLevelButtonText;
 
     void Awake()
     {
@@ -58,7 +60,6 @@ public class GameManager : MonoBehaviour
         //next level transition
         nextLevelTransition = GameObject.FindGameObjectWithTag("Trans");
         GetStars();
-        //GetTexts();
         //--
         GetControls();
         //
@@ -77,8 +78,8 @@ public class GameManager : MonoBehaviour
             }
         };
         playerControls.Gameplay.Reset.performed += ctx => ResetLevel();
-        playerControls.Gameplay.NextLevel.performed += ctx => NextLevel();
-        playerControls.Gameplay.PreviousLevel.performed += ctx => PreviousLevel();
+        //playerControls.Gameplay.NextLevel.performed += ctx => NextLevel();
+        //playerControls.Gameplay.PreviousLevel.performed += ctx => PreviousLevel();
         playerControls.Gameplay.Pause.performed += ctx => PauseGame();
     }
 
@@ -132,11 +133,11 @@ public class GameManager : MonoBehaviour
             FinalizeLevel();
         }
 
-        // if(Input.GetKeyDown(KeyCode.L)){
-        //     //PlayerPrefs.DeleteAll();
-        //     string key = SceneManager.GetActiveScene().name + _bestTime;
-        //     PlayerPrefs.DeleteKey(key);
-        // }
+        if(Input.GetKeyDown(KeyCode.L)){
+            //PlayerPrefs.DeleteAll();
+            string key = SceneManager.GetActiveScene().name + _bestTime;
+            PlayerPrefs.DeleteKey(key);
+        }
     }
 
     void UpdateTimerDisplay()
@@ -241,15 +242,17 @@ public class GameManager : MonoBehaviour
         DisableStar();
 
         // Determine the number of stars to activate based on the grade
-        if (roundedFinalTime <= gradeTimes[0]) starsToActivate = 6;
-        else if (roundedFinalTime <= gradeTimes[1]) starsToActivate = 5;
-        else if (roundedFinalTime <= gradeTimes[2]) starsToActivate = 4;
-        else if (roundedFinalTime <= gradeTimes[3]) starsToActivate = 3;
-        else if (roundedFinalTime <= gradeTimes[4]) starsToActivate = 2;
-        else if (roundedFinalTime <= gradeTimes[5]) starsToActivate = 1;
+        if (roundedFinalTime <= gradeTimes[0]) {starsToActivate = 6;}
+        else if (roundedFinalTime <= gradeTimes[1]) {starsToActivate = 5;}
+        else if (roundedFinalTime <= gradeTimes[2]) {starsToActivate = 4;}
+        else if (roundedFinalTime <= gradeTimes[3]) {starsToActivate = 3;}
+        else if (roundedFinalTime <= gradeTimes[4]) {starsToActivate = 2;}
+        else if (roundedFinalTime <= gradeTimes[5]){starsToActivate = 1;}
+        else {Narrator.Instance.TriggerEndLevelLines(0);}
+
 
         if (starsToActivate > bestStars) SaveStars(starsToActivate);
-
+        
 
         // Activate the appropriate number of stars
         for (int i = 0; i < starsToActivate; i++)
@@ -278,6 +281,19 @@ public class GameManager : MonoBehaviour
             PauseMenu.SetActive(true);
             isGamePause = true;
             Time.timeScale = 0f;
+
+            // Check if there's no next scene
+            if (SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings)
+            {
+                // There is no next scene
+                nextLevelButton.SetActive(false);
+            }
+
+            if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                previousLevelButtonText.text = "Main Menu";
+            }
+            else { previousLevelButtonText.text = "previous level"; }
         }
         else
         {
@@ -288,24 +304,27 @@ public class GameManager : MonoBehaviour
 
     }
 
-    
+
     public void Continue()
     {
         PauseGame();
-        if(UISoundManager.Instance != null){
-             UISoundManager.Instance.PlayAudio();
+        if (UISoundManager.Instance != null)
+        {
+            UISoundManager.Instance.PlayAudio();
         }
     }
 
     public void MainMenu()
     {
-        if(UISoundManager.Instance != null){
-             UISoundManager.Instance.PlayAudio();
+        if (UISoundManager.Instance != null)
+        {
+            UISoundManager.Instance.PlayAudio();
         }
         StartCoroutine(LoadMainMenu());
     }
 
-    IEnumerator LoadMainMenu(){
+    IEnumerator LoadMainMenu()
+    {
         Time.timeScale = 1f;
         SceneManager.LoadScene(mainMenuScene);
         yield return new WaitForSeconds(.3f);
@@ -313,29 +332,34 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        if(UISoundManager.Instance != null){
-             UISoundManager.Instance.PlayAudio();
+        if (UISoundManager.Instance != null)
+        {
+            UISoundManager.Instance.PlayAudio();
         }
         StartCoroutine(LoadNext());
     }
     public void PreviousLevel()
     {
-        if(UISoundManager.Instance != null){
-             UISoundManager.Instance.PlayAudio();
+        if (UISoundManager.Instance != null)
+        {
+            UISoundManager.Instance.PlayAudio();
         }
         StartCoroutine(LoadPrevious());
     }
 
-    IEnumerator LoadNext(){
+    IEnumerator LoadNext()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         yield return new WaitForSeconds(.3f);
     }
-    IEnumerator LoadPrevious(){
+    IEnumerator LoadPrevious()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         yield return new WaitForSeconds(.3f);
     }
 
-    public void Quit(){
+    public void Quit()
+    {
         Application.Quit();
     }
 

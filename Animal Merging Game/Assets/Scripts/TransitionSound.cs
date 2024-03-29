@@ -20,6 +20,10 @@ public class TransitionSound : MonoBehaviour
         if(gM.starsToActivate >= 1){
             aS.volume = .1f;
             aS.PlayOneShot(appearAudio);
+
+            if(gM.starsToActivate == 1){
+                Narrator.Instance.TriggerEndLevelLines(1);
+            }
         }
         
     }
@@ -27,24 +31,45 @@ public class TransitionSound : MonoBehaviour
     {
         if(gM.starsToActivate >= 2){
             aS.PlayOneShot(appearAudio);
+           
+
+            if(gM.starsToActivate == 2){
+                Narrator.Instance.TriggerEndLevelLines(2);
+            }
         }
     }
     public void PlayThree()
     {
         if(gM.starsToActivate >= 3){
             aS.PlayOneShot(appearAudio);
+            
+
+            if(gM.starsToActivate == 3){
+                Narrator.Instance.TriggerEndLevelLines(3);
+            }
         }
     }
     public void PlayFour()
     {
         if(gM.starsToActivate >= 4){
             aS.PlayOneShot(appearAudio);
+            
+
+            if(gM.starsToActivate == 4){
+                Narrator.Instance.TriggerEndLevelLines(4);
+            }
         }
     }
     public void PlayFive()
     {
         if(gM.starsToActivate >= 5){
             aS.PlayOneShot(appearAudio);
+
+
+            if(gM.starsToActivate == 5){
+                Narrator.Instance.TriggerEndLevelLines(5);
+            }
+             
         }
     }
     public void PlaySix()
@@ -52,6 +77,11 @@ public class TransitionSound : MonoBehaviour
         if(gM.starsToActivate >= 6){
             aS.pitch = .5f;
             aS.PlayOneShot(appearAudio);
+
+
+            if(gM.starsToActivate == 6){
+                Narrator.Instance.TriggerEndLevelLines(6);
+            }
         }
     }
 

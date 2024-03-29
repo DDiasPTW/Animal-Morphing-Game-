@@ -118,9 +118,9 @@ MonoBehaviour:
   momentumMultiplier: 1.5
   peakJumpHeight: 0
   coyote_timer: 0
-  coyote_seconds: 0.2
+  coyote_seconds: 0.15
   JumpBuffer_Timer: 0
-  JumpBuffer_Seconds: 0.2
+  JumpBuffer_Seconds: 0.15
   isGrounded: 0
   jumpRequested: 0
   justLanded: 0

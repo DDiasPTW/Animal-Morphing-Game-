@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1184281005897364398}
   - component: {fileID: 8291465636378217596}
   - component: {fileID: 7506988946554329276}
+  - component: {fileID: 2762567532935021797}
   - component: {fileID: 1753365110684867636}
   - component: {fileID: 5561990907395528141}
   m_Layer: 11
@@ -660,7 +661,109 @@ MonoBehaviour:
   endOfPathInstruction: 2
   speed: 16
   movingParticles: {fileID: 7523557436254166125}
+  moveAudio: {fileID: 8300000, guid: 7d433158c67a94c87b86d3201df5b97b, type: 3}
+  movePitch: 0.4
+  moveVolume: 0.2
+  aS: {fileID: 2762567532935021797}
   canMove: 0
+  canPlayAudio: 1
+--- !u!82 &2762567532935021797
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3223138093810831568}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 1
+  MaxDistance: 55
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1753365110684867636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,6 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa129b673fd654e30bf340aef09406ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aS: {fileID: 5561990907395528141}
   catchClip: {fileID: 8300000, guid: cb0c0613415684cacb4c87bbd5a7b994, type: 3}
   catchParticles: {fileID: 7419297494415955700, guid: 747c20d6db5ef4032b544a908a27cee3,
     type: 3}
@@ -889,7 +993,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
+      scalar: 1
       minScalar: 0.25
       maxCurve:
         serializedVersion: 2
@@ -1770,17 +1874,26 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0.2069376
           value: 1
-          inSlope: 0.11105132
-          outSlope: 0.11105132
+          inSlope: -0.19754767
+          outSlope: -0.19754767
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
+          time: 0.6843636
+          value: 0.10333053
+          inSlope: -0.6521415
+          outSlope: -0.6521415
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.37103856
+          outWeight: 0.33333334
+        - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: -1.2609348
-          outSlope: -1.2609348
+          inSlope: -0.32737204
+          outSlope: -0.32737204
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334

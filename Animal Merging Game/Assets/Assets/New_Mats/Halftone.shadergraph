@@ -1857,7 +1857,7 @@
     "m_Title": "Generate halftone grid",
     "m_Position": {
         "x": -1378.0,
-        "y": 993.0000610351563
+        "y": 993.0
     }
 }
 
@@ -3079,7 +3079,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "AngleOffset",
     "m_StageCapability": 3,
-    "m_Value": 7.0,
+    "m_Value": 0.0,
     "m_DefaultValue": 2.0,
     "m_Labels": []
 }

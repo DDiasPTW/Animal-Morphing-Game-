@@ -376,7 +376,8 @@ public class Player_Def : MonoBehaviour
     #region Animals
     public void SwitchActiveAnimal(int index)
     {
-        // Check if we are within the cooldown period
+        if(!gM.isGamePause){
+            // Check if we are within the cooldown period
         float currentTime = Time.time;
         if (currentTime - lastSwitchTime < switchCooldown) return;
 
@@ -414,6 +415,8 @@ public class Player_Def : MonoBehaviour
         currentlyActiveAnimal.Activate(this);
         forceSwapped = false;
         lastSwitchTime = currentTime; // Update the timestamp of the last switch
+        }
+        
     }
 
     private void CheckJumpPeak()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8834082015350896038}
   - component: {fileID: 7089597653458500542}
   - component: {fileID: 5429232006500197894}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LaserSpawner
   m_TagString: Lava
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -61,8 +61,9 @@ MonoBehaviour:
   cameraShakeIntensity: 10
   chargingAudio: {fileID: 8300000, guid: 3beadf1f988de4c5cb8b51ff50b73c1e, type: 3}
   chargingVolume: 0.1
-  hitAudio: {fileID: 8300000, guid: 108a74e94625f40f2bc9f22cc1dff0e1, type: 3}
-  hitVolume: 0.05
+  hitAudio: {fileID: 8300000, guid: 293612b38bc904ca39367d7579f2dfe7, type: 3}
+  hitVolume: 0.1
+  hitPitch: 0.9
   shootingAudio: {fileID: 8300000, guid: ee4e25ac592684cfea584be63bf6a946, type: 3}
   shootingVolume: 0.15
   canAttack: 1
@@ -323,7 +324,7 @@ GameObject:
   - component: {fileID: 6584254271641039742}
   - component: {fileID: 8829413456272739767}
   - component: {fileID: 4037664711675078165}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

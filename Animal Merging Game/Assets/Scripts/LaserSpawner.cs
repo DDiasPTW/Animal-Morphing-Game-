@@ -23,6 +23,7 @@ public class LaserSpawner : MonoBehaviour
     [SerializeField] private float chargingVolume;
     [SerializeField] private AudioClip hitAudio;
     [SerializeField] private float hitVolume;
+    [SerializeField] private float hitPitch = 0.9f;
     [SerializeField] private AudioClip shootingAudio;
     [SerializeField] private float shootingVolume;
 
@@ -49,7 +50,7 @@ public class LaserSpawner : MonoBehaviour
 
     private void SetCollider()
     {
-        col.size = new Vector3(laserWidth / 1.5f, laserWidth / 1.5f, maxDistance);
+        col.size = new Vector3(laserWidth / 1.3f, laserWidth / 1.3f, maxDistance);
         if (shootDirection.z != 0) //(0,0,1) or (0,0,-1)
         {
             col.center = new Vector3(0, 0, shootDirection.z * (maxDistance / 2));
@@ -212,8 +213,9 @@ public class LaserSpawner : MonoBehaviour
             other.GetComponent<Player_Def>().jumpForce = 3f;
 
             aS.volume = hitVolume;
-            aS.pitch = .35f;
+            aS.pitch = hitPitch;
             aS.PlayOneShot(hitAudio);
+            Narrator.Instance.TriggerLaserLines();
             StartCoroutine(RestartLevel());
         }
     }

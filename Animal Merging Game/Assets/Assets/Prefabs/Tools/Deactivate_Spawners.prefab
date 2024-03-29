@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3820754635968984136}
   - component: {fileID: 4264849729740097049}
   m_Layer: 0
-  m_Name: Deactivate_BoulderSpawners
+  m_Name: Deactivate_Spawners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

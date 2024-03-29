@@ -29,6 +29,7 @@ public class ActivateCatchable : MonoBehaviour
             if(catchable != null)
             {
                 catchable.GetComponent<PathFollower>().canMove = true;
+                Narrator.Instance.TriggerEnterCatchable();
                 
             }
             gM.canStartTimer = true;

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a16aba714c174409ad43e9553834e01, type: 3}
+  m_Name: EndLevel - 5
+  m_EditorClassIdentifier: 
+  lines:
+  - Pretty nice run, this is really great data
+  - I'll give you 5/5 for that run, that was actually quite good.
+  - I don't know how you did it, but you did. Great job little puppet.
+  - Don't let it get to your head. still a lot of work needs to be done.
+  - You did it! I mean, I didn't think you could, but you did.
+  - Not bad, but let's see if you can keep it up.
+  - Not bad, but let's see if lightning strikes twice. Keep it up.
+  - I'll give credit where it's due, but let's not get ahead of ourselves.
+  chanceOfSaying: 100

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a16aba714c174409ad43e9553834e01, type: 3}
+  m_Name: EndLevel - 6
+  m_EditorClassIdentifier: 
+  lines:
+  - '*Clap* *Clap* *Clap* That was a really nice run, this data is going to serve
+    me well'
+  - This is incredible data.
+  - 'Impressive. I''ll have to recalibrate my expectations...
+
+    You''re setting
+    a very high standard, I''ll expect more from you.'
+  - Ah, the lab rat has surpassed my own expectations, incredible. Intriguing data
+    indeed.
+  - Fascinating... I'll have to analyze this further.
+  - Impressive specimen. Your data will be invaluable for my research.
+  - You've surpassed even my projections. Your resilience is truly remarkable.
+  - Quite the breakthrough.
+  - Your ability to outperform even my most optimistic projections is a testament
+    to my genius.
+  - It seems my subject has evolved into something beyond my control. Intriguing,
+    indeed.
+  chanceOfSaying: 100

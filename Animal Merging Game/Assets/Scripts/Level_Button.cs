@@ -16,13 +16,24 @@ public class Level_Button : MonoBehaviour
     private const string _nextLevelUnlocked = "_nextLevelUnlocked";
     [SerializeField] private TMP_Text pbText;
     public TMP_Text levelText;
+    private JsonPlayerPrefs jsonPlayerPrefs;
 
     void Awake()
     {
-        if(PlayerPrefs.GetInt("Level - 1_nextLevelUnlocked") == 0)
+        // Initialize JsonPlayerPrefs with the appropriate file path
+        string jsonFilePath;
+#if UNITY_EDITOR
+        jsonFilePath = Application.persistentDataPath + "/EditorPlayerStats.json";
+#else
+    jsonFilePath = Application.persistentDataPath + "/PlayerStats.json";
+#endif
+
+        jsonPlayerPrefs = new JsonPlayerPrefs(jsonFilePath);
+
+
+        if(jsonPlayerPrefs.GetInt("Level - 1_nextLevelUnlocked") == 0)
         {
-            PlayerPrefs.SetInt("Level - 1_nextLevelUnlocked", 1); //Force unlock the first level
-            Debug.Log("Force unlock first level");
+            jsonPlayerPrefs.SetInt("Level - 1_nextLevelUnlocked", 1); //Force unlock the first level
         }
         
         UpdateButton();
@@ -30,19 +41,18 @@ public class Level_Button : MonoBehaviour
 
     public void UpdateButton(){
         string unlocked = sceneToLoad + _nextLevelUnlocked;
-
+        
         for (int i = 0; i < 6; i++)
         {
             stars[i].SetActive(false); //Reset all stars
         }
 
-
-        if (PlayerPrefs.GetInt(unlocked) == 1) //if the level is unlocked
+        if (jsonPlayerPrefs.GetInt(unlocked) == 1) //if the level is unlocked
         {
             GetComponent<Button>().interactable = true;
             
             string key = sceneToLoad + _bestStars;
-            for (int i = 0; i < PlayerPrefs.GetInt(key); i++)
+            for (int i = 0; i < jsonPlayerPrefs.GetInt(key); i++)
             {
                 stars[i].SetActive(true);
             }
@@ -54,9 +64,9 @@ public class Level_Button : MonoBehaviour
         if (pbText != null)
         {
             string key = sceneToLoad + _bestTime;
-            if (PlayerPrefs.HasKey(key)) // Check if the key exists
+            if (jsonPlayerPrefs.HasKey(key)) // Check if the key exists
             {
-                pbText.text = PlayerPrefs.GetFloat(key).ToString("F3") + "s";
+                pbText.text = jsonPlayerPrefs.GetFloat(key).ToString("F3") + "s";
                 pbText.gameObject.SetActive(true);
             }else
             {

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private const string _bestTime = "_bestTime";
     private const string _bestStars = "_bestStars";
     private const string _nextLevelUnlocked = "_nextLevelUnlocked";
+    private JsonPlayerPrefs jsonPlayerPrefs;
 
     [Header("Other")]
     public bool canEndLevel = true;
@@ -51,6 +52,21 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         time = 0f;
         canPause = true;
+
+
+        // Initialize JsonPlayerPrefs with the appropriate file path
+        string jsonFilePath;
+#if UNITY_EDITOR
+        jsonFilePath = Application.persistentDataPath + "/EditorPlayerStats.json";
+#else
+    jsonFilePath = Application.persistentDataPath + "/PlayerStats.json";
+#endif
+
+
+        jsonPlayerPrefs = new JsonPlayerPrefs(jsonFilePath);
+
+
+
         //timer reference
         timerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         levelFinished = false;
@@ -78,8 +94,6 @@ public class GameManager : MonoBehaviour
             }
         };
         playerControls.Gameplay.Reset.performed += ctx => ResetLevel();
-        //playerControls.Gameplay.NextLevel.performed += ctx => NextLevel();
-        //playerControls.Gameplay.PreviousLevel.performed += ctx => PreviousLevel();
         playerControls.Gameplay.Pause.performed += ctx => PauseGame();
     }
 
@@ -134,9 +148,8 @@ public class GameManager : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.L)){
-            //PlayerPrefs.DeleteAll();
             string key = SceneManager.GetActiveScene().name + _bestTime;
-            PlayerPrefs.DeleteKey(key);
+            jsonPlayerPrefs.DeleteKey(key);
         }
     }
 
@@ -186,7 +199,8 @@ public class GameManager : MonoBehaviour
             nextLevelName = System.IO.Path.GetFileNameWithoutExtension(nextLevelName);
 
             string key = nextLevelName + _nextLevelUnlocked;
-            PlayerPrefs.SetInt(key, 1); // 1 = true, 0 = false
+            jsonPlayerPrefs.SetInt(key, 1);
+            jsonPlayerPrefs.Save();
         }
         else
         {
@@ -201,33 +215,35 @@ public class GameManager : MonoBehaviour
         // Construct a unique key for the current level's best time
         double roundedFinalPB = Math.Round(currentPB, 3, MidpointRounding.AwayFromZero);
         string key = SceneManager.GetActiveScene().name + _bestTime;
-        PlayerPrefs.SetFloat(key, (float)roundedFinalPB);
-        PlayerPrefs.Save();
+        
+        
+        jsonPlayerPrefs.SetFloat(key, (float)roundedFinalPB);
+        jsonPlayerPrefs.Save();
     }
 
     private void LoadBestTime()
     {
         string key = SceneManager.GetActiveScene().name + _bestTime;
-        if (PlayerPrefs.HasKey(key))
+        if (jsonPlayerPrefs.HasKey(key))
         {
             // If a best time is saved, load it. Otherwise, keep currentPB at its default value.
-            currentPB = PlayerPrefs.GetFloat(key);
+            currentPB = jsonPlayerPrefs.GetFloat(key);
         }
     }
 
     private void SaveStars(int starsToSave)
     {
         string key = SceneManager.GetActiveScene().name + _bestStars;
-        PlayerPrefs.SetInt(key, starsToSave);
-        PlayerPrefs.Save();
+        jsonPlayerPrefs.SetInt(key, starsToSave);
+        jsonPlayerPrefs.Save();
     }
     private void LoadBestStars()
     {
         string key = SceneManager.GetActiveScene().name + _bestStars;
-        if (PlayerPrefs.HasKey(key))
+        if (jsonPlayerPrefs.HasKey(key))
         {
             // If a best star is saved, load it.
-            bestStars = PlayerPrefs.GetInt(key);
+            bestStars = jsonPlayerPrefs.GetInt(key);
         }
     }
 

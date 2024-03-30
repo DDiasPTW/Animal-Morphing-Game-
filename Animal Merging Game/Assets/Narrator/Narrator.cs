@@ -19,6 +19,7 @@ public class Narrator : MonoBehaviour
     [SerializeField] private NarratorLines enterCatchableLines;
     [SerializeField] private NarratorLines catchCatchableLines;
     [SerializeField] private NarratorLines endCatchableLines;
+    [SerializeField] private NarratorLines failSwingLines;
 
 
     void Awake()
@@ -220,6 +221,29 @@ public class Narrator : MonoBehaviour
             currentCoroutine = StartCoroutine(ClearNarratorTextAfterDelay(4f));
         }
         else Debug.Log("Not saying it this time");
+    }
+    #endregion
+
+    #region Other
+    public void TriggerFailSwingLines()
+    {
+        if (currentCoroutine == null)
+        {
+            float chance = Random.Range(0, 100);
+            if (chance <= failSwingLines.chanceOfSaying)
+            {
+                // Choose a random line from the list
+                string randomLine = failSwingLines.lines[Random.Range(0, failSwingLines.lines.Count)];
+
+                // Set the narrator text to the randomly chosen line
+                narratorText.text = randomLine;
+
+                // Start a new coroutine to clear the text after the specified duration
+                currentCoroutine = StartCoroutine(ClearNarratorTextAfterDelay(3f));
+            }
+            else Debug.Log("Not saying it this time");
+        }
+
     }
     #endregion
 

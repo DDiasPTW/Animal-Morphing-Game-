@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Lava : MonoBehaviour
 {
-
     private GameManager gM;
+    private AudioSource aS;
+    [SerializeField] private AudioClip hitSound;
+
     void Awake()
     {
         gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
+        aS = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -17,7 +19,10 @@ public class Lava : MonoBehaviour
         if (other.CompareTag("Player") && !gM.levelFinished)
         {
             Narrator.Instance.TriggerLavaLines();
-            StartCoroutine(RestartLevel(.2f));
+
+            aS.PlayOneShot(hitSound);
+
+            StartCoroutine(RestartLevel(.25f));
         }
     }
 
@@ -27,7 +32,10 @@ public class Lava : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !gM.levelFinished)
         {
             Narrator.Instance.TriggerDyingLines();
-            StartCoroutine(RestartLevel(0f));
+
+            aS.PlayOneShot(hitSound);
+
+            StartCoroutine(RestartLevel(.25f));
         }
     }
 

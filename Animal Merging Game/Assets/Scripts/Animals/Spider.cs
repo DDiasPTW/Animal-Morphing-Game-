@@ -72,7 +72,10 @@ public class Spider : Animal
             if (FindClosestGrapplePoint(player.transform.position, out grapplePoint))
             {
                 StartSwing(player);
-            }
+            } else if(FindDistanceGrapplePointNarratorLine(player.transform.position, out grapplePoint))
+            {
+                Narrator.Instance.TriggerFailSwingLines();
+            } 
         }
     }
 
@@ -128,6 +131,27 @@ public class Spider : Animal
     private bool FindClosestGrapplePoint(Vector3 origin, out Vector3 closestPoint)
     {
         Collider[] hitColliders = Physics.OverlapSphere(origin, grapplingRange, whatIsGrappable);
+        closestPoint = Vector3.zero;
+        float closestDistanceSqr = Mathf.Infinity;
+
+        foreach (Collider potentialTarget in hitColliders)
+        {
+            Vector3 directionToTarget = potentialTarget.transform.position - origin;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                closestPoint = potentialTarget.transform.position;
+            }
+        }
+
+        return closestPoint != Vector3.zero;
+    }
+
+
+    private bool FindDistanceGrapplePointNarratorLine(Vector3 origin, out Vector3 closestPoint) //Minimum distance from a grapple point for the narrator to comment
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(origin, grapplingRange * 1.75f, whatIsGrappable);
         closestPoint = Vector3.zero;
         float closestDistanceSqr = Mathf.Infinity;
 

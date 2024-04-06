@@ -819,7 +819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -138}
+  m_AnchoredPosition: {x: 0, y: -290}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8634345235576163181
@@ -1035,6 +1035,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appearAudio: {fileID: 8300000, guid: 5fc96b9a2901e411db1c39eb2786121d, type: 3}
   appearSecondAudio: {fileID: 8300000, guid: d7067cffb5ac143a2b1a2e06e9668524, type: 3}
+  nextLevelButtonEnd: {fileID: 0}
+  mainMenuButtonEnd: {fileID: 0}
 --- !u!82 &5773911924528403429
 AudioSource:
   m_ObjectHideFlags: 0

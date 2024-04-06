@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -163,7 +164,7 @@ public class JsonPlayerPrefs
 	/// </summary>
 	public void SetFloat(string key, float value)
 	{
-		SetString(key, value.ToString());
+		SetString(key, value.ToString(CultureInfo.InvariantCulture));
 	}
 
 

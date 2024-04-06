@@ -27,4 +27,4 @@ MonoBehaviour:
   - You might want to rethink your strategy of 'dodging lasers with your face.
   - I'd make a joke about being 'laser-focused,' but you seem more 'laser-fried'
     at the moment. Ha ha ha.
-  chanceOfSaying: 100
+  chanceOfSaying: 60

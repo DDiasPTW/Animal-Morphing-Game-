@@ -7,7 +7,7 @@ public class ResetJsonPlayerPrefs : MonoBehaviour
 {
     private JsonPlayerPrefs jsonPlayerPrefs;
     string jsonFilePath;
-    private const string resetFlagKey = "PlayerrPrefsReset";
+    private const string resetFlagKey = "PlayerPrefsReset";
 
     void Awake()
     {

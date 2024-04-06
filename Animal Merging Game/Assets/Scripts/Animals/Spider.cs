@@ -1,17 +1,14 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "Spider", menuName = "Animals/Spider")]
 public class Spider : Animal
 {
+    #region GrappleValues
     public float grapplingRange = 10f;
     [SerializeField] private float grapplingCooldown = 2f; // Cooldown time in seconds
     [SerializeField] private float exitBoostMultiplier = 1.2f;
     [SerializeField] private float maxVelocity = 70f;
-    //[SerializeField] private float verticalLift = 1.2f;
     [HideInInspector] public Vector3 grapplePoint;
     public bool isSwinging = false;
     public LayerMask whatIsGrappable;
@@ -31,6 +28,15 @@ public class Spider : Animal
 
     [Tooltip("This multiplies the mass of the object for the spring calculation, affecting how the spring's force acts on the player"),
     SerializeField] private float massScale = 4.5f;
+    #endregion
+
+    #region ChangeSpeed
+    [Header("ChangeSpeed")]
+    [SerializeField] private float moveSpeed = 15f;
+    [SerializeField] private float accelTime = .2f;
+    [SerializeField] private float onTransitionDuration = 0.5f; // Duration of speed change when activating the animal
+    private Coroutine speedChangeCoroutine;
+    #endregion
 
     public override void Activate(Player_Def player)
     {
@@ -43,12 +49,22 @@ public class Spider : Animal
         {
             Destroy(player.gameObject.GetComponent<SpringJoint>());
         }
+
+        // Set the new speed and start the speed change coroutine
+        player.accelerationTime = accelTime;
+        speedChangeCoroutine = player.StartCoroutine(ChangeSpeed(player, moveSpeed, onTransitionDuration));
     }
 
     public override void ResetAbility(Player_Def player)
     {
         if(isSwinging) StopSwing(player);
         ResetSwing(); 
+
+         // Stop the ongoing speed change coroutine if any
+        if (speedChangeCoroutine != null)
+        {
+            player.StopCoroutine(speedChangeCoroutine);
+        }
     }
 
     private void ResetSwing()
@@ -63,6 +79,7 @@ public class Spider : Animal
         playerRef = null;
 
         lastGrapplingTime = -Mathf.Infinity;
+        
     }
 
     public void HandleJump(Player_Def player)
@@ -151,7 +168,7 @@ public class Spider : Animal
 
     private bool FindDistanceGrapplePointNarratorLine(Vector3 origin, out Vector3 closestPoint) //Minimum distance from a grapple point for the narrator to comment
     {
-        Collider[] hitColliders = Physics.OverlapSphere(origin, grapplingRange * 1.75f, whatIsGrappable);
+        Collider[] hitColliders = Physics.OverlapSphere(origin, grapplingRange * 1.25f, whatIsGrappable);
         closestPoint = Vector3.zero;
         float closestDistanceSqr = Mathf.Infinity;
 

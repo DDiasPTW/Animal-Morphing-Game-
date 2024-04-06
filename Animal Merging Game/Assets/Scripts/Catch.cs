@@ -20,13 +20,13 @@ public class Catch : MonoBehaviour
             gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
         }
     }
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player") && !gM.canEndLevel)
-        {
-            Caught();
-        }
-    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if(other.CompareTag("Player") && !gM.canEndLevel)
+    //     {
+    //         Caught();
+    //     }
+    // }
 
     public void Caught(){
         //allow the player to end the level

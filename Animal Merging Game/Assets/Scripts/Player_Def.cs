@@ -376,47 +376,48 @@ public class Player_Def : MonoBehaviour
     #region Animals
     public void SwitchActiveAnimal(int index)
     {
-        if(!gM.isGamePause){
+        if (!gM.isGamePause && !gM.levelFinished)
+        {
             // Check if we are within the cooldown period
-        float currentTime = Time.time;
-        if (currentTime - lastSwitchTime < switchCooldown) return;
+            float currentTime = Time.time;
+            if (currentTime - lastSwitchTime < switchCooldown) return;
 
-        // Check if the index is within the bounds of the animals list
-        if (index < 0 || index >= animals.Count) return;
+            // Check if the index is within the bounds of the animals list
+            if (index < 0 || index >= animals.Count) return;
 
-        // Check if the new animal is the same as the currently active one
-        if (index == activeAnimalIndex && currentlyActiveAnimal != null && !forceSwapped) return;
+            // Check if the new animal is the same as the currently active one
+            if (index == activeAnimalIndex && currentlyActiveAnimal != null && !forceSwapped) return;
 
-        // First, reset any currently active ability
-        if (currentlyActiveAnimal != null)
-        {
-            currentlyActiveAnimal.ResetAbility(this);
-            animalGameObjects[activeAnimalIndex].SetActive(false); // Deactivate the current animal GameObject
+            // First, reset any currently active ability
+            if (currentlyActiveAnimal != null)
+            {
+                currentlyActiveAnimal.ResetAbility(this);
+                animalGameObjects[activeAnimalIndex].SetActive(false); // Deactivate the current animal GameObject
+            }
+
+            GameObject sP = Instantiate(swapParticles, transform);
+            StartCoroutine(DestroyParticles(sP));
+
+            // Only reset lastGroundedHeight if the player is grounded
+            if (isGrounded)
+            {
+                peakJumpHeight = transform.position.y;
+            }
+
+            // Activate the new animal GameObject
+            defaultPlayerGameObject.SetActive(false);
+            animalGameObjects[index].SetActive(true);
+
+            animalGameObjects[index].GetComponent<AnimationsHandler>().player = this;
+            animalGameObjects[index].GetComponent<AnimationsHandler>().NotifyFormSwapped();
+
+            activeAnimalIndex = index;
+            currentlyActiveAnimal = animals[index];
+            currentlyActiveAnimal.Activate(this);
+            forceSwapped = false;
+            lastSwitchTime = currentTime; // Update the timestamp of the last switch
         }
 
-        GameObject sP = Instantiate(swapParticles, transform);
-        StartCoroutine(DestroyParticles(sP));
-
-        // Only reset lastGroundedHeight if the player is grounded
-        if (isGrounded)
-        {
-            peakJumpHeight = transform.position.y;
-        }
-
-        // Activate the new animal GameObject
-        defaultPlayerGameObject.SetActive(false);
-        animalGameObjects[index].SetActive(true);
-
-        animalGameObjects[index].GetComponent<AnimationsHandler>().player = this;
-        animalGameObjects[index].GetComponent<AnimationsHandler>().NotifyFormSwapped();
-
-        activeAnimalIndex = index;
-        currentlyActiveAnimal = animals[index];
-        currentlyActiveAnimal.Activate(this);
-        forceSwapped = false;
-        lastSwitchTime = currentTime; // Update the timestamp of the last switch
-        }
-        
     }
 
     private void CheckJumpPeak()

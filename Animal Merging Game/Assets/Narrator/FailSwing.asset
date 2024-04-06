@@ -18,4 +18,4 @@ MonoBehaviour:
   - You have to reach a bit closer
   - The grapple point is too far for that to work
   - You're too far for that
-  chanceOfSaying: 80
+  chanceOfSaying: 50

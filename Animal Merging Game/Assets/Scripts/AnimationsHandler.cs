@@ -156,7 +156,7 @@ public class AnimationsHandler : MonoBehaviour
 
     IEnumerator DestroyParticles(GameObject particles)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         Destroy(particles);
     }
 }

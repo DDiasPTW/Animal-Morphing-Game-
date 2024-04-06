@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TransitionSound : MonoBehaviour
 {
@@ -8,11 +9,15 @@ public class TransitionSound : MonoBehaviour
     private GameManager gM;
     [SerializeField] private AudioClip appearAudio;
     [SerializeField] private AudioClip appearSecondAudio;
+    [SerializeField] private GameObject nextLevelButtonEnd;
+    [SerializeField] private GameObject mainMenuButtonEnd;
 
     void Awake()
     {
         aS = GetComponent<AudioSource>();
         gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
+        nextLevelButtonEnd.SetActive(false);
+        mainMenuButtonEnd.SetActive(false);
     }
 
     public void PlayOne()
@@ -93,5 +98,21 @@ public class TransitionSound : MonoBehaviour
 
     public void GoNext(){
         gM.LoadNextLevel();
+    }
+
+
+    public void CheckNextLevel()
+    {
+        // Check if there's no next scene
+        if (SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings)
+        {
+            // There is no next scene
+            nextLevelButtonEnd.SetActive(false);
+            mainMenuButtonEnd.SetActive(true);
+        }else
+        {
+            nextLevelButtonEnd.SetActive(true);
+            mainMenuButtonEnd.SetActive(false);
+        }
     }
 }

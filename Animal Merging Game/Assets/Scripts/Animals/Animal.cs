@@ -5,11 +5,27 @@ using UnityEngine;
 public abstract class Animal : ScriptableObject
 {
     public Sprite animalSprite;
-    public abstract void Activate(Player_Def player); //needs to play a sound when called
-    public abstract void ResetAbility(Player_Def player); //should also play a sound when called to give extra feedback to the player
+    public abstract void Activate(Player_Def player);
+    public abstract void ResetAbility(Player_Def player);
      public virtual void UpdateAbilityState(Player_Def player) { }
-     public virtual bool AllowNormalJump() //for the sheep
+    public virtual bool AllowNormalJump() //for the sheep
     {
         return true; // By default, allow normal jumps
+    }
+
+    // Coroutine for smoothly changing speed over time
+    protected IEnumerator ChangeSpeed(Player_Def player, float targetSpeed, float timer)
+    {
+        float startSpeed = player.moveSpeed;
+        float elapsedTime = 0;
+
+        while (elapsedTime < timer)
+        {
+            player.moveSpeed = Mathf.Lerp(startSpeed, targetSpeed, elapsedTime / timer);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        player.moveSpeed = targetSpeed; // Ensure exact target speed is set at the end
     }
 }

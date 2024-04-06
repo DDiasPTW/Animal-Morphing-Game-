@@ -39,7 +39,7 @@ public class Narrator : MonoBehaviour
         narratorText.text = "";
     }
 
-    private IEnumerator ClearNarratorTextAfterDelay(float delay)
+    public IEnumerator ClearNarratorTextAfterDelay(float delay)
     {
         // Wait for the specified duration
         yield return new WaitForSeconds(delay);
@@ -77,7 +77,7 @@ public class Narrator : MonoBehaviour
             narratorText.text = randomLine;
 
             // Start a new coroutine to clear the text after the specified duration
-            currentCoroutine = StartCoroutine(ClearNarratorTextAfterDelay(5f));
+            currentCoroutine = StartCoroutine(ClearNarratorTextAfterDelay(4.5f));
         }
         else
         {

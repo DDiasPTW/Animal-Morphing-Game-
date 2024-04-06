@@ -13,11 +13,5 @@ MonoBehaviour:
   m_Name: Catchable_Enter
   m_EditorClassIdentifier: 
   lines:
-  - All you have to do is catch that thing before it reaches the end. Got it? Good.
-  - Catch it like you mean it! Or don't. It's your funeral... figuratively speaking
-    of course.
-  - I believe in you! Sort of. Maybe. Well, you can at least try to catch it I guess.
-  - And they're off! Will you catch it, or will it slip through your fingers like
-    sand?
-  - I gave you those crazy genes, better use them well.
+  - All you have to do is reach the end before that thing. Got it? Good.
   chanceOfSaying: 75

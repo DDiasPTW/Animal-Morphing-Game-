@@ -22,4 +22,4 @@ MonoBehaviour:
     it.
   - I see you're embracing the 'Hug the Wall' technique. Bold choice
   - You know you're supposed to dodge those, right?
-  chanceOfSaying: 100
+  chanceOfSaying: 60

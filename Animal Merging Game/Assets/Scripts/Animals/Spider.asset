@@ -28,3 +28,5 @@ MonoBehaviour:
   spring: 10
   damper: 10
   massScale: 7
+  moveSpeed: 7
+  onTransitionDuration: 1.5

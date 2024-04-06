@@ -1,26 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
-using UnityEditor;
+
 
 public class AmbientSoundManager : MonoBehaviour
 {
     public static AmbientSoundManager instance; // Singleton instance
-    public AudioSource ambientSound;
-    public AudioSource birdSound;
-    [Header("Ambient sound")]
-    [SerializeField] private List<AudioClip> ambientSounds = new List<AudioClip>();
-    private int ambientSoundPlayCount;
-    private AudioClip currentAmbientSound; // Track the current ambient sound
-    [Header("Bird sound")]
-    [SerializeField] private List<AudioClip> birdSounds = new List<AudioClip>();
-    private int birdSoundPlayCount;
-    private AudioClip currentBirdSound; // Track the current bird sound
-    [Header("Other")]
-    [SerializeField] private string MainMenuScene;
-    private bool soundStarted = false;
+    [SerializeField] private AudioSource aS;
+    [SerializeField] private AudioClip mainMenuMusic;
+    [SerializeField] private List<AudioClip> gameplayMusic = new List<AudioClip>();
+
+    private Coroutine fadeCoroutine; // Coroutine for fading
+    private bool isFading = false; // Flag to track if fading coroutine is running
+    private int lastPlayedIndex = -1; // Index of the last played gameplay music
+
+    private bool _playMusic = true;
+
 
     private void Awake()
     {
@@ -34,75 +29,99 @@ public class AmbientSoundManager : MonoBehaviour
         {
             Destroy(gameObject); // If an instance already exists, destroy this one
         }
+
+        aS = GetComponent<AudioSource>();
     }
+
+
+    void Start()
+    {
+        PlayMainMenuMusic();
+    }
+
+    public void PlayMainMenuMusic()
+    {
+        StopAndFade(mainMenuMusic);
+    }
+
+    public void PlayRandomGameplayMusic()
+    {
+        StopAndFade(GetRandomGameplayMusic());
+    }
+
+    
+    private AudioClip GetRandomGameplayMusic()
+    {
+        // Ensure the next random track is not the same as the last one played
+        int randomIndex;
+        do
+        {
+            randomIndex = Random.Range(0, gameplayMusic.Count);
+        }
+        while (randomIndex == lastPlayedIndex);
+
+        lastPlayedIndex = randomIndex; // Update the index of the last played track
+        return gameplayMusic[randomIndex];
+    }
+
+    private void StopAndFade(AudioClip nextClip)
+    {
+        if (!isFading) // Check if fading coroutine is not already running
+        {
+            isFading = true; // Set flag to indicate that fading coroutine is running
+
+            if (fadeCoroutine != null)
+            {
+                StopCoroutine(fadeCoroutine);
+            }
+            fadeCoroutine = StartCoroutine(FadeOutAndIn(nextClip));
+        }
+    }
+
+    private IEnumerator FadeOutAndIn(AudioClip nextClip)
+    {
+        //Debug.Log("Started");
+        const float fadeDuration = 0.25f; // Adjust as needed
+        float startVolume = aS.volume;
+
+        // Fade out
+        for (float t = 0.0f; t < fadeDuration; t += Time.deltaTime)
+        {
+            aS.volume = Mathf.Lerp(startVolume, 0.0f, t / fadeDuration);
+            //Debug.Log("Fade out");
+            yield return null;
+        }
+
+        aS.volume = 0.0f;
+        aS.Stop();
+
+        // Play next clip
+        aS.clip = nextClip;
+        aS.Play();
+        //Debug.Log("Playing");
+
+        // Fade in
+        for (float t = 0.0f; t < fadeDuration; t += Time.deltaTime)
+        {
+            aS.volume = Mathf.Lerp(0.0f, startVolume, t / fadeDuration);
+            //Debug.Log("Fade in");
+            yield return null;
+        }
+
+        aS.volume = startVolume;
+
+        isFading = false; // Reset the flag after finishing the fading coroutine
+    }
+
 
 
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == MainMenuScene)
+        if (!aS.isPlaying && aS.clip != mainMenuMusic)
         {
-            return;
+            PlayRandomGameplayMusic();
         }
-        else
-        {
-            if (!soundStarted)
-            {
-                soundStarted = true;
-                // Choose a random ambient sound at the beginning
-                currentAmbientSound = ambientSounds[Random.Range(0, ambientSounds.Count)];
-                // Choose a random bird sound at the beginning
-                currentBirdSound = birdSounds[Random.Range(0, birdSounds.Count)];
-
-                // Start coroutines for both sounds
-                StartCoroutine(RandomizeVolume(ambientSound, currentAmbientSound));
-                StartCoroutine(RandomizeBirdVolume(birdSound, currentBirdSound));
-            }
-        }
-    }
-
-    private IEnumerator RandomizeVolume(AudioSource aS, AudioClip clip)
-    {
-        aS.clip = clip;
-        aS.time = Random.Range(0f, clip.length); // Start playing at a random time within the clip
-        aS.Play();
-        yield return null;
-
-        // Increment the play count and check if it's time to switch to a new clip
-        ambientSoundPlayCount++;
-        if (ambientSoundPlayCount >= 5) // Change the threshold as needed
-        {
-            currentAmbientSound = GetRandomClip(ambientSounds);
-            aS.clip = currentAmbientSound;
-            ambientSoundPlayCount = 0;
-        }
-    }
-
-    private IEnumerator RandomizeBirdVolume(AudioSource aS, AudioClip clip)
-    {
-        aS.clip = clip;
-        aS.time = Random.Range(0f, clip.length); // Start playing at a random time within the clip
-        aS.Play();
-        yield return null;
-
-        // Increment the play count and check if it's time to switch to a new clip
-        birdSoundPlayCount++;
-        if (birdSoundPlayCount >= 5) // Change the threshold as needed
-        {
-            currentBirdSound = GetRandomClip(birdSounds);
-            aS.clip = currentBirdSound;
-            birdSoundPlayCount = 0;
-        }
-    }
-
-    private AudioClip GetRandomClip(List<AudioClip> clips)
-    {
-        // If the list is empty or null, return null
-        if (clips == null || clips.Count == 0)
-            return null;
-
-        // Choose a random clip
-        return clips[Random.Range(0, clips.Count)];
     }
 
 }

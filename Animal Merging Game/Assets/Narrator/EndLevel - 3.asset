@@ -14,11 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - I mean it's alright.
-  - Oh wow, you really are just bang average huh.
-  - Oh, so you finally made it. Took you long enough.
   - Well, well, well, look who managed to stumble their way through.
   - You made it... eventually. Slow and steady wins the race, I suppose.
-  - Well, you didn't completely embarrass yourself this time. Progress, I guess.
   - Oh, you actually did it. I mean, it's not like I had any doubts... okay, maybe
     a few.
   chanceOfSaying: 100

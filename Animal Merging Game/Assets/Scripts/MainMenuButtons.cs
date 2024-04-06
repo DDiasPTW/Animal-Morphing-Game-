@@ -21,6 +21,13 @@ public class MainMenuButtons : MonoBehaviour
         sectionToDisable.SetActive(false);
     }
 
+    public void SettingsButton()
+    {
+        UISoundManager.Instance.PlayAudio();
+        sectionsToEnable[1].SetActive(true);
+        sectionToDisable.SetActive(false);
+    }
+
     public void QuitButton(){
         Application.Quit();
     }

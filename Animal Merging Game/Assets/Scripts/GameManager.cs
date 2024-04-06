@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string mainMenuScene;
     [SerializeField] private GameObject nextLevelButton;
     [SerializeField] private TMP_Text previousLevelButtonText;
+    [SerializeField] private GameObject settingsMenu;
 
     void Awake()
     {
@@ -147,10 +148,12 @@ public class GameManager : MonoBehaviour
             FinalizeLevel();
         }
 
-        if(Input.GetKeyDown(KeyCode.L)){
-            string key = SceneManager.GetActiveScene().name + _bestTime;
-            jsonPlayerPrefs.DeleteKey(key);
-        }
+
+        //MUST REMOVE IN FINAL BUILD!!!!
+        // if(Input.GetKeyDown(KeyCode.L)){
+        //     jsonPlayerPrefs.DeleteAll();
+        //     jsonPlayerPrefs.Save();
+        // }
     }
 
     void UpdateTimerDisplay()
@@ -181,11 +184,14 @@ public class GameManager : MonoBehaviour
 
         UnlockNextLevel();
 
+        
+
         // Indicate the game is ready for a next level jump action
         readyForNextLevel = true;
 
         nextLevelTransition.GetComponent<Animator>().Play(outTransition);
         canPause = false;
+        
     }
 
     public void UnlockNextLevel()
@@ -215,11 +221,11 @@ public class GameManager : MonoBehaviour
         // Construct a unique key for the current level's best time
         double roundedFinalPB = Math.Round(currentPB, 3, MidpointRounding.AwayFromZero);
         string key = SceneManager.GetActiveScene().name + _bestTime;
-        
-        
+
         jsonPlayerPrefs.SetFloat(key, (float)roundedFinalPB);
         jsonPlayerPrefs.Save();
     }
+
 
     private void LoadBestTime()
     {
@@ -339,9 +345,18 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadMainMenu());
     }
 
+
+    public void SettingsOn(){
+        settingsMenu.SetActive(true);
+    }
+    public void SettingsOff(){
+        settingsMenu.SetActive(false);
+    }
+
     IEnumerator LoadMainMenu()
     {
         Time.timeScale = 1f;
+        AmbientSoundManager.instance.PlayMainMenuMusic();
         SceneManager.LoadScene(mainMenuScene);
         yield return new WaitForSeconds(.3f);
     }

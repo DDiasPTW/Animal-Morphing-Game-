@@ -356,7 +356,9 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadMainMenu()
     {
         Time.timeScale = 1f;
-        AmbientSoundManager.instance.PlayMainMenuMusic();
+        if(AmbientSoundManager.instance != null){
+            AmbientSoundManager.instance.PlayMainMenuMusic();
+        }
         SceneManager.LoadScene(mainMenuScene);
         yield return new WaitForSeconds(.3f);
     }

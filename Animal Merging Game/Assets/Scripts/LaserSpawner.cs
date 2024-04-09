@@ -152,11 +152,13 @@ public class LaserSpawner : MonoBehaviour
             // Draw first point
             lineRenderer.SetPosition(0, transform.position);
 
+
             RaycastHit hit;
+
             if (Physics.Raycast(transform.position, shootDirection, out hit, maxDistance, ~playerLayer))
             {
                 lineRenderer.SetPosition(1, hit.point);
-                
+
                 SpawnHitParticles(hit.point, hit.normal);
 
                 // Calculate distance between player and hit point

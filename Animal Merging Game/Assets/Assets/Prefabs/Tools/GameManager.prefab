@@ -1470,7 +1470,7 @@ MonoBehaviour:
   mainMenuScene: Level - Main Menu
   nextLevelButton: {fileID: 8366718658647006321}
   previousLevelButtonText: {fileID: 5659476639385591496}
-  settingsMenu: {fileID: 0}
+  settingsMenu: {fileID: 7199703618968999443}
 --- !u!1 &3624653114849695789
 GameObject:
   m_ObjectHideFlags: 0

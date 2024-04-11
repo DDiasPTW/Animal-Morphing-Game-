@@ -15,11 +15,11 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.23389105, g: 0.53672355, b: 0.6792453, a: 1}
+  m_FogColor: {r: 0.34825563, g: 0.66379565, b: 0.8113208, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 25
-  m_LinearFogEnd: 200
+  m_LinearFogEnd: 155
   m_AmbientSkyColor: {r: 0.7176471, g: 0.7176471, b: 0.7176471, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -2101,7 +2101,7 @@ Terrain:
   m_TreeBillboardDistance: 125
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 265
+  m_DetailObjectDistance: 1000
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 100
   m_SplatMapDistance: 100

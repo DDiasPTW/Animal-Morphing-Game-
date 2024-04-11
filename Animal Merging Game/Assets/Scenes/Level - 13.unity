@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.43467426, g: 0.7117379, b: 0.8301887, a: 1}
+  m_FogColor: {r: 1, g: 0.77659583, b: 0.33490568, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 25
@@ -1543,7 +1543,7 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 1fa908493fd384fadbfa14ec09ef33a6, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: adc07f867945b4393a9d19a068879309, type: 2}
   m_EnableTreeColliders: 0
 --- !u!218 &544605417
 Terrain:
@@ -1554,12 +1554,12 @@ Terrain:
   m_GameObject: {fileID: 544605415}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 1fa908493fd384fadbfa14ec09ef33a6, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: adc07f867945b4393a9d19a068879309, type: 2}
   m_TreeDistance: 200
   m_TreeBillboardDistance: 125
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 316
+  m_DetailObjectDistance: 225
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 100
   m_SplatMapDistance: 100
@@ -1594,7 +1594,7 @@ Transform:
   m_GameObject: {fileID: 544605415}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -98, y: 7, z: 16.5}
+  m_LocalPosition: {x: -150, y: 6, z: 16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

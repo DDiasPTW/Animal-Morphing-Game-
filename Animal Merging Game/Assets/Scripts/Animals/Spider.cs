@@ -89,10 +89,11 @@ public class Spider : Animal
             if (FindClosestGrapplePoint(player.transform.position, out grapplePoint))
             {
                 StartSwing(player);
-            } else if(FindDistanceGrapplePointNarratorLine(player.transform.position, out grapplePoint))
-            {
-                Narrator.Instance.TriggerFailSwingLines();
             } 
+            //else if(FindDistanceGrapplePointNarratorLine(player.transform.position, out grapplePoint))
+            // {
+            //     Narrator.Instance.TriggerFailSwingLines();
+            // } 
         }
     }
 

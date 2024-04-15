@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7804358323464444582}
   - component: {fileID: 7182624338111841404}
   - component: {fileID: 1806555799306966405}
+  - component: {fileID: 2988963343962683645}
   m_Layer: 0
   m_Name: NextLevel
   m_TagString: NextLevel
@@ -107,7 +108,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.75
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7182624338111841404
 MonoBehaviour:
@@ -136,7 +137,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.15
   m_Pitch: 1.4
   Loop: 0
   Mute: 0
@@ -220,3 +221,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2988963343962683645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2378080142493607805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d9b446904294c38ad3eb3793f9b7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

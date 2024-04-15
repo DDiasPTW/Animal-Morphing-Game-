@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
     public bool levelFinished = false;
     public bool canStartTimer = false;
     public bool forceReset = false;
+    [SerializeField] private TMP_Text fpsText;
+    public float updateInterval = 0.5f;
+
+    private float accum = 0; // FPS accumulated over the interval
+    private int frames = 0; // Frames drawn over the interval
+    private float timeLeft; // Left time for current interval
 
     [Header("Visuals")]
     private bool readyForNextLevel = false;
@@ -143,6 +149,8 @@ public class GameManager : MonoBehaviour
             UpdateTimerDisplay();
         }
 
+        UpdateFPSDisplay();
+
         if (levelFinished && timerRunning)
         {
             FinalizeLevel();
@@ -164,6 +172,24 @@ public class GameManager : MonoBehaviour
             timerText.text = time.ToString("F3") + "s";
         }
     }
+    void UpdateFPSDisplay()
+    {
+        timeLeft -= Time.deltaTime;
+        accum += Time.timeScale / Time.deltaTime;
+        frames++;
+
+        // Interval ended, update FPS text
+        if (timeLeft <= 0.0f)
+        {
+            // Display FPS in the UI Text
+            fpsText.text = "FPS: " + (accum / frames).ToString("F0");
+
+            // Reset variables for the next interval
+            timeLeft = updateInterval;
+            accum = 0.0f;
+            frames = 0;
+        }
+     }
 
     public void ResetLevel()
     {
@@ -288,7 +314,12 @@ public class GameManager : MonoBehaviour
         if (levelFinished)
         {
             readyForNextLevel = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            int nextSceneIndex = currentSceneIndex + 1;
+
+            // Unload the previous scene
+            Resources.UnloadUnusedAssets();
+            SceneManager.LoadScene(nextSceneIndex, LoadSceneMode.Single);
         }
     }
 
@@ -346,7 +377,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SettingsOn(){
+    public void SettingsOn()
+    {
         settingsMenu.SetActive(true);
     }
     public void SettingsOff(){
@@ -356,9 +388,6 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadMainMenu()
     {
         Time.timeScale = 1f;
-        if(AmbientSoundManager.instance != null){
-            AmbientSoundManager.instance.PlayMainMenuMusic();
-        }
         SceneManager.LoadScene(mainMenuScene);
         yield return new WaitForSeconds(.3f);
     }

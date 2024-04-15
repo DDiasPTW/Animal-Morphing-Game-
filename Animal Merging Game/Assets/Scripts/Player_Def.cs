@@ -51,7 +51,7 @@ public class Player_Def : MonoBehaviour
 
 
     [Header("Animation")]
-    [SerializeField] private PlayerState currentState;
+    public PlayerState currentState;
     public PlayerState CurrentState
     {
         get { return currentState; }
@@ -456,7 +456,7 @@ public class Player_Def : MonoBehaviour
         else if (totalJumps == 1 && !isGrounded && !justLanded && rb.velocity.y > 0)
         {
             currentState = PlayerState.Jumping;
-        }        
+        }
         //running animation
         else if (movement != Vector3.zero && isGrounded)
         {

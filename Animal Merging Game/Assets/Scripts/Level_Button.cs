@@ -78,9 +78,7 @@ public class Level_Button : MonoBehaviour
     public void LoadScene()
     {
         UISoundManager.Instance.PlayAudio();
-        StartCoroutine(LoadLevel());
-        AmbientSoundManager.instance.PlayRandomGameplayMusic();
-        
+        StartCoroutine(LoadLevel());      
     }
 
     IEnumerator LoadLevel()

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour
 {
     [Header("Resolution")]
-    Resolution[] resolutions;
+   // Resolution[] resolutions;
     public TMP_Dropdown resolutionDropdown;
     public Toggle fullScreenToggle;
     [Header("Audio")]
@@ -44,7 +44,7 @@ public class SettingsMenu : MonoBehaviour
         {
             float sfxVolume = jsonPlayerSettings.GetFloat("SFXVolume");
             StartCoroutine(SetSFXVolumeDelayed(sfxVolume));
-            musicSlider.value = sfxVolume;
+            sfxSlider.value = sfxVolume;
         }
         // Load music volume
         if (jsonPlayerSettings.HasKey("MusicVolume"))

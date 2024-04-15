@@ -68,8 +68,8 @@ MonoBehaviour:
   m_text: This is the text for the narrator, for me to see the limits and test out
     the maximum possibility of text that I can put
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdd22b3f5f22f4724b45efcfd1cc49b0, type: 2}
-  m_sharedMaterial: {fileID: 277688363367402019, guid: fdd22b3f5f22f4724b45efcfd1cc49b0,
+  m_fontAsset: {fileID: 11400000, guid: ba3434b77d9224e19b81b94f21888fe0, type: 2}
+  m_sharedMaterial: {fileID: -7137540847993000031, guid: ba3434b77d9224e19b81b94f21888fe0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
+  m_fontSize: 27
   m_fontSizeBase: 300
   m_fontWeight: 400
   m_enableAutoSizing: 1

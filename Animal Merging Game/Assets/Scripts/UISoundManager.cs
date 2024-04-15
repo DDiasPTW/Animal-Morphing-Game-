@@ -17,6 +17,7 @@ public class UISoundManager : MonoBehaviour
     }
 
     public void PlayAudio(){
+        Debug.Log("Click called");
         aS.PlayOneShot(clickSound);
     }
 }

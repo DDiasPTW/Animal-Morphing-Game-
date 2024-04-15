@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class ChangeLevels : MonoBehaviour
             if (gM.canEndLevel)
             {
                 gM.levelFinished = true;
+                other.GetComponent<Player_Def>().currentState = Player_Def.PlayerState.Idle;
                 aS.PlayOneShot(enterSound);
             }else StartCoroutine(RestartLevel());
         }

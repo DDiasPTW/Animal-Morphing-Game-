@@ -11,6 +11,7 @@ public class Catch : MonoBehaviour
     void Awake()
     {
         gM = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
+        gM.canEndLevel = false;
     }
 
     void LateUpdate()

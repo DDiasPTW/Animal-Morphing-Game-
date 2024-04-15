@@ -35,7 +35,7 @@ public class Lava : MonoBehaviour
 
             aS.PlayOneShot(hitSound);
 
-            StartCoroutine(RestartLevel(.25f));
+            StartCoroutine(RestartLevel(.1f));
         }
     }
 

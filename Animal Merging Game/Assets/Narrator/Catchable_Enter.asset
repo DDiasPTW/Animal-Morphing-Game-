@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - All you have to do is reach the end before that thing. Got it? Good.
-  chanceOfSaying: 75
+  - You just have to be faster than that thing ok?
+  chanceOfSaying: 100
